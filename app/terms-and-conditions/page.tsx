@@ -14,7 +14,7 @@ export default function Terms() {
     <LegalPage title="Terms & Conditions" path="/terms-and-conditions/" updated="23 September 2026">
       <p>
         These terms apply to Umrah packages, visas, tickets and related services arranged by {site.name}
-        {site.legalName ? ` (${site.legalName})` : ""}, {site.contact.address.city}, Pakistan. By paying for a booking
+        , {site.contact.address.city}, Pakistan. By paying for a booking
         you agree to them. Please also read our <Link href="/refund-policy/">refund &amp; cancellation policy</Link>.
       </p>
 

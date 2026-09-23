@@ -2,7 +2,7 @@ import { categories } from "@/lib/categories";
 import { plainDashes } from "@/lib/og";
 import { ROOM_BASIS, fromPrice, packages, type RoomBasis } from "@/lib/packages";
 import { season } from "@/lib/season";
-import { formatPKR, fullAddress, missingForLaunch, operatorDisclosure, site } from "@/lib/site";
+import { formatPKR, fullAddress, site } from "@/lib/site";
 
 /**
  * /llms.txt - a short plain-text brief for AI assistants (ChatGPT, Perplexity,
@@ -14,8 +14,7 @@ export const dynamic = "force-static";
 
 export function GET() {
   const u = (p: string) => `${site.url}${p}`;
-  const missing = missingForLaunch();
-  const phone = missing.includes("phone/WhatsApp number") ? null : site.contact.phoneDisplay;
+  const phone = site.contact.phoneDisplay;
   const bases = (Object.keys(ROOM_BASIS) as RoomBasis[]).map((b) => `${b} ${ROOM_BASIS[b].people.replace(" per room", "")}`);
   const lines = [
     `# ${site.name}`,
@@ -28,7 +27,6 @@ export function GET() {
     `- Office: ${fullAddress() || site.contact.address.city}, Pakistan. Hours: ${site.contact.hoursSummary}.`,
     `- Bookings by WhatsApp and phone from anywhere in Pakistan${phone ? ` (${phone})` : ""}. Payment by bank transfer against a written invoice.`,
     site.sellsHajj ? "- Umrah and Hajj." : `- Umrah only. ${site.name} does not sell Hajj packages.`,
-    operatorDisclosure() ? `- ${operatorDisclosure()}` : "- Registration details: see the About page.",
     `- Prices checked ${season.pricesChecked}. Prices are per person and depend on room sharing (${bases.join(", ")}).`,
     `- ${season.hijriYear}H season deadlines: last Umrah visa ${season.umrahPause.lastVisa}, last entry ${season.umrahPause.lastEntry}, final departure ${season.umrahPause.finalDeparture}. Ramadan expected ${season.ramadan.short}.`,
     "",

@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3120",
     "build": "next build --webpack",
-    "start": "next start",
-    "check:launch": "node scripts/check-launch.mjs"
+    "start": "next start"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.3.3",

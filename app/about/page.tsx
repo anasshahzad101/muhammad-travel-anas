@@ -6,8 +6,6 @@ import PageHero from "@/components/PageHero";
 import StarPattern, { Ornament, StarSeal } from "@/components/StarPattern";
 import TrustPoints from "@/components/TrustPoints";
 import AboutHeroArt from "@/components/about/AboutHeroArt";
-import { ArtPlate } from "@/components/guides/Article";
-import { SealArt } from "@/components/guides/GuideArt";
 import {
   ArrowRightIcon,
   BusIcon,
@@ -25,10 +23,10 @@ import {
 import { images } from "@/lib/images";
 import { pageMetadata } from "@/lib/metadata";
 import { webPageSchema } from "@/lib/schema";
-import { activeLicences, fullAddress, operatorDisclosure, site, whatsappLink } from "@/lib/site";
+import { fullAddress, site, whatsappLink } from "@/lib/site";
 
 const description =
-  "Muhammad Travels is a Lahore umrah travel agency serving pilgrims across Pakistan. How we price, who we are, and how to check our registration before you pay.";
+  "Muhammad Travels is a Lahore umrah travel agency serving pilgrims across Pakistan. How we price, who we are, and how to reach us.";
 
 export const metadata = pageMetadata({
   title: "About Muhammad Travels - Umrah Travel Agency in Lahore",
@@ -81,7 +79,6 @@ const services = [
 ];
 
 export default function AboutPage() {
-  const licences = activeLicences();
   return (
     <>
       <JsonLd
@@ -178,7 +175,7 @@ export default function AboutPage() {
               </span>
               <p className="text-[1rem] leading-relaxed text-sand-200/90">
                 <strong className="font-bold text-sand-50">We do not sell Hajj packages.</strong> In Pakistan, Hajj is arranged through the Government
-                Hajj Scheme or through Hajj Group Organisers licensed by the Ministry of Religious Affairs.
+                Hajj Scheme or through private Hajj Group Organisers.
               </p>
             </div>
           </div>
@@ -188,76 +185,6 @@ export default function AboutPage() {
                 <Image src={images.kaabaTowers.src} alt={images.kaabaTowers.alt} fill sizes="(min-width: 1024px) 22rem, 70vw" className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-night-950/60 via-transparent to-transparent" />
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Registration ─────────────────────────────────────────────────── */}
-      <section className="section-ivory border-b border-sand-200">
-        <div className="container-x grid gap-12 py-24 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-16 lg:py-28">
-          <div className="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
-            <p className="eyebrow reveal">Before you pay anyone</p>
-            <h2 className="h-section reveal mt-4">Registration</h2>
-            <p className="reveal mt-7 max-w-xl text-[1.1rem] leading-relaxed text-ink-700">
-              Since July 2026, only umrah companies verified by Pakistan&apos;s Ministry of Religious Affairs (MoRA) may provide umrah services, and
-              MoRA publishes the approved list.{" "}
-              <strong className="font-bold text-ink-950 underline decoration-gold-400 decoration-2 underline-offset-[6px]">
-                Always check an agent against it before paying.
-              </strong>
-            </p>
-          </div>
-
-          <div className="reveal relative overflow-hidden rounded-[28px] border border-gold-400/45 bg-[linear-gradient(165deg,#fffdf8,#f7efdf)] p-6 shadow-[0_40px_80px_-50px_rgb(20_17_13/0.6)] sm:p-9">
-            <span aria-hidden className="pointer-events-none absolute inset-2 rounded-[22px] border border-gold-400/20" />
-            <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 text-gold-400/15">
-              <StarSeal className="h-56 w-56" strokeWidth={0.6} />
-            </span>
-            <div className="relative flex items-center gap-4">
-              <ArtPlate art={SealArt} size="sm" />
-              <div>
-                <p className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-gold-700">{site.name}</p>
-                <p className="mt-1 font-display text-[1.7rem] font-semibold leading-tight text-ink-950">Our registration</p>
-              </div>
-            </div>
-
-            <div className="relative mt-7 space-y-5 text-[1rem] leading-relaxed text-ink-700">
-              {operatorDisclosure() && (
-                <p className="rounded-2xl border border-haram-600/20 bg-haram-50 px-5 py-4 text-haram-900">
-                  <strong>{operatorDisclosure()}</strong>
-                </p>
-              )}
-              {licences.length > 0 ? (
-                <ul className="divide-y divide-gold-400/25 overflow-hidden rounded-2xl border border-gold-400/30 bg-[#fffdf9]">
-                  {licences.map((l) => (
-                    <li key={l.label} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-5 py-3.5">
-                      <strong className="text-[0.95rem] text-ink-950">{l.label}:</strong> <span className="figure font-bold text-haram-800">{l.value}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="rounded-2xl border border-gold-400/30 bg-[#fffdf9] px-5 py-5">
-                  <p>
-                    Ask us for our registration documents on WhatsApp or at the office - we will share them before you pay anything. You should ask
-                    any agent for the same.
-                  </p>
-                  <a
-                    href={whatsappLink("Assalam o Alaikum, please share your registration documents.")}
-                    className="btn btn-wa mt-5"
-                    rel="nofollow"
-                  >
-                    <WhatsAppIcon className="h-5 w-5" />
-                    Ask on WhatsApp
-                  </a>
-                </div>
-              )}
-              <p className="flex gap-3 border-t border-gold-400/25 pt-5 text-[0.88rem] text-ink-500">
-                <InfoIcon className="mt-0.5 h-4 w-4 shrink-0 text-gold-600" />
-                <span>
-                  {site.name} is a private travel agency, not affiliated with the Ministry of Hajj and Umrah of Saudi Arabia, Nusuk, or the Government
-                  of Pakistan. Umrah visas are issued at the discretion of the Saudi authorities.
-                </span>
-              </p>
             </div>
           </div>
         </div>

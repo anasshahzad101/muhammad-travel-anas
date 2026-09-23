@@ -3,7 +3,7 @@ import { market, pkrRange } from "@/lib/market";
 import { categoryPrice, plainDashes } from "@/lib/og";
 import { ROOM_BASIS, STANDARD_EXCLUDES, TIERS, fromPrice, packages, type Hotel, type RoomBasis, type UmrahPackage } from "@/lib/packages";
 import { season } from "@/lib/season";
-import { activeLicences, formatPKR, fullAddress, missingForLaunch, operatorDisclosure, site } from "@/lib/site";
+import { formatPKR, fullAddress, site } from "@/lib/site";
 import { fillTokens } from "@/lib/tokens";
 
 /**
@@ -23,8 +23,7 @@ const BASES = Object.keys(ROOM_BASIS) as RoomBasis[];
 
 export function GET() {
   const u = (p: string) => `${site.url}${p}`;
-  const missing = missingForLaunch();
-  const phone = missing.includes("phone/WhatsApp number") ? null : site.contact.phoneDisplay;
+  const phone = site.contact.phoneDisplay;
   const departures = site.departures.map((city) => {
     const code = market.airfare.find((a) => a.city === city)?.code;
     return code ? `${city} (${code})` : city;
@@ -44,7 +43,7 @@ export function GET() {
     `Short version: ${u("/llms.txt")}`,
     "",
     "## The business",
-    `- Name: ${site.name}${site.legalName ? ` (registered as ${site.legalName})` : ""}`,
+    `- Name: ${site.name}`,
     `- Website: ${site.url}`,
     site.sellsHajj
       ? "- Services: Umrah and Hajj packages."
@@ -54,8 +53,6 @@ export function GET() {
     ...(phone ? [`- Phone and WhatsApp: ${phone}`] : []),
     `- Email: ${site.contact.email}`,
     `- Serves pilgrims anywhere in Pakistan. Flights depart from ${list(departures)}.`,
-    ...activeLicences().map((l) => `- ${l.label}: ${l.value}`),
-    operatorDisclosure() ? `- ${operatorDisclosure()}` : "- Registration details: see the About page.",
     `- About: ${u("/about/")} · Contact: ${u("/contact/")}`,
     "",
     "## How booking and payment work",

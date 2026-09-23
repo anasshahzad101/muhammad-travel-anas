@@ -7,16 +7,15 @@
  * Rules:
  * - Never emit aggregateRating or Review until real, collected reviews exist.
  *   Fabricated ratings are a manual-action risk and a consumer-protection one.
- * - Licence identifiers are emitted only when set in lib/site.ts.
  * - Every value is generated from lib/ data, never typed in here, so it can't
- *   drift from the pages. A placeholder phone number is never emitted.
+ *   drift from the pages.
  * - Strings go out with plain hyphens (plainDashes), like all machine-facing text.
  * - Entities link by @id: the organisation (/#organization), the website
  *   (/#website), each page (#webpage), its breadcrumb (#breadcrumb) and each
  *   package (#trip).
  */
 
-import { site, fullAddress, activeLicences, formatPKR, missingForLaunch } from "./site";
+import { site, fullAddress, formatPKR } from "./site";
 import { imageUrl, type ImageKey } from "./images";
 import { ROOM_BASIS, fromPrice, packages, type RoomBasis, type UmrahPackage } from "./packages";
 import { season } from "./season";
@@ -78,7 +77,6 @@ function logoSchema() {
 
 export function organizationSchema() {
   const a = site.contact.address;
-  const licences = activeLicences();
   const dayMap: Record<string, string> = {
     Monday: "Mo",
     Tuesday: "Tu",
@@ -90,20 +88,17 @@ export function organizationSchema() {
   };
   const prices = packages.flatMap((p) => Object.values(p.prices).filter((v): v is number => typeof v === "number"));
   const social = Object.values(site.social).filter((v): v is string => Boolean(v));
-  // missingForLaunch() is lib/site.ts's own list of placeholders still on the site.
-  const realPhone = !missingForLaunch().includes("phone/WhatsApp number");
   return {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
     "@id": ORG_ID,
     name: site.name,
-    ...(site.legalName ? { legalName: site.legalName } : {}),
     description: plainDashes(site.description),
     slogan: plainDashes(site.tagline),
     url: site.url,
     logo: logoSchema(),
     image: imageUrl("kaabaCourtyard", 1200),
-    ...(realPhone ? { telephone: site.contact.phoneE164 } : {}),
+    telephone: site.contact.phoneE164,
     email: site.contact.email,
     currenciesAccepted: site.currency,
     priceRange: `${formatPKR(Math.min(...prices))} - ${formatPKR(Math.max(...prices))}`,
@@ -132,9 +127,6 @@ export function organizationSchema() {
     areaServed: { "@type": "Country", name: "Pakistan" },
     knowsAbout: ["Umrah packages", "Umrah visa", "Umrah flights", "Makkah hotels", "Madinah hotels", "Ziyarat"],
     ...(site.foundingYear ? { foundingDate: String(site.foundingYear) } : {}),
-    ...(licences.length
-      ? { identifier: licences.map((l) => ({ "@type": "PropertyValue", name: l.label, value: l.value })) }
-      : {}),
     ...(social.length ? { sameAs: social } : {}),
   };
 }

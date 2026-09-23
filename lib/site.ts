@@ -1,21 +1,12 @@
 /**
- * Single source of truth for business identity.
- *
- * Every value marked TODO is a placeholder. While any placeholder remains,
- * `hasPlaceholders()` is true and a warning banner renders on every page - in
- * production too - so fake contact details can never sit silently on the live
- * site. `npm run check:launch` lists what is still missing.
- *
- * Licence and registration fields are `null` until real numbers are supplied.
- * Components render a licence badge ONLY when its number is set: never display
- * "Govt. approved" or "IATA accredited" claims that cannot be verified.
+ * Single source of truth for business identity: name, contact details, office,
+ * hours and what we sell. Every page, the schema and the llms files read it.
  */
 
 export type OpeningHours = { days: string[]; opens: string; closes: string };
 
 export const site = {
   name: "Muhammad Travels",
-  legalName: null as string | null, // TODO: registered business name, e.g. "Muhammad Travels (SMC-Private) Limited"
   tagline: "Umrah packages from Pakistan, priced in full",
   description:
     "Umrah packages from Pakistan 2026-27: visa, return flights, hotels near the Haram and transport in one PKR price. 7-28 days, economy to 5-star. Lahore office.",
@@ -53,31 +44,7 @@ export const site = {
     whatsappHours: "WhatsApp replies 10am-11pm, every day", // TODO: confirm
   },
 
-  /**
-   * Registrations. Leave null until you have the certificate in hand.
-   * Each one that is set appears in the footer, on /about and in schema.
-   */
-  licences: {
-    dts: null as string | null, // DTS Punjab travel-agency licence no. (ticketing + tours category)
-    // MoRA approved-umrah-operator no. MANDATORY since the July 2026 rules under the
-    // Hajj & Umrah (Regulation) Act 2024: only MoRA-verified companies may serve
-    // umrah pilgrims. See research/regulations-and-facts.md, item 1.
-    mora: null as string | null,
-    iata: null as string | null, // IATA code, only if accredited
-    secp: null as string | null, // company registration, if incorporated
-    ntn: null as string | null, // needed for Google Ads advertiser verification
-  },
-
-  /**
-   * If Muhammad Travels is not yet on MoRA's approved list and sells through an
-   * approved operator, name that operator here. It is then disclosed on every
-   * page (footer, /about, package pages), as MoRA and Google's misrepresentation
-   * policy both expect. Confirm with MoRA's Umrah Section that this arrangement
-   * is permitted before launch.
-   */
-  umrahOperator: null as { name: string; moraNo: string } | null,
-
-  /** Umrah-only until Hajj Group Organiser status is confirmed; see /about. */
+  /** Umrah only: Hajj packages are not sold (see /about). */
   sellsHajj: false,
 
   departures: ["Lahore", "Karachi", "Islamabad"],
@@ -91,23 +58,6 @@ export const site = {
 
   /** Analytics / Google Ads IDs come from env vars; see lib/track.ts. */
 } as const;
-
-const PLACEHOLDER_WHATSAPP = "923000000000";
-
-/** Launch-critical details still missing, in plain words for the preview banner. */
-export function missingForLaunch(): string[] {
-  const out: string[] = [];
-  if ((site.contact.whatsapp as string) === PLACEHOLDER_WHATSAPP) out.push("phone/WhatsApp number");
-  if (!site.contact.address.street || !site.contact.address.area) out.push("office address");
-  if (!site.licences.mora && !site.umrahOperator) out.push("MoRA approval (or approved operator partner)");
-  if (!site.licences.dts) out.push("DTS licence number");
-  return out;
-}
-
-/** True while any launch-critical detail is still a placeholder. */
-export function hasPlaceholders(): boolean {
-  return missingForLaunch().length > 0;
-}
 
 /**
  * Every WhatsApp message to the office opens with the full salam and the
@@ -142,23 +92,4 @@ export function formatLakh(amount: number): string {
 export function fullAddress(): string {
   const a = site.contact.address;
   return [a.street, a.area, a.city].filter(Boolean).join(", ");
-}
-
-export function activeLicences(): { label: string; value: string }[] {
-  const l = site.licences;
-  const out: { label: string; value: string }[] = [];
-  if (l.dts) out.push({ label: "DTS licence", value: l.dts });
-  if (l.mora) out.push({ label: "MoRA approved umrah operator", value: l.mora });
-  if (l.iata) out.push({ label: "IATA", value: l.iata });
-  if (l.secp) out.push({ label: "SECP", value: l.secp });
-  if (l.ntn) out.push({ label: "NTN", value: l.ntn });
-  return out;
-}
-
-/** Plain-language line saying who legally operates the umrah service, or null if unknown. */
-export function operatorDisclosure(): string | null {
-  if (site.licences.mora) return `${site.name} is a MoRA-approved umrah operator (No. ${site.licences.mora}).`;
-  const op = site.umrahOperator;
-  if (op) return `Umrah services are operated by ${op.name}, a MoRA-approved umrah operator (No. ${op.moraNo}), with ${site.name} as booking agent.`;
-  return null;
 }

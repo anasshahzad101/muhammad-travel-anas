@@ -4,10 +4,9 @@ import { ArrowRightIcon, ClockIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "./I
 import StarPattern from "./StarPattern";
 import { guideNav, legalNav, mainNav, packageNav } from "@/lib/nav";
 import { season } from "@/lib/season";
-import { activeLicences, fullAddress, operatorDisclosure, site, telLink, whatsappLink } from "@/lib/site";
+import { fullAddress, site, telLink, whatsappLink } from "@/lib/site";
 
 export default function Footer() {
-  const licences = activeLicences();
   const year = new Date().getFullYear();
   const wa = whatsappLink("Assalam o Alaikum, I'd like to ask about Umrah packages.");
 
@@ -120,8 +119,6 @@ export default function Footer() {
 
         <div className="flex flex-col gap-5 py-10 text-[0.8rem] leading-relaxed text-sand-200/60 md:flex-row md:justify-between">
           <div className="max-w-2xl space-y-2">
-            {licences.length > 0 && <p className="text-sand-100">{licences.map((l) => `${l.label}: ${l.value}`).join(" · ")}</p>}
-            {operatorDisclosure() && <p className="text-sand-100">{operatorDisclosure()}</p>}
             <p>
               {site.name} is a private travel agency. We are not affiliated with the Ministry of Hajj and Umrah of Saudi
               Arabia, Nusuk, or the Government of Pakistan. Visas are issued at the sole discretion of the Saudi
@@ -129,7 +126,7 @@ export default function Footer() {
             </p>
           </div>
           <p className="shrink-0 md:text-right">
-            © {year} {site.legalName ?? site.name}
+            © {year} {site.name}
           </p>
         </div>
       </div>
