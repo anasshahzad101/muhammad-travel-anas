@@ -109,8 +109,20 @@ export function hasPlaceholders(): boolean {
   return missingForLaunch().length > 0;
 }
 
+/**
+ * Every WhatsApp message to the office opens with the full salam and the
+ * agency's name, then the visitor's message. A shorter salam already at the
+ * start of the message is dropped, so it is never greeted twice.
+ */
+export function withGreeting(message: string): string {
+  const greeting = `Assalam o Alaikum wa Rahmatullahi wa Barakatuh, ${site.name}.`;
+  const body = message.replace(/^\s*(?:assalam[\s-]*o[\s-]*alaikum|assalamu[\s-]*alaikum|salam)[^\n,.!]*[,.!]?\s*/i, "").trim();
+  if (!body) return greeting;
+  return `${greeting}\n\n${body.charAt(0).toUpperCase()}${body.slice(1)}`;
+}
+
 export function whatsappLink(message: string): string {
-  return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(withGreeting(message))}`;
 }
 
 export function telLink(): string {

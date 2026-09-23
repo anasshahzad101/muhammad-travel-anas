@@ -7,6 +7,7 @@ import { BusIcon, HotelIcon, PassportIcon, PlaneIcon, WhatsAppIcon } from "./Ico
 import { FINDER_DAYS, FINDER_ROOMS, FINDER_TIERS, matchPackage, pkr, type FinderPackage } from "@/lib/finder";
 import type { RoomBasis, Tier } from "@/lib/packages";
 import { trackConversion } from "@/lib/track";
+import { withGreeting } from "@/lib/site";
 
 /**
  * Umrah cost calculator. No competitor in the SERP research had one; it gives
@@ -57,7 +58,7 @@ export default function CostCalculator({
       `Estimate shown: ${pkr(m.perPerson)} per person, ${pkr(m.perPerson * adults)} total (${m.pkg.name}, ${roomLabel(m.usedRoom).label} room).`,
       "Please confirm the price and available dates.",
     ].join("\n");
-    window.location.href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(text)}`;
+    window.location.href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(withGreeting(text))}`;
   }
 
   const legend = "text-[0.7rem] font-extrabold uppercase tracking-[0.16em] text-ink-500";

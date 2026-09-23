@@ -3,6 +3,7 @@
 import { useEffect, useId, useState } from "react";
 import { WhatsAppIcon } from "./Icons";
 import { trackConversion } from "@/lib/track";
+import { withGreeting } from "@/lib/site";
 
 /**
  * Enquiry form that hands off to WhatsApp.
@@ -85,7 +86,7 @@ export default function EnquiryForm({
         // Never block the WhatsApp hand-off on the backup copy.
       }
     }
-    window.location.href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(text)}`;
+    window.location.href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(withGreeting(text))}`;
   }
 
   const field =

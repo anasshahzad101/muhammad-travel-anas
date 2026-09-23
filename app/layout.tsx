@@ -9,6 +9,7 @@ import LeadPopup from "@/components/LeadPopup";
 import MobileActionBar from "@/components/MobileActionBar";
 import PlaceholderBanner from "@/components/PlaceholderBanner";
 import Spotlight from "@/components/Spotlight";
+import UmrahBot from "@/components/UmrahBot";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { imageUrl } from "@/lib/images";
 import { site } from "@/lib/site";
@@ -86,6 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MobileActionBar />
         <Spotlight />
         <LeadPopup />
+        <UmrahBot />
         <Analytics />
       </body>
     </html>
