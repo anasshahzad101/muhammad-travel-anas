@@ -89,15 +89,20 @@ export default function EnquiryForm({
   }
 
   const field =
-    "mt-1.5 block w-full rounded-xl border border-sand-300 bg-white px-3.5 py-2.5 text-[0.95rem] text-ink-950 placeholder:text-ink-400 focus:border-haram-600 focus:outline-none focus:ring-2 focus:ring-haram-600/20";
-  const label = "block text-[0.82rem] font-semibold text-ink-700";
+    "mt-1.5 block w-full rounded-xl border border-sand-300 bg-sand-50/70 px-4 py-3 text-[0.95rem] text-ink-950 transition placeholder:text-ink-400 hover:border-sand-400 focus:border-gold-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-gold-400/15";
+  const label = "block text-[0.7rem] font-extrabold uppercase tracking-[0.14em] text-ink-500";
 
   return (
-    <form onSubmit={onSubmit} className="card p-5 sm:p-6" noValidate aria-labelledby={`${uid}-h`}>
-      <h2 id={`${uid}-h`} className="text-2xl">
+    <form onSubmit={onSubmit} className="card reveal relative overflow-hidden p-6 sm:p-7" noValidate aria-labelledby={`${uid}-h`}>
+      <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold-300 via-gold-500 to-haram-600" />
+      <p className="inline-flex items-center gap-2 rounded-full bg-haram-50 px-3 py-1 text-[0.72rem] font-bold text-haram-800">
+        <span className="h-1.5 w-1.5 rounded-full bg-wa-500 animate-pulse-dot" />
+        Replies on WhatsApp
+      </p>
+      <h2 id={`${uid}-h`} className="mt-4 text-[2rem] leading-tight">
         {heading}
       </h2>
-      <p className="mt-1.5 text-sm text-ink-600">Tell us the basics — we reply on WhatsApp with a full price.</p>
+      <p className="mt-1.5 text-sm text-ink-600">Tell us the basics - we reply on WhatsApp with a full price.</p>
 
       <div className={`mt-5 grid gap-4 ${compact ? "" : "sm:grid-cols-2"}`}>
         <div>
@@ -176,7 +181,7 @@ export default function EnquiryForm({
             Room
           </label>
           <select id={`${uid}-room`} name="room" className={field} defaultValue="Quad (4 per room)">
-            <option>Sharing (5–6 per room)</option>
+            <option>Sharing (5-6 per room)</option>
             <option>Quad (4 per room)</option>
             <option>Triple (3 per room)</option>
             <option>Double (2 per room)</option>
@@ -200,12 +205,12 @@ export default function EnquiryForm({
       </div>
 
       {error && (
-        <p role="alert" className="mt-4 rounded-lg bg-[#fbeaea] px-3 py-2 text-sm font-semibold text-[#8a1f1f]">
+        <p role="alert" className="mt-4 rounded-xl bg-[#fbeaea] px-4 py-2.5 text-sm font-semibold text-[#8a1f1f]">
           {error}
         </p>
       )}
 
-      <button type="submit" className="btn btn-wa mt-5 w-full !min-h-[3.1rem] text-base">
+      <button type="submit" className="btn btn-wa btn-lg mt-6 w-full">
         <WhatsAppIcon className="h-5 w-5" />
         Send on WhatsApp
       </button>

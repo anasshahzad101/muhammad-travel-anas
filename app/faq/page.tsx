@@ -1,18 +1,20 @@
 import Link from "next/link";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import CtaBand from "@/components/CtaBand";
 import Faq from "@/components/Faq";
 import JsonLd from "@/components/JsonLd";
+import PageHero from "@/components/PageHero";
 import { pageMetadata } from "@/lib/metadata";
 import { ROOM_BASIS, cheapest, packages } from "@/lib/packages";
-import { faqSchema } from "@/lib/schema";
+import { webPageSchema } from "@/lib/schema";
 import { season } from "@/lib/season";
 import { formatPKR, site } from "@/lib/site";
 
+const description =
+  "Answers for pilgrims from Pakistan: Umrah prices, what's included, visa time, documents, the NADRA vaccination certificate, payment and cancellation.";
+
 export const metadata = pageMetadata({
-  title: "Umrah FAQs — Prices, Visa, Documents, Payment & Cancellation",
-  description:
-    "Answers for pilgrims from Pakistan: Umrah prices, what's included, visa time, documents, the NADRA vaccination certificate, payment and cancellation.",
+  title: "Umrah FAQs - Prices, Visa, Documents, Payment & Cancellation",
+  description,
   path: "/faq/",
   image: "kaabaWide",
 });
@@ -71,7 +73,7 @@ export default function FaqPage() {
         },
         {
           q: "What happens if my visa is refused?",
-          a: "We refund everything that can still be recovered — hotels, transport, refundable airfare and our service charge. The visa fee itself can't be refunded once submitted.",
+          a: "We refund everything that can still be recovered - hotels, transport, refundable airfare and our service charge. The visa fee itself can't be refunded once submitted.",
         },
       ],
     },
@@ -98,26 +100,62 @@ export default function FaqPage() {
 
   return (
     <>
-      <JsonLd data={faqSchema(all)} />
-      <section className="border-b border-sand-200 bg-sand-100/60">
-        <div className="container-x py-10 lg:py-14">
-          <Breadcrumbs items={[{ name: "FAQs", path: "/faq/" }]} />
-          <h1 className="mt-6 text-[2.4rem] leading-[1.06] sm:text-5xl">Umrah questions, answered</h1>
-          <p className="mt-4 max-w-2xl text-[1.06rem] leading-relaxed text-ink-700">
-            Can&apos;t find your question? Ask us on WhatsApp — {site.contact.whatsappHours.toLowerCase()}. See also our{" "}
-            <Link href="/refund-policy/" className="font-semibold text-haram-800 underline">
+      <JsonLd
+        data={webPageSchema({
+          path: "/faq/",
+          title: "Umrah FAQs",
+          description,
+          dateModified: season.pricesCheckedISO,
+          type: "FAQPage",
+          faqs: all,
+          image: "kaabaWide",
+        })}
+      />
+      <PageHero
+        crumbs={[{ name: "FAQs", path: "/faq/" }]}
+        eyebrow={`${all.length} answers`}
+        title="Umrah questions, answered"
+        accent="answered"
+        lead={
+          <p>
+            Can&apos;t find your question? Ask us on WhatsApp - {site.contact.whatsappHours.toLowerCase()}. See also our{" "}
+            <Link href="/refund-policy/" className="font-semibold text-gold-300 underline decoration-gold-400/60 underline-offset-4">
               refund policy
             </Link>
             .
           </p>
+        }
+        compact
+      />
+      <div className="container-x grid gap-12 py-20 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-16">
+        <nav aria-label="FAQ topics" className="hidden lg:block">
+          <div className="sticky top-[calc(var(--header-h)+2rem)]">
+            <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-gold-700">Topics</p>
+            <ol className="mt-4 space-y-1 border-l border-sand-300 text-[0.92rem]">
+              {groups.map((g) => (
+                <li key={g.heading}>
+                  <a href={`#${slug(g.heading)}`} className="-ml-px block border-l-2 border-transparent py-1.5 pl-4 text-ink-600 transition hover:border-gold-500 hover:text-ink-950">
+                    {g.heading}
+                    <span className="figure ml-1.5 text-ink-400">{g.faqs.length}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </nav>
+        <div className="max-w-3xl space-y-20">
+          {groups.map((g) => (
+            <div key={g.heading} id={slug(g.heading)} className="scroll-mt-28">
+              <Faq faqs={g.faqs} heading={g.heading} schema={false} />
+            </div>
+          ))}
         </div>
-      </section>
-      <div className="container-x mx-auto max-w-3xl space-y-14 py-14">
-        {groups.map((g) => (
-          <Faq key={g.heading} faqs={g.faqs} heading={g.heading} schema={false} />
-        ))}
       </div>
       <CtaBand />
     </>
   );
+}
+
+function slug(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }

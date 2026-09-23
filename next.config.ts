@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   },
   // Browsers probe /favicon.ico regardless of <link rel="icon">; send it to the generated icon.
   async redirects() {
-    return [{ source: "/favicon.ico", destination: "/icon", permanent: true }];
+    return [{ source: "/favicon.ico", destination: "/icon/", permanent: true }];
   },
 };
 

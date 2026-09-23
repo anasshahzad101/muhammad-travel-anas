@@ -1,5 +1,5 @@
 import { PhoneIcon, WhatsAppIcon } from "./Icons";
-import StarPattern from "./StarPattern";
+import StarPattern, { StarSeal } from "./StarPattern";
 import { site, telLink, whatsappLink } from "@/lib/site";
 
 export default function CtaBand({
@@ -12,24 +12,30 @@ export default function CtaBand({
   message?: string;
 }) {
   return (
-    <section className="on-dark relative overflow-hidden bg-haram-900">
-      <StarPattern id="cta-lattice" className="text-gold-300 opacity-[0.08]" />
-      <div className="container-x relative flex flex-col items-start gap-8 py-14 md:flex-row md:items-center md:justify-between">
-        <div className="max-w-xl">
-          <p className="eyebrow">Talk to a person</p>
-          <h2 className="mt-3 text-3xl text-sand-50 sm:text-4xl">{title}</h2>
-          <p className="mt-3 text-[1.02rem] leading-relaxed text-sand-200/85">{body}</p>
-          <p className="mt-2 text-sm text-gold-300">{site.contact.whatsappHours}</p>
-        </div>
-        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-          <a href={whatsappLink(message)} className="btn btn-wa !min-h-[3.2rem] !px-7 text-base" rel="nofollow">
-            <WhatsAppIcon className="h-5 w-5" />
-            WhatsApp us
-          </a>
-          <a href={telLink()} className="btn btn-ghost !min-h-[3.2rem] !px-7 text-base">
-            <PhoneIcon className="h-5 w-5" />
-            {site.contact.phoneDisplay}
-          </a>
+    <section className="section-night grain on-dark relative overflow-hidden">
+      <StarPattern id="cta-lattice" className="text-gold-300 opacity-[0.05]" />
+      <div aria-hidden className="pointer-events-none absolute -right-24 top-1/2 hidden -translate-y-1/2 text-gold-400/15 md:block">
+        <StarSeal className="h-[34rem] w-[34rem] animate-spin-slow" strokeWidth={0.4} />
+      </div>
+      <div className="container-x relative py-20 lg:py-24">
+        <div className="max-w-2xl">
+          <p className="eyebrow reveal">Talk to a person</p>
+          <h2 className="h-section reveal mt-4 text-sand-50">{title}</h2>
+          <p className="reveal mt-5 text-[1.06rem] leading-relaxed text-sand-200/85">{body}</p>
+          <div className="reveal mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href={whatsappLink(message)} className="btn btn-wa btn-lg" rel="nofollow">
+              <WhatsAppIcon className="h-5 w-5" />
+              WhatsApp us
+            </a>
+            <a href={telLink()} className="btn btn-ghost btn-lg">
+              <PhoneIcon className="h-5 w-5" />
+              <span className="figure">{site.contact.phoneDisplay}</span>
+            </a>
+          </div>
+          <p className="reveal mt-4 inline-flex items-center gap-2 text-sm text-gold-300">
+            <span className="h-1.5 w-1.5 rounded-full bg-wa-400 animate-pulse-dot" />
+            {site.contact.whatsappHours}
+          </p>
         </div>
       </div>
     </section>

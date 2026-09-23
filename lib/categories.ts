@@ -3,7 +3,7 @@
  *
  * Each page targets one keyword cluster from the Keyword Planner export and
  * doubles as the Google Ads landing page for the matching ad group, so the H1
- * mirrors the search term. Copy is written per page — no spun templates — and
+ * mirrors the search term. Copy is written per page - no spun templates - and
  * prices are injected from package data via tokens so they can never drift:
  *
  *   {from}   lowest per-person price in the category, e.g. "PKR 245,000"
@@ -44,7 +44,7 @@ export const categories: Category[] = [
     slug: "lahore",
     group: "city",
     h1: "Umrah Packages from Lahore",
-    title: "Umrah Packages from Lahore 2026–27 — Prices from {from}",
+    title: "Umrah Packages from Lahore 2026-27 - Prices from {from}",
     description:
       "Umrah packages from Lahore: visa, return flights from LHE, hotels and transport from {from} per person. Visit our Lahore office or book on WhatsApp.",
     eyebrow: "Lahore · LHE",
@@ -89,15 +89,15 @@ export const categories: Category[] = [
     slug: "karachi",
     group: "city",
     h1: "Umrah Packages from Karachi",
-    title: "Umrah Packages from Karachi 2026–27 — Visa, Flights & Hotels",
+    title: "Umrah Packages from Karachi 2026-27 - Visa, Flights & Hotels",
     description:
       "Umrah packages from Karachi with visa, return flights from Jinnah International Airport, Makkah and Madinah hotels and transport. From {from} per person. Book on WhatsApp.",
     eyebrow: "Karachi · KHI",
     image: "kaabaCourtyard",
     filter: () => true,
     intro: [
-      "Karachi has the shortest flights to Jeddah in Pakistan — about four hours — and often the lowest fares. Every package below can depart from Jinnah International Airport (KHI) and is booked entirely on WhatsApp: send documents from home, pay by bank transfer, and receive your visa, tickets and vouchers on your phone.",
-      "Prices below are for Lahore departures and start from {from} per person ({basis} room). Karachi fares are usually lower, so the same package from Karachi typically costs about PKR 15,000–30,000 less — we quote the exact fare for your dates.",
+      "Karachi has the shortest flights to Jeddah in Pakistan - about four hours - and often the lowest fares. Every package below can depart from Jinnah International Airport (KHI) and is booked entirely on WhatsApp: send documents from home, pay by bank transfer, and receive your visa, tickets and vouchers on your phone.",
+      "Prices below are for Lahore departures and start from {from} per person ({basis} room). Karachi fares are usually lower, so the same package from Karachi typically costs about PKR 15,000-30,000 less - we quote the exact fare for your dates.",
     ],
     sections: [
       {
@@ -110,14 +110,14 @@ export const categories: Category[] = [
         heading: "The new vaccination certificate at Karachi airport",
         body: [
           "From 25 September 2026, Umrah pilgrims flying from Karachi need a NADRA-linked vaccination certificate (meningitis and polio, plus influenza as currently reported), issued through the Pak ID app. Lahore, Islamabad and Peshawar are due to follow.",
-          "Get vaccinated early — Saudi Arabia requires the meningitis vaccine at least 10 days before arrival — and keep the certificate with your passport. We check it with your other documents before you fly.",
+          "Get vaccinated early - Saudi Arabia requires the meningitis vaccine at least 10 days before arrival - and keep the certificate with your passport. We check it with your other documents before you fly.",
         ],
       },
     ],
     faqs: [
       {
         q: "How much is an Umrah package from Karachi?",
-        a: "Our packages start from {from} per person in a {basis} room from Lahore, with visa, return flights, hotels and transport. From Karachi the same package is usually PKR 15,000–30,000 cheaper because the flight is shorter and fares are lower.",
+        a: "Our packages start from {from} per person in a {basis} room from Lahore, with visa, return flights, hotels and transport. From Karachi the same package is usually PKR 15,000-30,000 cheaper because the flight is shorter and fares are lower.",
       },
       {
         q: "Can I book from Karachi if your office is in Lahore?",
@@ -130,7 +130,7 @@ export const categories: Category[] = [
     slug: "islamabad",
     group: "city",
     h1: "Umrah Packages from Islamabad",
-    title: "Umrah Packages from Islamabad & Rawalpindi 2026–27 — from {from}",
+    title: "Umrah Packages from Islamabad & Rawalpindi 2026-27 - from {from}",
     description:
       "Umrah packages from Islamabad and Rawalpindi with visa, return flights from Islamabad International Airport, hotels and transport. From {from} per person.",
     eyebrow: "Islamabad · ISB",
@@ -166,27 +166,27 @@ export const categories: Category[] = [
     slug: "7-days",
     group: "duration",
     h1: "7 Days Umrah Package from Pakistan",
-    title: "7 Days Umrah Package from Pakistan 2026–27 — Price from {from}",
+    title: "7 Days Umrah Package from Pakistan 2026-27 - Price from {from}",
     description:
       "One-week Umrah packages from Lahore, Karachi and Islamabad with visa, return flights, hotels and transport. From {from} per person. Compare hotels and walking distances.",
     eyebrow: "One week",
     image: "kaabaNight",
     filter: byDays(5, 8),
     intro: [
-      "A 7 day Umrah package fits into a single week of leave: fly out, perform Umrah the day you arrive, spend a few nights in Makkah, then a couple in Madinah before flying home. It is the shortest package we recommend — anything shorter is mostly airport and road time.",
+      "A 7 day Umrah package fits into a single week of leave: fly out, perform Umrah the day you arrive, spend a few nights in Makkah, then a couple in Madinah before flying home. It is the shortest package we recommend - anything shorter is mostly airport and road time.",
       "Our one-week packages start from {from} per person ({basis} room), with the Umrah visa, return flights, both hotels and all transfers included.",
     ],
     sections: [
       {
         heading: "Is 7 days enough for Umrah?",
         body: [
-          "Yes, for the Umrah itself — the rites take three to five hours. What a week doesn't leave is slack: one day goes on the flight and Jeddah transfer, and the Makkah–Madinah journey takes most of another. Choose a 7 day package if leave is tight or you've performed Umrah before. For a first Umrah with parents or children, 10 or 15 days is far more comfortable.",
+          "Yes, for the Umrah itself - the rites take three to five hours. What a week doesn't leave is slack: one day goes on the flight and Jeddah transfer, and the Makkah-Madinah journey takes most of another. Choose a 7 day package if leave is tight or you've performed Umrah before. For a first Umrah with parents or children, 10 or 15 days is far more comfortable.",
         ],
       },
       {
         heading: "How to get the most from a short trip",
         body: [
-          "Pay a little more for a closer hotel. With only four or five nights in Makkah, every walk to the Haram counts — a 3-star hotel 500 metres away gives you more prayers in the mosque than an economy hotel on a shuttle route.",
+          "Pay a little more for a closer hotel. With only four or five nights in Makkah, every walk to the Haram counts - a 3-star hotel 500 metres away gives you more prayers in the mosque than an economy hotel on a shuttle route.",
         ],
       },
     ],
@@ -197,7 +197,7 @@ export const categories: Category[] = [
       },
       {
         q: "Can I do Umrah in 5 days?",
-        a: "It's possible, but we don't recommend it: after flights and the Makkah–Madinah transfer you'd have barely two full days. If you only have five days, ask us about a Makkah-only itinerary.",
+        a: "It's possible, but we don't recommend it: after flights and the Makkah-Madinah transfer you'd have barely two full days. If you only have five days, ask us about a Makkah-only itinerary.",
       },
       {
         q: "How are the nights split on a one-week package?",
@@ -218,7 +218,7 @@ export const categories: Category[] = [
     slug: "10-days",
     group: "duration",
     h1: "10 Days Umrah Package from Pakistan",
-    title: "10 Days Umrah Package 2026–27 — Visa, Flights & Hotels from {from}",
+    title: "10 Days Umrah Package 2026-27 - Visa, Flights & Hotels from {from}",
     description:
       "10 day Umrah packages from Pakistan with visa, return flights, Makkah and Madinah hotels and transport. From {from} per person. See hotels, distances and prices.",
     eyebrow: "Ten days",
@@ -252,14 +252,14 @@ export const categories: Category[] = [
     slug: "15-days",
     group: "duration",
     h1: "15 Days Umrah Package from Pakistan",
-    title: "15 Days Umrah Package from Pakistan 2026–27 — Price from {from}",
+    title: "15 Days Umrah Package from Pakistan 2026-27 - Price from {from}",
     description:
       "Pakistan's most popular Umrah length: 15 day packages with visa, return flights, hotels near the Haram and transport. From {from} per person. Economy to 5-star.",
     eyebrow: "Most popular",
     image: "kaabaCourtyard",
     filter: byDays(13, 17),
     intro: [
-      "Fifteen days is the Umrah package most Pakistani families book. It leaves time to settle in, perform your Umrah without rushing, spend proper time in both Harams, join the ziyarat tours and still rest — which matters when you're travelling with parents.",
+      "Fifteen days is the Umrah package most Pakistani families book. It leaves time to settle in, perform your Umrah without rushing, spend proper time in both Harams, join the ziyarat tours and still rest - which matters when you're travelling with parents.",
       "We offer {count} fifteen-day packages, from economy to 5-star. Prices start from {from} per person ({basis} room), with the Umrah visa, return flights, hotels and transfers included.",
     ],
     sections: [
@@ -283,7 +283,7 @@ export const categories: Category[] = [
       },
       {
         q: "Is 14 days the same as a 15 day package?",
-        a: "Effectively, yes — a 15 day package is 14 nights. Tell us your exact dates and we'll quote the nights that match your flights.",
+        a: "Effectively, yes - a 15 day package is 14 nights. Tell us your exact dates and we'll quote the nights that match your flights.",
       },
       {
         q: "Does the 15 day package include ziyarat?",
@@ -308,7 +308,7 @@ export const categories: Category[] = [
     slug: "21-days",
     group: "duration",
     h1: "21 Days Umrah Package from Pakistan",
-    title: "21 Days Umrah Package 2026–27 — Price from {from} per Person",
+    title: "21 Days Umrah Package 2026-27 - Price from {from} per Person",
     description:
       "Three-week Umrah packages from Pakistan with visa, return flights, hotels and transport. From {from} per person. More nights in Makkah, a gentler pace for elders.",
     eyebrow: "Three weeks",
@@ -316,7 +316,7 @@ export const categories: Category[] = [
     filter: byDays(18, 24),
     intro: [
       "A 21 day Umrah package gives you three unhurried weeks: time for several Umrahs, the full ziyarat in both cities, and rest days between. It's the length we suggest for elderly parents, who find a slower pace far easier on the walks and crowds.",
-      "Three-week packages start from {from} per person ({basis} room), including visa, flights, hotels and transfers — often only a little more than 15 days, because the flight is the same and only hotel nights are added.",
+      "Three-week packages start from {from} per person ({basis} room), including visa, flights, hotels and transfers - often only a little more than 15 days, because the flight is the same and only hotel nights are added.",
     ],
     sections: [
       {
@@ -333,7 +333,7 @@ export const categories: Category[] = [
       },
       {
         q: "Is there a 20 day Umrah package?",
-        a: "Yes — we build packages from 18 to 24 days around your flight dates. The 21 day packages here are our standard three-week options.",
+        a: "Yes - we build packages from 18 to 24 days around your flight dates. The 21 day packages here are our standard three-week options.",
       },
     ],
     keywords: [
@@ -348,14 +348,14 @@ export const categories: Category[] = [
     slug: "28-days",
     group: "duration",
     h1: "28 Days Umrah Package from Pakistan",
-    title: "28 Days / 1 Month Umrah Package 2026–27 — from {from}",
+    title: "28 Days / 1 Month Umrah Package 2026-27 - from {from}",
     description:
       "Month-long Umrah packages from Pakistan: 28 days with visa, return flights, Makkah and Madinah hotels and transport. From {from} per person.",
     eyebrow: "A full month",
     image: "minaretPalm",
     filter: byDays(25, 35),
     intro: [
-      "A 28 day Umrah package is a month in the two holy cities — the choice of retired parents, of pilgrims who want to spend long stretches in worship, and of families who can travel together only once.",
+      "A 28 day Umrah package is a month in the two holy cities - the choice of retired parents, of pilgrims who want to spend long stretches in worship, and of families who can travel together only once.",
       "Month-long packages start from {from} per person ({basis} room), with visa, flights, hotels and transfers included. Long stays are usually booked in economy or 3-star hotels, which keeps the monthly cost sensible.",
     ],
     sections: [
@@ -384,28 +384,28 @@ export const categories: Category[] = [
     slug: "economy",
     group: "tier",
     h1: "Cheap Umrah Packages from Pakistan",
-    title: "Cheap Umrah Packages 2026–27 — Economy Umrah from {from}",
+    title: "Cheap Umrah Packages 2026-27 - Economy Umrah from {from}",
     description:
       "Budget and economy Umrah packages from Pakistan with visa, return flights, hotels and transport from {from} per person. Honest walking distances, no hidden charges.",
     eyebrow: "Economy",
     image: "kaabaWide",
     filter: (p) => p.tier === "economy",
     intro: [
-      "Our economy Umrah packages are the lowest complete prices we can offer: the Umrah visa, return flights, hotels in Makkah and Madinah, and transport — from {from} per person in a {basis} room.",
+      "Our economy Umrah packages are the lowest complete prices we can offer: the Umrah visa, return flights, hotels in Makkah and Madinah, and transport - from {from} per person in a {basis} room.",
       "The saving comes from hotel distance and room sharing, not from leaving things out. We state each hotel's real walking distance (or shuttle) in metres, so there are no surprises when you arrive.",
     ],
     sections: [
       {
         heading: "What 'economy' really means",
         body: [
-          "Economy hotels are clean and simple, and in the market they range from about 1.1 km to 2.5 km from the Haram, usually with a free shuttle. Ours are 1.1–1.3 km with a shuttle, and rooms are shared by four to six people. Makkah is hilly, so a kilometre can mean 15–20 minutes each way on foot — fine for fit pilgrims, hard for elderly parents.",
+          "Economy hotels are clean and simple, and in the market they range from about 1.1 km to 2.5 km from the Haram, usually with a free shuttle. Ours are 1.1-1.3 km with a shuttle, and rooms are shared by four to six people. Makkah is hilly, so a kilometre can mean 15-20 minutes each way on foot - fine for fit pilgrims, hard for elderly parents.",
           "One warning when comparing: some agents sell a 1.6 km shuttle hotel as \"5-star\". Always ask for the distance in metres, not the star rating.",
         ],
       },
       {
         heading: "Five ways to make Umrah cheaper",
         body: [
-          "Travel outside December and Ramadan, when flights and hotels are at their most expensive. Share a room (quad or sharing). Book six to eight weeks ahead. Be flexible by a few days on dates. And choose longer stays — the flight and visa cost the same, so each extra night is cheap.",
+          "Travel outside December and Ramadan, when flights and hotels are at their most expensive. Share a room (quad or sharing). Book six to eight weeks ahead. Be flexible by a few days on dates. And choose longer stays - the flight and visa cost the same, so each extra night is cheap.",
         ],
       },
     ],
@@ -416,11 +416,11 @@ export const categories: Category[] = [
       },
       {
         q: "Are economy hotels far from the Haram?",
-        a: "Ours are 1.1–1.3 km from the Haram with a free shuttle; across the market, economy hotels range up to about 2.5 km. Every package page shows the distance so you can decide before you pay.",
+        a: "Ours are 1.1-1.3 km from the Haram with a free shuttle; across the market, economy hotels range up to about 2.5 km. Every package page shows the distance so you can decide before you pay.",
       },
       {
         q: "Which is the cheapest month for Umrah?",
-        a: "Usually the months after the season reopens following Hajj (roughly June to September) and early autumn. December and Ramadan are the most expensive, with airfares often 30–50% higher. Ask us for current fares — they change weekly.",
+        a: "Usually the months after the season reopens following Hajj (roughly June to September) and early autumn. December and Ramadan are the most expensive, with airfares often 30-50% higher. Ask us for current fares - they change weekly.",
       },
     ],
     keywords: [
@@ -437,7 +437,7 @@ export const categories: Category[] = [
     slug: "3-star",
     group: "tier",
     h1: "3 Star Umrah Packages from Pakistan",
-    title: "3 Star Umrah Packages 2026–27 — Walking Distance from {from}",
+    title: "3 Star Umrah Packages 2026-27 - Walking Distance from {from}",
     description:
       "3-star Umrah packages from Pakistan with hotels within walking distance of the Haram, plus visa, return flights and transport. From {from} per person.",
     eyebrow: "3-Star",
@@ -451,14 +451,14 @@ export const categories: Category[] = [
       {
         heading: "What to expect from a 3-star hotel",
         body: [
-          "Private bathrooms, air conditioning, lifts and daily housekeeping, typically 450–700 metres from the Haram in Makkah and 200–350 metres in Madinah. Breakfast is included on some packages; each package page says which.",
+          "Private bathrooms, air conditioning, lifts and daily housekeeping, typically 450-700 metres from the Haram in Makkah and 200-350 metres in Madinah. Breakfast is included on some packages; each package page says which.",
         ],
       },
     ],
     faqs: [
       {
         q: "How far are 3-star hotels from the Haram?",
-        a: "Usually 450–700 metres in Makkah (about 7–12 minutes on foot) and 200–350 metres in Madinah. Each package lists the hotel's distance.",
+        a: "Usually 450-700 metres in Makkah (about 7-12 minutes on foot) and 200-350 metres in Madinah. Each package lists the hotel's distance.",
       },
       {
         q: "How much is a 3-star Umrah package?",
@@ -471,9 +471,9 @@ export const categories: Category[] = [
     slug: "4-star",
     group: "tier",
     h1: "4 Star Umrah Packages from Pakistan",
-    title: "4 Star Umrah Packages 2026–27 — Close to Haram, from {from}",
+    title: "4 Star Umrah Packages 2026-27 - Close to Haram, from {from}",
     description:
-      "4-star Umrah packages from Pakistan: hotels 200–500 m from the Haram, breakfast, visa, return flights and transport. From {from} per person.",
+      "4-star Umrah packages from Pakistan: hotels 200-500 m from the Haram, breakfast, visa, return flights and transport. From {from} per person.",
     eyebrow: "4-Star",
     image: "nabawiDome",
     filter: (p) => p.tier === "4-star",
@@ -485,7 +485,7 @@ export const categories: Category[] = [
     faqs: [
       {
         q: "Is a 4-star Umrah package worth it?",
-        a: "If you're travelling with elders, usually yes. The shorter walk means more prayers in the Haram and less exhaustion — the difference is felt five times a day.",
+        a: "If you're travelling with elders, usually yes. The shorter walk means more prayers in the Haram and less exhaustion - the difference is felt five times a day.",
       },
       {
         q: "How much is a 4-star Umrah package from Pakistan?",
@@ -498,21 +498,21 @@ export const categories: Category[] = [
     slug: "5-star",
     group: "tier",
     h1: "5 Star & VIP Umrah Packages from Pakistan",
-    title: "5 Star Umrah Packages 2026–27 — Luxury & VIP from {from}",
+    title: "5 Star Umrah Packages 2026-27 - Luxury & VIP from {from}",
     description:
       "Luxury 5-star Umrah packages from Pakistan with hotels facing the Haram in Makkah and Madinah, visa, flights and private transfers. From {from} per person.",
     eyebrow: "5-Star · VIP",
     image: "clockTower",
     filter: (p) => p.tier === "5-star",
     intro: [
-      "Our 5-star Umrah packages use hotels on the Haram's doorstep — the Abraj Al Bait (Clock Tower) and neighbouring towers in Makkah, and the front-row hotels around Masjid an-Nabawi — so you step from the lobby into the courtyard.",
+      "Our 5-star Umrah packages use hotels on the Haram's doorstep - the Abraj Al Bait (Clock Tower) and neighbouring towers in Makkah, and the front-row hotels around Masjid an-Nabawi - so you step from the lobby into the courtyard.",
       "5-star packages start from {from} per person ({basis} room), with visa, return flights, hotels and transfers included. Private car transfers and Haram-view rooms can be added.",
     ],
     sections: [
       {
         heading: "Haram-view rooms",
         body: [
-          "A Kaaba or Haram view is a room upgrade, not a hotel category, and it is priced per night. Tell us if you want one — we'll quote it separately so you can see exactly what it adds.",
+          "A Kaaba or Haram view is a room upgrade, not a hotel category, and it is priced per night. Tell us if you want one - we'll quote it separately so you can see exactly what it adds.",
         ],
       },
     ],
@@ -541,7 +541,7 @@ export const categories: Category[] = [
     slug: "family",
     group: "audience",
     h1: "Family Umrah Packages from Pakistan",
-    title: "Family Umrah Packages 2026–27 — Quad & Triple Rooms from {from}",
+    title: "Family Umrah Packages 2026-27 - Quad & Triple Rooms from {from}",
     description:
       "Umrah packages for families from Pakistan: quad and triple rooms, children's prices, wheelchair help and December holiday dates. From {from} per person.",
     eyebrow: "Families",
@@ -555,15 +555,15 @@ export const categories: Category[] = [
       {
         heading: "Travelling with children and elders",
         body: [
-          "Children's prices depend on age and whether they need their own bed — ask us for a family quote. Wheelchairs can be hired at both Harams, and we'll suggest hotels on flatter routes for anyone who struggles with hills.",
-          `The busiest family season is December — ${season.decemberHolidays}. Book by October for the best hotels.`,
+          "Children's prices depend on age and whether they need their own bed - ask us for a family quote. Wheelchairs can be hired at both Harams, and we'll suggest hotels on flatter routes for anyone who struggles with hills.",
+          `The busiest family season is December - ${season.decemberHolidays}. Book by October for the best hotels.`,
         ],
       },
     ],
     faqs: [
       {
         q: "How much does Umrah cost for a family of four from Pakistan?",
-        a: "Multiply the per-person quad price by four: our family packages start from {from} per person in a {basis} room. Infants and young children are usually cheaper — send us ages for an exact quote.",
+        a: "Multiply the per-person quad price by four: our family packages start from {from} per person in a {basis} room. Infants and young children are usually cheaper - send us ages for an exact quote.",
       },
       {
         q: "Can women and children travel on the same package?",
@@ -576,7 +576,7 @@ export const categories: Category[] = [
     slug: "couples",
     group: "audience",
     h1: "Umrah Packages for Couples from Pakistan",
-    title: "Umrah Package for Couples 2026–27 — Double Room from {from}",
+    title: "Umrah Package for Couples 2026-27 - Double Room from {fromDouble}",
     description:
       "Umrah packages for husband and wife from Pakistan with a private double room, visa, return flights and transport. See the price for two.",
     eyebrow: "Couples",
@@ -594,7 +594,7 @@ export const categories: Category[] = [
       },
       {
         q: "Can we get a private room on an economy package?",
-        a: "Yes — ask for the double-room price. It costs more per person than quad sharing but gives you your own room.",
+        a: "Yes - ask for the double-room price. It costs more per person than quad sharing but gives you your own room.",
       },
     ],
     keywords: ["umrah package for couple", "couple umrah packages", "umrah package for 2 person", "umrah package for two persons"],
@@ -603,7 +603,7 @@ export const categories: Category[] = [
     slug: "group",
     group: "audience",
     h1: "Group Umrah Packages from Pakistan",
-    title: "Group Umrah Packages 2026–27 — Fixed Departures from {from}",
+    title: "Group Umrah Packages 2026-27 - Fixed Departures from {from}",
     description:
       "Group Umrah packages from Pakistan with fixed departure dates, a group leader, visa, flights, hotels and transport. From {from} per person. Group discounts for 10+.",
     eyebrow: "Groups",
@@ -628,14 +628,14 @@ export const categories: Category[] = [
     slug: "december",
     group: "season",
     h1: "December Umrah Packages 2026 from Pakistan",
-    title: "December Umrah Packages 2026 — Winter Holiday Umrah from {from}",
+    title: "December Umrah Packages 2026 - Winter Holiday Umrah from {from}",
     description:
       "December 2026 Umrah packages from Pakistan for the winter school holidays, with visa, return flights, hotels and transport. From {from} per person. Book early.",
     eyebrow: "Winter holidays",
     image: "kaabaNight",
     filter: (p) => p.season === "december" || (p.audiences?.includes("family") ?? false),
     intro: [
-      `December is Pakistan's busiest Umrah month for families — ${season.decemberHolidays}, and the weather in Makkah and Madinah is at its mildest.`,
+      `December is Pakistan's busiest Umrah month for families - ${season.decemberHolidays}, and the weather in Makkah and Madinah is at its mildest.`,
       "That demand pushes flights and hotels up, so December packages are best booked by October. Our December-friendly packages start from {from} per person ({basis} room).",
     ],
     sections: [
@@ -662,20 +662,20 @@ export const categories: Category[] = [
     slug: "ramadan",
     group: "season",
     h1: "Ramadan Umrah Packages 2027 from Pakistan",
-    title: "Ramadan Umrah Packages 2027 — Last 10 Days & Full Month",
+    title: "Ramadan Umrah Packages 2027 - Last 10 Days & Full Month",
     description: `Ramadan 2027 Umrah packages from Pakistan (expected ${season.ramadan.short}): last 10 days, i'tikaf and full-month options with visa, flights and hotels.`,
     eyebrow: "Ramadan 1448",
     image: "kaabaNight",
     filter: (p) => p.season === "ramadan",
     intro: [
-      `Ramadan 2027 is expected from ${season.ramadan.startExpected} to ${season.ramadan.endExpected}, subject to the moon. Umrah in Ramadan carries a reward like that of Hajj, and the last ten nights — when Laylat al-Qadr is sought — are the most sought-after dates of the year.`,
+      `Ramadan 2027 is expected from ${season.ramadan.startExpected} to ${season.ramadan.endExpected}, subject to the moon. Umrah in Ramadan carries a reward like that of Hajj, and the last ten nights - when Laylat al-Qadr is sought - are the most sought-after dates of the year.`,
       "Ramadan is also the most expensive and most heavily booked time for Umrah. Flights and hotels near the Haram sell out months ahead, so we open Ramadan bookings early. Packages start from {from} per person ({basis} room).",
     ],
     sections: [
       {
         heading: "Last 10 days or the full month?",
         body: [
-          `The last ten days (from about ${season.ramadan.lastTenFromExpected}) are the peak: the Haram is at its fullest and prices are at their highest. A full-month package costs more in total but less per night, and lets you experience the whole month — including the calmer first ashra.`,
+          `The last ten days (from about ${season.ramadan.lastTenFromExpected}) are the peak: the Haram is at its fullest and prices are at their highest. A full-month package costs more in total but less per night, and lets you experience the whole month - including the calmer first ashra.`,
           `This season's Saudi deadlines are fixed: the last Umrah visa is issued on Eid ul Fitr (${season.umrahPause.lastVisa}), pilgrims must enter by ${season.umrahPause.lastEntry}, and everyone must leave by ${season.umrahPause.finalDeparture}. There is no "Umrah after Eid" window to fall back on, so book Ramadan early.`,
         ],
       },

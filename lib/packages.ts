@@ -15,7 +15,7 @@ export const TIERS: Record<Tier, { label: string; short: string; stars: number; 
     label: "3-Star",
     short: "3★",
     stars: 3,
-    blurb: "Comfortable hotels within walking distance — the best balance of price and effort.",
+    blurb: "Comfortable hotels within walking distance - the best balance of price and effort.",
   },
   "4-star": {
     label: "4-Star",
@@ -27,12 +27,12 @@ export const TIERS: Record<Tier, { label: string; short: string; stars: number; 
     label: "5-Star",
     short: "5★",
     stars: 5,
-    blurb: "Front-row hotels facing the Haram — step out of the lobby into the courtyard.",
+    blurb: "Front-row hotels facing the Haram - step out of the lobby into the courtyard.",
   },
 };
 
 export const ROOM_BASIS: Record<RoomBasis, { label: string; people: string }> = {
-  sharing: { label: "Sharing", people: "5–6 per room" },
+  sharing: { label: "Sharing", people: "5-6 per room" },
   quad: { label: "Quad", people: "4 per room" },
   triple: { label: "Triple", people: "3 per room" },
   double: { label: "Double", people: "2 per room" },
@@ -76,7 +76,7 @@ export type UmrahPackage = {
   excludes: string[];
   faqs?: { q: string; a: string }[];
   featured?: boolean;
-  /** Travel window, e.g. "Oct 2026 – Mar 2027". */
+  /** Travel window, e.g. "Oct 2026 - Mar 2027". */
   validity: string;
   /** Madinah first when flights land at MED (common on 5-star and Ramadan packages). */
   madinahFirst?: boolean;
@@ -116,7 +116,7 @@ export function durationLabel(p: UmrahPackage): string {
 export function itinerary(p: UmrahPackage): ItineraryStep[] {
   const { makkah, madinah } = p.nights;
   const steps: ItineraryStep[] = [];
-  const range = (a: number, b: number) => (a === b ? `Day ${a}` : `Days ${a}–${b}`);
+  const range = (a: number, b: number) => (a === b ? `Day ${a}` : `Days ${a}-${b}`);
 
   const makkahStay = (start: number, first: boolean): ItineraryStep[] => {
     const out: ItineraryStep[] = [];
@@ -125,21 +125,21 @@ export function itinerary(p: UmrahPackage): ItineraryStep[] {
         when: `Day ${start}`,
         title: "Fly to Jeddah, perform Umrah",
         detail:
-          "Enter ihram before the miqat (on the plane for flights from Pakistan — we remind you before take-off). Our driver meets you at Jeddah airport for the transfer to your Makkah hotel. Rest, then perform your Umrah: tawaf, sa'i and halq or taqsir.",
+          "Enter ihram before the miqat (on the plane for flights from Pakistan - we remind you before take-off). Our driver meets you at Jeddah airport for the transfer to your Makkah hotel. Rest, then perform your Umrah: tawaf, sa'i and halq or taqsir.",
       });
     } else {
       out.push({
         when: `Day ${start}`,
         title: "Travel to Makkah, perform Umrah",
         detail:
-          "Leave Madinah after breakfast. Enter ihram at the miqat of Dhul Hulayfah (Bir Ali) on the way — the coach stops there. Check in to your Makkah hotel and perform your Umrah.",
+          "Leave Madinah after breakfast. Enter ihram at the miqat of Dhul Hulayfah (Bir Ali) on the way - the coach stops there. Check in to your Makkah hotel and perform your Umrah.",
       });
     }
     const lastMakkahDay = start + makkah - 1;
     if (makkah >= 3) {
       out.push({
         when: range(start + 1, lastMakkahDay),
-        title: "Makkah — prayers at Masjid al-Haram",
+        title: "Makkah - prayers at Masjid al-Haram",
         detail: p.ziyarat
           ? "Five daily prayers in the Haram, extra tawaf and optional additional Umrahs from Masjid Aisha (Taneem). One morning is set aside for Makkah ziyarat by coach: Jabal al-Nour (Cave Hira), Jabal Thawr, Mina, Muzdalifah and Arafat."
           : "Five daily prayers in the Haram, extra tawaf and optional additional Umrahs from Masjid Aisha (Taneem). Makkah ziyarat can be added for a small charge.",
@@ -157,13 +157,13 @@ export function itinerary(p: UmrahPackage): ItineraryStep[] {
         ? "Land at Prince Mohammad bin Abdulaziz Airport, Madinah. Our driver takes you to your hotel near Masjid an-Nabawi. Umrah is performed later, when you travel to Makkah."
         : p.transport.toLowerCase().includes("train")
           ? "Leave Makkah after breakfast on the Haramain high-speed train (about 2½ hours) and transfer to your hotel near Masjid an-Nabawi."
-          : "Leave Makkah after Fajr and breakfast for the coach journey to Madinah (5–6 hours with a rest stop). Check in near Masjid an-Nabawi.",
+          : "Leave Makkah after Fajr and breakfast for the coach journey to Madinah (5-6 hours with a rest stop). Check in near Masjid an-Nabawi.",
     });
     const lastMadinahDay = start + madinah - 1;
     if (madinah >= 2) {
       out.push({
         when: range(start + 1, lastMadinahDay),
-        title: "Madinah — Masjid an-Nabawi and Riaz ul Jannah",
+        title: "Madinah - Masjid an-Nabawi and Riaz ul Jannah",
         detail: p.ziyarat
           ? "Prayers at the Prophet's Mosque ﷺ, salam at the blessed grave, and Riaz ul Jannah on a Nusuk permit (we help you book a slot, subject to availability). Madinah ziyarat by coach: Masjid Quba, Mount Uhud and the martyrs of Uhud, Masjid al-Qiblatayn and the Seven Mosques."
           : "Prayers at the Prophet's Mosque ﷺ, salam at the blessed grave, and Riaz ul Jannah on a Nusuk permit (we help you book a slot, subject to availability). Madinah ziyarat can be added for a small charge.",
