@@ -220,7 +220,7 @@ export default function UmrahCostGuide() {
                 <td className="font-semibold text-ink-950 max-md:block md:border-b md:border-sand-200 md:px-6 md:py-4">Umrah visa + insurance</td>
                 <td className="figure font-bold text-haram-800 max-md:mt-1 max-md:block md:border-b md:border-sand-200 md:px-4 md:py-4">{pkrRange(v.min, v.max)}</td>
                 <td className="text-[0.9rem] leading-relaxed text-ink-600 max-md:mt-1.5 max-md:block md:border-b md:border-sand-200 md:px-4 md:py-4 md:pr-6">
-                  Includes the Saudi visa fee and the mandatory health insurance. Sold only through licensed operators.
+                  Includes the Saudi visa fee and the mandatory health insurance.
                 </td>
               </tr>
               {market.airfare.map((a) => (

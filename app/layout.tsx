@@ -7,7 +7,6 @@ import JsonLd from "@/components/JsonLd";
 import Analytics, { GoogleTag } from "@/components/Analytics";
 import LeadPopup from "@/components/LeadPopup";
 import MobileActionBar from "@/components/MobileActionBar";
-import PlaceholderBanner from "@/components/PlaceholderBanner";
 import Spotlight from "@/components/Spotlight";
 import UmrahBot from "@/components/UmrahBot";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
@@ -83,7 +82,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        <PlaceholderBanner />
         <Header />
         <main id="main">{children}</main>
         <Footer />

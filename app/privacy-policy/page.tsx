@@ -36,7 +36,7 @@ export default function Privacy() {
       <p>
         We use your information only to answer your enquiry, arrange your booking, and meet legal requirements. Passport
         and identity documents are shared only with the parties who need them to deliver your booking: the Saudi visa
-        system and its licensed umrah service companies, airlines and hotels.
+        system and its umrah service companies, airlines and hotels.
       </p>
       <p>We do not sell your information, and we don&apos;t send marketing messages unless you ask us to.</p>
 

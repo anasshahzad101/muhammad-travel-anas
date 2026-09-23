@@ -70,7 +70,7 @@ export default function UmrahVisaPage() {
     },
     {
       q: "Can I apply for an Umrah visa myself on Nusuk?",
-      a: "Pakistani passport holders generally can't buy Umrah services directly on Nusuk. The visa is issued through an operator approved by Pakistan's Ministry of Religious Affairs working with a licensed Saudi Umrah company.",
+      a: "Pakistani passport holders generally can't buy Umrah services directly on Nusuk. The visa is issued through an Umrah agency in Pakistan working with a Saudi Umrah company.",
     },
     {
       q: "How long is the Umrah visa valid?",
@@ -159,7 +159,7 @@ export default function UmrahVisaPage() {
                 },
                 {
                   item: "Operator service and processing",
-                  setBy: "MoRA-approved operator",
+                  setBy: "Your Umrah agency",
                   cost: "Varies by agency",
                   icon: ShieldIcon,
                 },
@@ -249,14 +249,7 @@ export default function UmrahVisaPage() {
               <SeasonTimeline onDark />
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              <RuleCard icon={ShieldIcon} title="Only approved operators" className="md:col-span-2 lg:col-span-1">
-                <p>
-                  <strong>Through an approved operator:</strong> since July 2026, only umrah companies verified by Pakistan&apos;s Ministry of Religious
-                  Affairs may serve pilgrims. Check any agent against MoRA&apos;s approved list, pay only into the company&apos;s bank account, and keep your
-                  receipt and written agreement.
-                </p>
-              </RuleCard>
+            <div className="grid gap-5 md:grid-cols-2">
               <RuleCard icon={PersonIcon} title="For women" index={1} statement>
                 <p>
                   <strong>Women</strong> may perform Umrah without a mahram.
