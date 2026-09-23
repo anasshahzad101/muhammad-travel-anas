@@ -47,7 +47,15 @@ export default function LeadPopup() {
 
   useEffect(() => {
     if (seenRecently()) return;
-    const t = window.setTimeout(() => setOpen(true), DELAY_MS);
+    const t = window.setTimeout(() => {
+      // Tells the "Let us help you" widget not to open itself as well this visit.
+      try {
+        sessionStorage.setItem("mt-lead-shown", "1");
+      } catch {
+        /* storage blocked: the widget may also open, which is harmless */
+      }
+      setOpen(true);
+    }, DELAY_MS);
     return () => window.clearTimeout(t);
   }, []);
 

@@ -6,6 +6,7 @@ import AnimatedNumber from "./AnimatedNumber";
 import { ArrowRightIcon, WhatsAppIcon } from "./Icons";
 import { FINDER_DAYS, FINDER_ROOMS, FINDER_TIERS, matchPackage, pkr, type FinderPackage } from "@/lib/finder";
 import type { RoomBasis, Tier } from "@/lib/packages";
+import { withGreeting } from "@/lib/site";
 
 /**
  * The hero's package finder: three choices, one real package and its real
@@ -95,7 +96,7 @@ export default function HeroFinder({ packages, whatsapp }: { packages: FinderPac
                 <ArrowRightIcon className="h-4 w-4" />
               </Link>
               <a
-                href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(waText)}`}
+                href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(withGreeting(waText))}`}
                 className="btn btn-wa btn-lg !px-4"
                 rel="nofollow"
                 aria-label="Ask about this package on WhatsApp"
