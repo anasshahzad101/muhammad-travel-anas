@@ -10,8 +10,10 @@ export const site = {
   tagline: "Umrah packages from Pakistan, priced in full",
   description:
     "Umrah packages from Pakistan 2026-27: visa, return flights, hotels near the Haram and transport in one PKR price. 7-28 days, economy to 5-star. Lahore office.",
-  // TODO: confirm the domain once registered.
-  url: "https://www.muhammadtravels.pk",
+  // The live domain, without www. Sitemap, robots.txt, canonical tags, share cards,
+  // JSON-LD and the llms files all build their URLs from this, so it must match the
+  // Search Console property exactly or Google rejects the sitemap URLs.
+  url: "https://muhammadtravels.com",
   locale: "en_PK",
   language: "en-PK",
   currency: "PKR",
@@ -23,7 +25,7 @@ export const site = {
     phoneDisplay: "0304 1458319",
     phoneE164: "+923041458319",
     landlineDisplay: null as string | null, // e.g. "042 3500 0000"
-    email: "info@muhammadtravels.pk", // TODO: create the mailbox
+    email: "info@muhammadtravels.com",
     address: {
       street: null as string | null, // TODO: office number, building, road
       area: null as string | null, // TODO: e.g. "Gulberg III"

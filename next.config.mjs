@@ -22,9 +22,20 @@ const nextConfig = {
     loader: "custom",
     loaderFile: "./lib/image-loader.ts",
   },
-  // Browsers probe /favicon.ico regardless of <link rel="icon">; send it to the generated icon.
   async redirects() {
-    return [{ source: "/favicon.ico", destination: "/icon/", permanent: true }];
+    return [
+      // One canonical host: www.muhammadtravels.com points at the same app, so send it
+      // to the bare domain with a permanent redirect. Keep in sync with `url` in lib/site.ts.
+      {
+        // `(.*)` rather than `*` so the trailing slash is carried over: one hop, not two.
+        source: "/:path(.*)",
+        has: [{ type: "host", value: "www.muhammadtravels.com" }],
+        destination: "https://muhammadtravels.com/:path",
+        permanent: true,
+      },
+      // Browsers probe /favicon.ico regardless of <link rel="icon">; send it to the generated icon.
+      { source: "/favicon.ico", destination: "/icon/", permanent: true },
+    ];
   },
 };
 
