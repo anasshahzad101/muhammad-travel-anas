@@ -1,10 +1,11 @@
 /**
  * Conversion tracking for GA4 + Google Ads.
  *
- * Nothing loads unless the IDs are set, so the site works (and stays fast) before
- * the ad accounts exist. Set in the host's environment:
+ * The GA4 property (G-5R1S5N9NS5) is built in, so the tag works on any host
+ * without setting environment variables. Google Ads loads only once its IDs
+ * are set in the host's environment:
  *
- *   NEXT_PUBLIC_GA4_ID            G-XXXXXXXXXX
+ *   NEXT_PUBLIC_GA4_ID            overrides the GA4 property
  *   NEXT_PUBLIC_GADS_ID           AW-XXXXXXXXX
  *   NEXT_PUBLIC_GADS_WHATSAPP     conversion label for "WhatsApp click"
  *   NEXT_PUBLIC_GADS_CALL         conversion label for "Phone call click"
@@ -16,7 +17,7 @@
  */
 
 export const trackingIds = {
-  ga4: process.env.NEXT_PUBLIC_GA4_ID || "",
+  ga4: process.env.NEXT_PUBLIC_GA4_ID || "G-5R1S5N9NS5",
   ads: process.env.NEXT_PUBLIC_GADS_ID || "",
   labels: {
     whatsapp: process.env.NEXT_PUBLIC_GADS_WHATSAPP || "",

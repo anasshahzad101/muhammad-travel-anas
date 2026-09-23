@@ -4,7 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
-import Analytics from "@/components/Analytics";
+import Analytics, { GoogleTag } from "@/components/Analytics";
 import LeadPopup from "@/components/LeadPopup";
 import MobileActionBar from "@/components/MobileActionBar";
 import PlaceholderBanner from "@/components/PlaceholderBanner";
@@ -72,6 +72,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang={site.language} className={`${cormorant.variable} ${manrope.variable} ${amiri.variable}`}>
+      <head>
+        <GoogleTag />
+      </head>
       <body className="pb-[4.6rem] sm:pb-0">
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <a

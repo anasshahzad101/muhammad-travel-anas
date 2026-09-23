@@ -1,13 +1,12 @@
 "use client";
 
-import Script from "next/script";
 import { useEffect } from "react";
 import { trackConversion, trackingIds } from "@/lib/track";
 
 /**
- * Loads gtag only when GA4 or Google Ads IDs are configured, and turns every
- * WhatsApp or phone link on the site into a tracked conversion with a single
- * delegated listener - so buttons stay plain server-rendered <a> tags.
+ * Turns every WhatsApp or phone link on the site into a tracked conversion
+ * with a single delegated listener, so buttons stay plain server-rendered <a>
+ * tags. The Google tag itself is in the <head> (see GoogleTag in layout.tsx).
  */
 export default function Analytics() {
   const primaryId = trackingIds.ga4 || trackingIds.ads;
@@ -26,19 +25,28 @@ export default function Analytics() {
     return () => document.removeEventListener("click", onClick, { capture: true });
   }, [primaryId]);
 
+  return null;
+}
+
+/**
+ * The Google tag (gtag.js), server-rendered at the top of <head> exactly as
+ * Google's install instructions ask, so it is in the HTML of every page.
+ */
+export function GoogleTag() {
+  const primaryId = trackingIds.ga4 || trackingIds.ads;
   if (!primaryId) return null;
-
-  const configs = [trackingIds.ga4, trackingIds.ads].filter(Boolean).map((id) => `gtag('config', '${id}');`);
-
+  const configs = [trackingIds.ga4, trackingIds.ads]
+    .filter(Boolean)
+    .map((id) => `gtag('config', '${id}');`)
+    .join("\n");
   return (
     <>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${primaryId}`} strategy="afterInteractive" />
-      <Script id="gtag-init" strategy="afterInteractive">
-        {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-${configs.join("\n")}`}
-      </Script>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${primaryId}`} />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\n${configs}`,
+        }}
+      />
     </>
   );
 }

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { WhatsAppIcon, XIcon } from "./Icons";
 import { FINDER_DAYS } from "@/lib/finder";
 import { site, whatsappLink } from "@/lib/site";
+import { trackConversion } from "@/lib/track";
 
 /**
  * A short enquiry that opens once, a few seconds after a visitor lands on any
@@ -88,6 +89,7 @@ export default function LeadPopup() {
       `Duration: ${get("days")}`,
       `(Sent from ${window.location.pathname})`,
     ].join("\n");
+    trackConversion("lead", { page: window.location.pathname, form: "popup" });
     window.open(whatsappLink(message), "_blank", "noopener");
     close();
   }
