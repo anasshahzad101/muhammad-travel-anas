@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+/*
+  Muhammad Travels design system.
+
+  Warm and quiet rather than flashy: pilgrims are spending a large, often
+  once-in-a-lifetime sum, so the page should feel like a trusted office, not a
+  flight-deal banner. Sand is the page, haram-green carries the brand and the
+  dark sections, and gold is used sparingly for rules, stars and prices.
+
+  Contrast notes: text on haram-900 must be sand-50 or gold-300 (both > 7:1).
+  gold-500 is a fill/border colour only; gold-700 is the minimum for gold text
+  on sand. WhatsApp buttons use the brand green with dark text, because white
+  on #25d366 fails WCAG (2:1).
+*/
+
+@theme {
+  --color-ink-950: #16130f;
+  --color-ink-900: #1f1b16;
+  --color-ink-800: #2e2922;
+  --color-ink-700: #3d362d;
+  --color-ink-600: #564d41;
+  --color-ink-500: #6b6154;
+  --color-ink-400: #8c8274;
+
+  --color-sand-50: #fdfaf4;
+  --color-sand-100: #f8f1e4;
+  --color-sand-200: #efe4d0;
+  --color-sand-300: #e2d2b6;
+  --color-sand-400: #cdb994;
+
+  --color-haram-950: #06241f;
+  --color-haram-900: #0b3a32;
+  --color-haram-800: #0f4a40;
+  --color-haram-700: #14594d;
+  --color-haram-600: #1b6b5c;
+  --color-haram-200: #bcd8cf;
+  --color-haram-100: #e1eee9;
+  --color-haram-50: #f1f7f4;
+
+  --color-gold-200: #f2e3bf;
+  --color-gold-300: #e6c77f;
+  --color-gold-400: #d4ab5a;
+  --color-gold-500: #b8893b;
+  --color-gold-600: #996e2a;
+  --color-gold-700: #7a561f;
+
+  --color-wa-400: #3ee07c;
+  --color-wa-500: #25d366;
+  --color-wa-950: #05301a;
+
+  --font-display: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-body: var(--font-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-arabic: var(--font-amiri), "Amiri", "Traditional Arabic", serif;
+
+  --radius-card: 18px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-sand-50);
+    color: var(--color-ink-900);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.12;
+    text-wrap: balance;
+    color: var(--color-ink-950);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-gold-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-gold-200);
+    color: var(--color-ink-950);
+  }
+
+  summary {
+    cursor: pointer;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-x {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  /* The eyebrow above section headings: small caps in deep gold with a hairline. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-gold-700);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: var(--color-gold-500);
+  }
+
+  .on-dark .eyebrow {
+    color: var(--color-gold-300);
+  }
+
+  .on-dark .eyebrow::before {
+    background: var(--color-gold-400);
+  }
+
+  /* Mihrab-style arch used to frame photography. */
+  .arch {
+    border-radius: 999px 999px var(--radius-card) var(--radius-card);
+    overflow: hidden;
+  }
+
+  .card {
+    background: #fffdf8;
+    border: 1px solid var(--color-sand-300);
+    border-radius: var(--radius-card);
+    box-shadow: 0 1px 0 rgb(22 19 15 / 0.03), 0 10px 30px -18px rgb(22 19 15 / 0.25);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.9rem;
+    padding: 0.7rem 1.25rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.1;
+    text-align: center;
+    transition: background-color 150ms, color 150ms, border-color 150ms, transform 150ms;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-primary {
+    background: var(--color-haram-900);
+    color: var(--color-sand-50);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-haram-700);
+  }
+
+  .btn-gold {
+    background: var(--color-gold-400);
+    color: var(--color-ink-950);
+  }
+
+  .btn-gold:hover {
+    background: var(--color-gold-300);
+  }
+
+  .btn-wa {
+    background: var(--color-wa-500);
+    color: var(--color-wa-950);
+  }
+
+  .btn-wa:hover {
+    background: var(--color-wa-400);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--color-sand-400);
+    color: var(--color-ink-900);
+    background: transparent;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-ink-700);
+    background: #fffdf8;
+  }
+
+  .on-dark .btn-ghost {
+    border-color: rgb(253 250 244 / 0.35);
+    color: var(--color-sand-50);
+  }
+
+  .on-dark .btn-ghost:hover {
+    border-color: var(--color-sand-50);
+    background: rgb(253 250 244 / 0.08);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: var(--color-sand-100);
+    border: 1px solid var(--color-sand-300);
+    color: var(--color-ink-700);
+  }
+
+  .hairline {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold-500), transparent);
+    opacity: 0.6;
+  }
+
+  /*
+    Long-form content: guides, policies, category intros.
+    Every rule is scoped with :where(...):not(.not-prose ...) (the Tailwind
+    Typography pattern), so components embedded in an article — price tables,
+    the calculator, FAQ accordions — opt out by wrapping in .not-prose.
+  */
+  .prose-mt {
+    color: var(--color-ink-800);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+
+  .prose-mt > :where(* + *) {
+    margin-top: 1.1em;
+  }
+
+  .prose-mt :where(h2):not(:where(.not-prose, .not-prose *)) {
+    font-size: 1.75rem;
+    margin-top: 2.2em;
+  }
+
+  .prose-mt :where(h3):not(:where(.not-prose, .not-prose *)) {
+    font-size: 1.3rem;
+    margin-top: 1.8em;
+  }
+
+  .prose-mt :where(a):not(:where(.not-prose, .not-prose *, .btn)) {
+    color: var(--color-haram-700);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold-400);
+    text-underline-offset: 3px;
+  }
+
+  .prose-mt :where(a):not(:where(.not-prose, .not-prose *, .btn)):hover {
+    color: var(--color-haram-900);
+  }
+
+  .prose-mt :where(ul, ol):not(:where(.not-prose, .not-prose *)) {
+    padding-left: 1.3rem;
+  }
+
+  .prose-mt :where(ul):not(:where(.not-prose, .not-prose *)) {
+    list-style: disc;
+  }
+
+  .prose-mt :where(ol):not(:where(.not-prose, .not-prose *)) {
+    list-style: decimal;
+  }
+
+  .prose-mt :where(li + li):not(:where(.not-prose, .not-prose *)) {
+    margin-top: 0.4em;
+  }
+
+  .prose-mt :where(li):not(:where(.not-prose, .not-prose *))::marker {
+    color: var(--color-gold-600);
+  }
+
+  .prose-mt :where(strong):not(:where(.not-prose, .not-prose *)) {
+    color: var(--color-ink-950);
+  }
+
+  .prose-mt :where(table):not(:where(.not-prose, .not-prose *)) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .prose-mt :where(th, td):not(:where(.not-prose, .not-prose *)) {
+    border-bottom: 1px solid var(--color-sand-300);
+    padding: 0.6rem 0.5rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .prose-mt :where(th):not(:where(.not-prose, .not-prose *)) {
+    font-weight: 700;
+    color: var(--color-ink-950);
+    background: var(--color-sand-100);
+  }
+
+  .arabic {
+    font-family: var(--font-arabic);
+    direction: rtl;
+    line-height: 2;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
