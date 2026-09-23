@@ -5,11 +5,17 @@ import { WhatsAppIcon, XIcon } from "./Icons";
 import { FINDER_DAYS } from "@/lib/finder";
 import { site, whatsappLink } from "@/lib/site";
 import { trackConversion } from "@/lib/track";
+import { hasContacted, isAdVisit } from "@/lib/visit";
 
 /**
  * A short enquiry that opens once, a few seconds after a visitor lands on any
  * page: name, phone, where to, when and for how long. Sending opens WhatsApp
  * to the office number with the details written out, ready to send.
+ *
+ * Visitors from an ad wait longer: they clicked for a price, and a form over
+ * that price asks for their number before they have seen it. It never opens
+ * once the visitor has messaged or called, or has already been offered the
+ * "Let us help you" widget this visit.
  *
  * Once closed or sent it stays away for a few days (localStorage). On phones
  * it is a bottom sheet, elsewhere a centred card; it uses a native <dialog>,
@@ -19,6 +25,9 @@ import { trackConversion } from "@/lib/track";
 const KEY = "mt-lead-popup";
 const QUIET_DAYS = 3;
 const DELAY_MS = 3500;
+const AD_DELAY_MS = 45000;
+/** Set by the "Let us help you" widget once it has been offered this visit (opened, dismissed or skipped). */
+const BOT_SEEN_KEY = "mt-bot-seen";
 const DESTINATIONS = ["Makkah & Madinah", "Makkah only", "Madinah only", "Not sure yet"];
 
 const field =
@@ -29,6 +38,14 @@ function seenRecently() {
   try {
     const t = Number(localStorage.getItem(KEY));
     return Number.isFinite(t) && t > 0 && Date.now() - t < QUIET_DAYS * 864e5;
+  } catch {
+    return false;
+  }
+}
+
+function botSeen() {
+  try {
+    return sessionStorage.getItem(BOT_SEEN_KEY) === "1";
   } catch {
     return false;
   }
@@ -49,6 +66,8 @@ export default function LeadPopup() {
   useEffect(() => {
     if (seenRecently()) return;
     const t = window.setTimeout(() => {
+      // Already in touch, or already offered the widget this visit: nothing more to ask.
+      if (hasContacted() || botSeen()) return;
       // Tells the "Let us help you" widget not to open itself as well this visit.
       try {
         sessionStorage.setItem("mt-lead-shown", "1");
@@ -56,7 +75,7 @@ export default function LeadPopup() {
         /* storage blocked: the widget may also open, which is harmless */
       }
       setOpen(true);
-    }, DELAY_MS);
+    }, isAdVisit() ? AD_DELAY_MS : DELAY_MS);
     return () => window.clearTimeout(t);
   }, []);
 
@@ -89,7 +108,7 @@ export default function LeadPopup() {
       `Duration: ${get("days")}`,
       `(Sent from ${window.location.pathname})`,
     ].join("\n");
-    trackConversion("lead", { page: window.location.pathname, form: "popup" });
+    trackConversion("lead", { page: window.location.pathname, form: "popup" }, { phone: get("phone") });
     window.open(whatsappLink(message), "_blank", "noopener");
     close();
   }
