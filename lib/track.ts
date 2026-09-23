@@ -3,12 +3,13 @@ import { markContacted } from "./visit";
 /**
  * Conversion tracking for GA4 + Google Ads.
  *
- * The GA4 property (G-5R1S5N9NS5) is built in, so the tag works on any host
- * without setting environment variables. Google Ads loads only once its IDs
- * are set in the host's environment:
+ * The GA4 property (G-5R1S5N9NS5) and the Google Ads account "Muhammad
+ * Travels" (880-159-2445, tag AW-18470567632) are built in, so the tags work on
+ * any host without setting environment variables. Each can still be
+ * overridden from the host's environment:
  *
- *   NEXT_PUBLIC_GA4_ID            overrides the GA4 property
- *   NEXT_PUBLIC_GADS_ID           AW-XXXXXXXXX
+ *   NEXT_PUBLIC_GA4_ID            the GA4 property
+ *   NEXT_PUBLIC_GADS_ID           the Google Ads tag (AW-…)
  *   NEXT_PUBLIC_GADS_WHATSAPP     conversion label for "WhatsApp click"
  *   NEXT_PUBLIC_GADS_CALL         conversion label for "Phone call click"
  *   NEXT_PUBLIC_GADS_LEAD         conversion label for "Enquiry form sent"
@@ -24,11 +25,11 @@ import { markContacted } from "./visit";
 
 export const trackingIds = {
   ga4: process.env.NEXT_PUBLIC_GA4_ID || "G-5R1S5N9NS5",
-  ads: process.env.NEXT_PUBLIC_GADS_ID || "",
+  ads: process.env.NEXT_PUBLIC_GADS_ID || "AW-18470567632",
   labels: {
-    whatsapp: process.env.NEXT_PUBLIC_GADS_WHATSAPP || "",
-    call: process.env.NEXT_PUBLIC_GADS_CALL || "",
-    lead: process.env.NEXT_PUBLIC_GADS_LEAD || "",
+    whatsapp: process.env.NEXT_PUBLIC_GADS_WHATSAPP || "kuZrCK2h1oIdEND9uedE",
+    call: process.env.NEXT_PUBLIC_GADS_CALL || "p-DQCLCh1oIdEND9uedE",
+    lead: process.env.NEXT_PUBLIC_GADS_LEAD || "v3QvCKqh1oIdEND9uedE",
   },
 };
 

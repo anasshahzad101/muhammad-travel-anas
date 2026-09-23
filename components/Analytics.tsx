@@ -36,9 +36,12 @@ export function GoogleTag() {
   const primaryId = trackingIds.ga4 || trackingIds.ads;
   if (!primaryId) return null;
   // allow_enhanced_conversions lets the Ads tag send the hashed phone number that trackConversion() sets.
+  // No remarketing: religious topics are a sensitive category for personalised ads, so the Ads tag
+  // measures conversions only and collects nothing for audience lists.
   const configs = [
     trackingIds.ga4 && `gtag('config', '${trackingIds.ga4}');`,
-    trackingIds.ads && `gtag('config', '${trackingIds.ads}', { allow_enhanced_conversions: true });`,
+    trackingIds.ads &&
+      `gtag('config', '${trackingIds.ads}', { allow_enhanced_conversions: true, allow_ad_personalization_signals: false });`,
   ]
     .filter(Boolean)
     .join("\n");
