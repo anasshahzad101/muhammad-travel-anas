@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!p) return {};
   const low = fromPrice(p);
   return pageMetadata({
-    title: `${p.name} — ${formatPKR(low.amount)}`,
+    title: `${p.name} - ${formatPKR(low.amount)}`,
     description: `${p.days} days: ${p.nights.makkah} nights Makkah (${p.hotels.makkah.distance}) + ${p.nights.madinah} nights Madinah. Visa, return flights, hotels and transport from ${formatPKR(low.amount)} per person (${ROOM_BASIS[low.basis].label.toLowerCase()}). Book on WhatsApp.`,
     path: `/umrah-packages/${slug}/`,
     image: p.image,

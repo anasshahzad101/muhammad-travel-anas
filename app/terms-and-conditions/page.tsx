@@ -71,7 +71,7 @@ export default function Terms() {
 
       <h2>8. Complaints</h2>
       <p>
-        If something goes wrong, tell us immediately — while you are still in Saudi Arabia if possible — so we can fix it.
+        If something goes wrong, tell us immediately - while you are still in Saudi Arabia if possible - so we can fix it.
         Written complaints can be sent on WhatsApp or by email to {site.contact.email}. We reply within five working days.
       </p>
 

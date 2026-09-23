@@ -1,10 +1,10 @@
 /**
- * PACKAGE LINE-UP — 1448H season (Oct 2026 – Mar 2027).
+ * PACKAGE LINE-UP - 1448H season (Oct 2026 - Mar 2027).
  *
  * PROVISIONAL: prices and hotels are benchmarked against competitor packages
  * published in September 2026 (see research/competitor-packages-summary.md).
  * They are NOT supplier quotes. Before launch, confirm every price, hotel and
- * airline with your wholesaler/Saudi umrah company, then update here — every
+ * airline with your wholesaler/Saudi umrah company, then update here - every
  * page, table, price in copy and JSON-LD offer reads from this file.
  *
  * Conventions:
@@ -37,8 +37,8 @@ export const packageData: UmrahPackage[] = [
     audiences: ["group"],
     image: "nabawiPortrait",
     hotels: {
-      makkah: { name: "Kudai Towers or similar", stars: 2, distance: "1.1 – 1.3 km", shuttle: true },
-      madinah: { name: "Shaza Al Munawara or similar", stars: 2, distance: "750 – 850 m" },
+      makkah: { name: "Kudai Towers or similar", stars: 2, distance: "1.1-1.3 km", shuttle: true },
+      madinah: { name: "Shaza Al Munawara or similar", stars: 2, distance: "750-850 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -49,12 +49,12 @@ export const packageData: UmrahPackage[] = [
       "The shortest complete Umrah we sell: four nights in Makkah and two in Madinah, with visa, return flights, hotels and transport in one price.",
     highlights: [
       "Fits into a single week of leave",
-      "Visa, flights, hotels and transfers in one price — nothing to arrange yourself",
+      "Visa, flights, hotels and transfers in one price - nothing to arrange yourself",
       "Walking distance in Madinah; a longer walk in Makkah that keeps the price low",
     ],
     includes: [...BASE_INCLUDES, "4 nights Makkah, economy hotel", "2 nights Madinah, economy hotel"],
     excludes: ["Ziyarat (can be added)"],
-    validity: "Oct 2026 – Jan 2027, excluding 15–31 Dec",
+    validity: "Oct 2026 - Jan 2027, excluding 15-31 Dec",
   },
   {
     slug: "7-days-5-star",
@@ -66,8 +66,8 @@ export const packageData: UmrahPackage[] = [
     audiences: ["couples"],
     image: "clockTower",
     hotels: {
-      makkah: { name: "Swissotel Makkah (Clock Tower) or similar", stars: 5, distance: "0 – 100 m", meals: "Breakfast" },
-      madinah: { name: "Anwar Al Madinah Mövenpick or similar", stars: 5, distance: "0 – 100 m", meals: "Breakfast" },
+      makkah: { name: "Swissotel Makkah (Clock Tower) or similar", stars: 5, distance: "0-100 m", meals: "Breakfast" },
+      madinah: { name: "Anwar Al Madinah Mövenpick or similar", stars: 5, distance: "0-100 m", meals: "Breakfast" },
     },
     flights: flightsDirect,
     transport: "Private car transfers",
@@ -83,13 +83,13 @@ export const packageData: UmrahPackage[] = [
     ],
     includes: [
       ...BASE_INCLUDES.slice(0, 2),
-      "Private car transfers (airport and Makkah–Madinah)",
+      "Private car transfers (airport and Makkah-Madinah)",
       "4 nights Makkah, 5-star with breakfast",
       "2 nights Madinah, 5-star with breakfast",
       "Makkah and Madinah ziyarat",
     ],
     excludes: ["Haram-view room upgrade"],
-    validity: "Oct 2026 – Jan 2027",
+    validity: "Oct 2026 - Jan 2027",
   },
 
   // ─── 10 days ───────────────────────────────────────────────────────────────
@@ -102,8 +102,8 @@ export const packageData: UmrahPackage[] = [
     tier: "economy",
     image: "kaabaWide",
     hotels: {
-      makkah: { name: "Kudai Towers or similar", stars: 2, distance: "1.1 – 1.3 km", shuttle: true },
-      madinah: { name: "Shaza Al Munawara or similar", stars: 2, distance: "750 – 850 m" },
+      makkah: { name: "Kudai Towers or similar", stars: 2, distance: "1.1-1.3 km", shuttle: true },
+      madinah: { name: "Shaza Al Munawara or similar", stars: 2, distance: "750-850 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -119,7 +119,7 @@ export const packageData: UmrahPackage[] = [
     ],
     includes: [...BASE_INCLUDES, "6 nights Makkah, economy hotel", "3 nights Madinah, economy hotel", "Makkah and Madinah ziyarat"],
     excludes: [],
-    validity: "Oct 2026 – Jan 2027, excluding 15–31 Dec",
+    validity: "Oct 2026 - Jan 2027, excluding 15-31 Dec",
   },
   {
     slug: "10-days-3-star",
@@ -131,8 +131,8 @@ export const packageData: UmrahPackage[] = [
     audiences: ["couples"],
     image: "kaabaTowers",
     hotels: {
-      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450 – 700 m" },
-      madinah: { name: "Artal International or similar", stars: 3, distance: "200 – 350 m" },
+      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450-700 m" },
+      madinah: { name: "Artal International or similar", stars: 3, distance: "200-350 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -140,7 +140,7 @@ export const packageData: UmrahPackage[] = [
     prices: { quad: 315000, triple: 338000, double: 385000 },
     bestFor: "couples and small families with ten days of leave.",
     summary:
-      "Ten days with walking-distance hotels in both cities — the comfortable middle ground between a rushed week and a full fortnight.",
+      "Ten days with walking-distance hotels in both cities - the comfortable middle ground between a rushed week and a full fortnight.",
     highlights: [
       "Walking distance to both Harams",
       "Double rooms for couples",
@@ -148,7 +148,7 @@ export const packageData: UmrahPackage[] = [
     ],
     includes: [...BASE_INCLUDES, "6 nights Makkah, 3-star hotel", "3 nights Madinah, 3-star hotel", "Makkah and Madinah ziyarat"],
     excludes: [],
-    validity: "Oct 2026 – Jan 2027",
+    validity: "Oct 2026 - Jan 2027",
   },
 
   // ─── 15 days ───────────────────────────────────────────────────────────────
@@ -163,8 +163,8 @@ export const packageData: UmrahPackage[] = [
     featured: true,
     image: "kaabaWide",
     hotels: {
-      makkah: { name: "Kudai Towers or similar", stars: 2, distance: "1.1 – 1.3 km", shuttle: true },
-      madinah: { name: "Shaza Al Munawara or similar", stars: 2, distance: "750 – 850 m" },
+      makkah: { name: "Kudai Towers or similar", stars: 2, distance: "1.1-1.3 km", shuttle: true },
+      madinah: { name: "Shaza Al Munawara or similar", stars: 2, distance: "750-850 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -180,7 +180,7 @@ export const packageData: UmrahPackage[] = [
     ],
     includes: [...BASE_INCLUDES, "8 nights Makkah, economy hotel", "6 nights Madinah, economy hotel", "Makkah and Madinah ziyarat"],
     excludes: [],
-    validity: "Oct 2026 – Jan 2027, excluding 15–31 Dec",
+    validity: "Oct 2026 - Jan 2027, excluding 15-31 Dec",
   },
   {
     slug: "15-days-3-star",
@@ -193,8 +193,8 @@ export const packageData: UmrahPackage[] = [
     featured: true,
     image: "kaabaCourtyard",
     hotels: {
-      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450 – 700 m" },
-      madinah: { name: "Artal International or similar", stars: 3, distance: "200 – 350 m" },
+      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450-700 m" },
+      madinah: { name: "Artal International or similar", stars: 3, distance: "200-350 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -210,7 +210,7 @@ export const packageData: UmrahPackage[] = [
     ],
     includes: [...BASE_INCLUDES, "8 nights Makkah, 3-star hotel", "6 nights Madinah, 3-star hotel", "Makkah and Madinah ziyarat"],
     excludes: [],
-    validity: "Oct 2026 – Jan 2027",
+    validity: "Oct 2026 - Jan 2027",
   },
   {
     slug: "15-days-4-star",
@@ -223,8 +223,8 @@ export const packageData: UmrahPackage[] = [
     featured: true,
     image: "nabawiDome",
     hotels: {
-      makkah: { name: "Areej Al Wafa or similar", stars: 4, distance: "150 – 400 m", meals: "Breakfast" },
-      madinah: { name: "Rua International or similar", stars: 4, distance: "100 – 250 m", meals: "Breakfast" },
+      makkah: { name: "Areej Al Wafa or similar", stars: 4, distance: "150-400 m", meals: "Breakfast" },
+      madinah: { name: "Rua International or similar", stars: 4, distance: "100-250 m", meals: "Breakfast" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -232,7 +232,7 @@ export const packageData: UmrahPackage[] = [
     prices: { quad: 395000, triple: 435000, double: 510000 },
     bestFor: "elderly parents and families who want short walks and breakfast.",
     summary:
-      "Two weeks in closer, quieter 4-star hotels with breakfast — a few minutes' walk to both Harams, so older pilgrims can pray in the mosque every time.",
+      "Two weeks in closer, quieter 4-star hotels with breakfast - a few minutes' walk to both Harams, so older pilgrims can pray in the mosque every time.",
     highlights: [
       "A few minutes' walk to the Haram in both cities",
       "Breakfast every day",
@@ -245,7 +245,7 @@ export const packageData: UmrahPackage[] = [
       "Makkah and Madinah ziyarat",
     ],
     excludes: [],
-    validity: "Oct 2026 – Jan 2027",
+    validity: "Oct 2026 - Jan 2027",
   },
   {
     slug: "15-days-5-star",
@@ -258,8 +258,8 @@ export const packageData: UmrahPackage[] = [
     featured: true,
     image: "clockTower",
     hotels: {
-      makkah: { name: "Swissotel Makkah (Clock Tower) or similar", stars: 5, distance: "0 – 100 m", meals: "Breakfast" },
-      madinah: { name: "Anwar Al Madinah Mövenpick or similar", stars: 5, distance: "0 – 100 m", meals: "Breakfast" },
+      makkah: { name: "Swissotel Makkah (Clock Tower) or similar", stars: 5, distance: "0-100 m", meals: "Breakfast" },
+      madinah: { name: "Anwar Al Madinah Mövenpick or similar", stars: 5, distance: "0-100 m", meals: "Breakfast" },
     },
     flights: flightsDirect,
     transport: "Private car transfers",
@@ -267,7 +267,7 @@ export const packageData: UmrahPackage[] = [
     prices: { quad: 495000, triple: 550000, double: 665000 },
     bestFor: "pilgrims who want the Haram on their doorstep for the whole fortnight.",
     summary:
-      "Two weeks in the Clock Tower and a front-row Madinah hotel, with private car transfers, breakfast and ziyarat — the closest you can stay to both Harams.",
+      "Two weeks in the Clock Tower and a front-row Madinah hotel, with private car transfers, breakfast and ziyarat - the closest you can stay to both Harams.",
     highlights: [
       "Clock Tower hotel: lobby to Haram courtyard in minutes",
       "Private car transfers throughout",
@@ -275,13 +275,13 @@ export const packageData: UmrahPackage[] = [
     ],
     includes: [
       ...BASE_INCLUDES.slice(0, 2),
-      "Private car transfers (airport and Makkah–Madinah)",
+      "Private car transfers (airport and Makkah-Madinah)",
       "8 nights Makkah, 5-star with breakfast",
       "6 nights Madinah, 5-star with breakfast",
       "Makkah and Madinah ziyarat",
     ],
     excludes: ["Haram-view room upgrade"],
-    validity: "Oct 2026 – Jan 2027",
+    validity: "Oct 2026 - Jan 2027",
   },
 
   // ─── 21 days ───────────────────────────────────────────────────────────────
@@ -295,8 +295,8 @@ export const packageData: UmrahPackage[] = [
     audiences: ["group"],
     image: "nabawiUmbrellas",
     hotels: {
-      makkah: { name: "Kudai Towers or similar", stars: 2, distance: "1.1 – 1.3 km", shuttle: true },
-      madinah: { name: "Shaza Al Munawara or similar", stars: 2, distance: "750 – 850 m" },
+      makkah: { name: "Kudai Towers or similar", stars: 2, distance: "1.1-1.3 km", shuttle: true },
+      madinah: { name: "Shaza Al Munawara or similar", stars: 2, distance: "750-850 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -304,7 +304,7 @@ export const packageData: UmrahPackage[] = [
     prices: { sharing: 295000, quad: 310000, triple: 332000, double: 380000 },
     bestFor: "pilgrims with time who want three weeks at the lowest cost per day.",
     summary:
-      "Three weeks — thirteen nights in Makkah and seven in Madinah — for only a little more than a fortnight, because the flight and visa cost the same.",
+      "Three weeks - thirteen nights in Makkah and seven in Madinah - for only a little more than a fortnight, because the flight and visa cost the same.",
     highlights: [
       "Lowest cost per day of any package",
       "Time for several Umrahs and full ziyarat",
@@ -312,7 +312,7 @@ export const packageData: UmrahPackage[] = [
     ],
     includes: [...BASE_INCLUDES, "13 nights Makkah, economy hotel", "7 nights Madinah, economy hotel", "Makkah and Madinah ziyarat"],
     excludes: [],
-    validity: "Oct 2026 – Jan 2027, excluding 15–31 Dec",
+    validity: "Oct 2026 - Jan 2027, excluding 15-31 Dec",
   },
   {
     slug: "21-days-3-star",
@@ -325,8 +325,8 @@ export const packageData: UmrahPackage[] = [
     featured: true,
     image: "nabawiWide",
     hotels: {
-      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450 – 700 m" },
-      madinah: { name: "Artal International or similar", stars: 3, distance: "200 – 350 m" },
+      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450-700 m" },
+      madinah: { name: "Artal International or similar", stars: 3, distance: "200-350 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -342,7 +342,7 @@ export const packageData: UmrahPackage[] = [
     ],
     includes: [...BASE_INCLUDES, "13 nights Makkah, 3-star hotel", "7 nights Madinah, 3-star hotel", "Makkah and Madinah ziyarat"],
     excludes: [],
-    validity: "Oct 2026 – Jan 2027",
+    validity: "Oct 2026 - Jan 2027",
   },
 
   // ─── 28 days ───────────────────────────────────────────────────────────────
@@ -356,8 +356,8 @@ export const packageData: UmrahPackage[] = [
     audiences: ["group"],
     image: "kaabaWide",
     hotels: {
-      makkah: { name: "Kudai Towers or similar", stars: 2, distance: "1.1 – 1.3 km", shuttle: true },
-      madinah: { name: "Shaza Al Munawara or similar", stars: 2, distance: "750 – 850 m" },
+      makkah: { name: "Kudai Towers or similar", stars: 2, distance: "1.1-1.3 km", shuttle: true },
+      madinah: { name: "Shaza Al Munawara or similar", stars: 2, distance: "750-850 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -365,7 +365,7 @@ export const packageData: UmrahPackage[] = [
     prices: { sharing: 330000, quad: 345000, triple: 372000, double: 430000 },
     bestFor: "retired pilgrims who want a month of worship at a sensible price.",
     summary:
-      "A month in the two holy cities — nineteen nights in Makkah and eight in Madinah — with visa, flights, hotels, transport and ziyarat included.",
+      "A month in the two holy cities - nineteen nights in Makkah and eight in Madinah - with visa, flights, hotels, transport and ziyarat included.",
     highlights: [
       "A full month for well under double the price of two weeks",
       "Sharing rooms for the lowest cost",
@@ -373,7 +373,7 @@ export const packageData: UmrahPackage[] = [
     ],
     includes: [...BASE_INCLUDES, "19 nights Makkah, economy hotel", "8 nights Madinah, economy hotel", "Makkah and Madinah ziyarat"],
     excludes: [],
-    validity: "Oct 2026 – Jan 2027, excluding 15–31 Dec",
+    validity: "Oct 2026 - Jan 2027, excluding 15-31 Dec",
   },
   {
     slug: "28-days-3-star",
@@ -384,8 +384,8 @@ export const packageData: UmrahPackage[] = [
     tier: "3-star",
     image: "nabawiPortrait",
     hotels: {
-      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450 – 700 m" },
-      madinah: { name: "Artal International or similar", stars: 3, distance: "200 – 350 m" },
+      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450-700 m" },
+      madinah: { name: "Artal International or similar", stars: 3, distance: "200-350 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -397,7 +397,7 @@ export const packageData: UmrahPackage[] = [
     highlights: ["A month within walking distance", "Ziyarat in both cities", "Quad, triple and double rooms"],
     includes: [...BASE_INCLUDES, "19 nights Makkah, 3-star hotel", "8 nights Madinah, 3-star hotel", "Makkah and Madinah ziyarat"],
     excludes: [],
-    validity: "Oct 2026 – Jan 2027",
+    validity: "Oct 2026 - Jan 2027",
   },
 
   // ─── Seasonal ──────────────────────────────────────────────────────────────
@@ -413,8 +413,8 @@ export const packageData: UmrahPackage[] = [
     featured: true,
     image: "kaabaNight",
     hotels: {
-      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450 – 700 m" },
-      madinah: { name: "Artal International or similar", stars: 3, distance: "200 – 350 m" },
+      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450-700 m" },
+      madinah: { name: "Artal International or similar", stars: 3, distance: "200-350 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -425,12 +425,12 @@ export const packageData: UmrahPackage[] = [
       "A fortnight timed around Pakistan's December school holidays, with walking-distance hotels, quad rooms for families and ziyarat in both cities.",
     highlights: [
       "Departures around the winter school holidays",
-      "Family quad rooms — everyone in one room",
+      "Family quad rooms - everyone in one room",
       "Mild weather in Makkah and Madinah",
     ],
     includes: [...BASE_INCLUDES, "8 nights Makkah, 3-star hotel", "6 nights Madinah, 3-star hotel", "Makkah and Madinah ziyarat"],
     excludes: [],
-    validity: "Departures 12–26 December 2026",
+    validity: "Departures 12-26 December 2026",
   },
   {
     slug: "ramadan-last-10-days-umrah",
@@ -443,8 +443,8 @@ export const packageData: UmrahPackage[] = [
     madinahFirst: true,
     image: "kaabaNight",
     hotels: {
-      makkah: { name: "Areej Al Wafa or similar", stars: 4, distance: "150 – 400 m", meals: "Suhoor & iftar" },
-      madinah: { name: "Rua International or similar", stars: 4, distance: "100 – 250 m", meals: "Suhoor & iftar" },
+      makkah: { name: "Areej Al Wafa or similar", stars: 4, distance: "150-400 m", meals: "Suhoor & iftar" },
+      madinah: { name: "Rua International or similar", stars: 4, distance: "100-250 m", meals: "Suhoor & iftar" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -465,7 +465,7 @@ export const packageData: UmrahPackage[] = [
       "Makkah and Madinah ziyarat",
     ],
     excludes: ["I'tikaf arrangements inside the Haram (by Saudi permit)"],
-    validity: "Ramadan 1448 (expected Feb–Mar 2027)",
+    validity: "Ramadan 1448 (expected Feb-Mar 2027)",
   },
   {
     slug: "ramadan-full-month-umrah",
@@ -479,8 +479,8 @@ export const packageData: UmrahPackage[] = [
     audiences: ["group"],
     image: "nabawiLattice",
     hotels: {
-      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450 – 700 m" },
-      madinah: { name: "Artal International or similar", stars: 3, distance: "200 – 350 m" },
+      makkah: { name: "Emaar Al Khalil or similar", stars: 3, distance: "450-700 m" },
+      madinah: { name: "Artal International or similar", stars: 3, distance: "200-350 m" },
     },
     flights: flightsDirect,
     transport: "Shared coach",
@@ -488,7 +488,7 @@ export const packageData: UmrahPackage[] = [
     prices: { quad: 560000, triple: 620000, double: 740000 },
     bestFor: "pilgrims who want the whole month of Ramadan in the two Harams.",
     summary:
-      "The whole of Ramadan: the first third in Madinah, then the rest of the month — including the last ten nights — in Makkah, in walking-distance 3-star hotels.",
+      "The whole of Ramadan: the first third in Madinah, then the rest of the month - including the last ten nights - in Makkah, in walking-distance 3-star hotels.",
     highlights: [
       "Every night of Ramadan in the holy cities",
       "Lower cost per night than a last-ten-days package",
@@ -496,6 +496,6 @@ export const packageData: UmrahPackage[] = [
     ],
     includes: [...BASE_INCLUDES, "9 nights Madinah, 3-star hotel", "20 nights Makkah, 3-star hotel", "Makkah and Madinah ziyarat"],
     excludes: ["Suhoor and iftar (available at extra cost)"],
-    validity: "Ramadan 1448 (expected Feb–Mar 2027)",
+    validity: "Ramadan 1448 (expected Feb-Mar 2027)",
   },
 ];

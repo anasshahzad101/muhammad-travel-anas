@@ -2,8 +2,8 @@
  * Single source of truth for business identity.
  *
  * Every value marked TODO is a placeholder. While any placeholder remains,
- * `hasPlaceholders()` is true and a warning banner renders on every page — in
- * production too — so fake contact details can never sit silently on the live
+ * `hasPlaceholders()` is true and a warning banner renders on every page - in
+ * production too - so fake contact details can never sit silently on the live
  * site. `npm run check:launch` lists what is still missing.
  *
  * Licence and registration fields are `null` until real numbers are supplied.
@@ -18,7 +18,7 @@ export const site = {
   legalName: null as string | null, // TODO: registered business name, e.g. "Muhammad Travels (SMC-Private) Limited"
   tagline: "Umrah packages from Pakistan, priced in full",
   description:
-    "Umrah packages from Pakistan 2026–27: visa, return flights, hotels near the Haram and transport in one PKR price. 7–28 days, economy to 5-star. Lahore office.",
+    "Umrah packages from Pakistan 2026-27: visa, return flights, hotels near the Haram and transport in one PKR price. 7-28 days, economy to 5-star. Lahore office.",
   // TODO: confirm the domain once registered.
   url: "https://www.muhammadtravels.pk",
   locale: "en_PK",
@@ -27,10 +27,10 @@ export const site = {
   foundingYear: null as number | null, // TODO
 
   contact: {
-    // TODO: real numbers before launch. 923000000000 is the placeholder the banner detects.
-    whatsapp: "923000000000",
-    phoneDisplay: "0300 000 0000",
-    phoneE164: "+923000000000",
+    // Every call, WhatsApp link and enquiry (including the lead popup) goes to this number.
+    whatsapp: "923041458319",
+    phoneDisplay: "0304 1458319",
+    phoneE164: "+923041458319",
     landlineDisplay: null as string | null, // e.g. "042 3500 0000"
     email: "info@muhammadtravels.pk", // TODO: create the mailbox
     address: {
@@ -49,8 +49,8 @@ export const site = {
       { days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Saturday"], opens: "10:00", closes: "20:00" },
       { days: ["Friday"], opens: "15:00", closes: "20:00" },
     ] as OpeningHours[],
-    hoursSummary: "Mon–Sat, 10am–8pm (Friday from 3pm)", // TODO: keep in sync with `hours`
-    whatsappHours: "WhatsApp replies 10am–11pm, every day", // TODO: confirm
+    hoursSummary: "Mon-Sat, 10am-8pm (Friday from 3pm)", // TODO: keep in sync with `hours`
+    whatsappHours: "WhatsApp replies 10am-11pm, every day", // TODO: confirm
   },
 
   /**
@@ -97,7 +97,7 @@ const PLACEHOLDER_WHATSAPP = "923000000000";
 /** Launch-critical details still missing, in plain words for the preview banner. */
 export function missingForLaunch(): string[] {
   const out: string[] = [];
-  if (site.contact.whatsapp === PLACEHOLDER_WHATSAPP) out.push("phone/WhatsApp number");
+  if ((site.contact.whatsapp as string) === PLACEHOLDER_WHATSAPP) out.push("phone/WhatsApp number");
   if (!site.contact.address.street || !site.contact.address.area) out.push("office address");
   if (!site.licences.mora && !site.umrahOperator) out.push("MoRA approval (or approved operator partner)");
   if (!site.licences.dts) out.push("DTS licence number");

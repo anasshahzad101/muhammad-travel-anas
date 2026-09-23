@@ -1,4 +1,4 @@
-# Muhammad Travels — website
+# Muhammad Travels - website
 
 Umrah agency site: Next.js 16 (App Router, fully static), React 19, Tailwind 4, TypeScript. No database: every package, price and page is generated from data files in `lib/`.
 
@@ -21,6 +21,17 @@ npm run check:launch   # lists the business details still missing before go-live
 | `lib/duas.ts` | Duas with Arabic, transliteration, meaning and source. Have an alim review them and name the reviewer. |
 | `lib/images.ts` | Stock photo registry (Unsplash Licence), served from Unsplash's CDN. Every photo has been checked by eye. |
 | `lib/track.ts` | GA4 + Google Ads conversions (WhatsApp click, call click, enquiry). They activate only when the env vars are set. |
+| `lib/distance.ts` | Turns hotel distance strings ("450-700 m") into metres, walking minutes and per-tier bands, for the distance meters and the hotel-distance explorer. |
+| `lib/finder.ts` | Package matching for the hero finder and the cost calculator (closest real package, never an invented price). |
+| `lib/journey.ts`, `lib/geo-map.ts` | Flight facts per departure city, and the generated map geometry (Natural Earth, no borders drawn) for the journey map. |
+| `lib/rites.ts` | Copy for the "Umrah in four steps" experience; the walk-along hints are the duas from `lib/duas.ts`. |
+| `lib/og.ts`, `app/og/` | Branded 1200x630 share cards (WhatsApp previews) for every page, built at build time from the same data. |
+
+## Design system
+
+"Night & Gold": night-green sections for drama (hero, rites, journey, CTA, footer), ivory sections for reading. Tokens, buttons and the scroll-driven reveals live in `app/globals.css`; the reveals are pure CSS (`animation-timeline: view()`), so nothing is ever hidden from crawlers. Display type is Cormorant Garamond, body and every price is Manrope (never set a price in the serif). All copy uses plain hyphens, never en or em dashes.
+
+Interactive islands (client components, each server-rendered with real content first): `HeroFinder`, `CostCalculator`, `PackageExplorer`, `DistanceExplorer`, `JourneyMap`, `RitesExperience` (canvas), `PackingChecklist`, `DuaActions`, `MakkahClock`, `TocSpy`.
 
 ## Pages
 

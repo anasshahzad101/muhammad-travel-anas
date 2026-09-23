@@ -13,8 +13,8 @@ export default function RefundPolicy() {
   return (
     <LegalPage title="Refund & Cancellation Policy" path="/refund-policy/" updated="23 September 2026">
       <p>
-        An Umrah package is made of parts that belong to other companies — the Saudi visa, the airline ticket and the
-        hotels — and each has its own cancellation rules. This page explains, in plain language, what can be refunded
+        An Umrah package is made of parts that belong to other companies - the Saudi visa, the airline ticket and the
+        hotels - and each has its own cancellation rules. This page explains, in plain language, what can be refunded
         and when. Your invoice lists the exact amounts for your booking.
       </p>
 
@@ -44,7 +44,7 @@ export default function RefundPolicy() {
           <tr>
             <td>Hotels</td>
             <td>
-              Free cancellation outside each hotel&apos;s cancellation window (often 14–30 days before check-in, longer in
+              Free cancellation outside each hotel&apos;s cancellation window (often 14-30 days before check-in, longer in
               Ramadan). Inside the window, the hotel&apos;s charge applies.
             </td>
           </tr>
@@ -62,7 +62,7 @@ export default function RefundPolicy() {
       <h2>If your visa is refused</h2>
       <p>
         Visa decisions are made by the Saudi authorities, not by us. If your visa is refused, we refund everything that
-        can still be recovered — hotels, transport and any refundable airfare — and our service charge. The visa fee
+        can still be recovered - hotels, transport and any refundable airfare - and our service charge. The visa fee
         itself is not refundable once the application has been submitted.
       </p>
 

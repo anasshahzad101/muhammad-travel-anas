@@ -6,7 +6,7 @@ const site = readFileSync(new URL("../lib/site.ts", import.meta.url), "utf8");
 const data = readFileSync(new URL("../lib/package-data.ts", import.meta.url), "utf8");
 
 const checks = [
-  // Legal / compliance — see research/regulations-and-facts.md (LAUNCH-CRITICAL)
+  // Legal / compliance - see research/regulations-and-facts.md (LAUNCH-CRITICAL)
   ["MoRA approved-operator number, or a named approved operator partner", /mora: null as/.test(site) && /umrahOperator: null as/.test(site)],
   ["DTS Punjab travel-agency licence number", /dts: null as/.test(site)],
   ["Registered legal name (must match NTN/SECP for Google Ads verification)", /legalName: null as/.test(site)],

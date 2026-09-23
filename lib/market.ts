@@ -20,13 +20,13 @@ export const market = {
     { city: "Islamabad", code: "ISB", min: 100000, max: 200000 },
   ],
   /** December holidays and Ramadan. */
-  peakAirfareUplift: "30–50%",
+  peakAirfareUplift: "30-50%",
 
   /** Karachi departures vs Lahore/Islamabad for the same package. */
   karachiSaving: { min: 15000, max: 30000 },
 
   /**
-   * Land-only 14–15 day packages (visa + hotels + transport, no flights), per
+   * Land-only 14-15 day packages (visa + hotels + transport, no flights), per
    * person, mostly quad basis: [min, median, max].
    */
   landOnly15: {
@@ -36,9 +36,9 @@ export const market = {
     "5-star": [266000, 432000, 625000],
   } as Record<string, [number, number, number]>,
 
-  /** All-inclusive 14–15 day medians across the market, per person. */
+  /** All-inclusive 14-15 day medians across the market, per person. */
   allIn15Median: { economy: 302000, "3-star": 382000, "5-star": 513000 },
 } as const;
 
 export const pkrRange = (min: number, max: number) =>
-  `PKR ${min.toLocaleString("en-PK")}–${max.toLocaleString("en-PK")}`;
+  `PKR ${min.toLocaleString("en-PK")}-${max.toLocaleString("en-PK")}`;

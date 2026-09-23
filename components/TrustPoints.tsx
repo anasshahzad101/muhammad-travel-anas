@@ -3,9 +3,9 @@ import { site } from "@/lib/site";
 
 /**
  * The promises the whole site is built on. Each one is something a customer can
- * check for themselves — no badges or claims we can't back up.
+ * check for themselves - no badges or claims we can't back up.
  */
-export default function TrustPoints() {
+export default function TrustPoints({ onDark = false, compact = false }: { onDark?: boolean; compact?: boolean }) {
   const points = [
     {
       icon: WalletIcon,
@@ -15,7 +15,7 @@ export default function TrustPoints() {
     {
       icon: HotelIcon,
       title: "Real hotel distances",
-      body: "Every package states how far each hotel is from the Haram, in metres — or says 'shuttle' when it is.",
+      body: "Every package states how far each hotel is from the Haram, in metres - or says 'shuttle' when it is.",
     },
     {
       icon: ShieldIcon,
@@ -29,16 +29,26 @@ export default function TrustPoints() {
     },
   ];
   return (
-    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {points.map((p) => (
-        <li key={p.title} className="flex gap-4 rounded-2xl border border-sand-300 bg-white/60 p-5">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-haram-50 text-haram-800">
-            <p.icon className="h-5 w-5" />
+    <ul className={`grid gap-4 ${compact ? "" : "sm:grid-cols-2 lg:grid-cols-4"}`}>
+      {points.map((p, i) => (
+        <li
+          key={p.title}
+          className={`spotlight reveal group relative overflow-hidden rounded-[var(--radius-card)] border p-6 transition duration-500 ${
+            onDark ? "border-white/10 bg-white/[0.03] hover:border-gold-400/40" : "border-sand-300 bg-[#fffdf9] hover:border-gold-400/60"
+          }`}
+          style={{ "--i": i } as React.CSSProperties}
+        >
+          <span className="relative flex h-14 w-14 items-center justify-center">
+            <svg viewBox="0 0 56 56" className="absolute inset-0 h-full w-full text-gold-400 transition-transform duration-700 ease-out-expo group-hover:rotate-45" aria-hidden>
+              <g fill="none" stroke="currentColor" strokeWidth="1">
+                <rect x="10" y="10" width="36" height="36" />
+                <rect x="10" y="10" width="36" height="36" transform="rotate(45 28 28)" />
+              </g>
+            </svg>
+            <p.icon className={`relative h-5 w-5 ${onDark ? "text-gold-300" : "text-haram-800"}`} />
           </span>
-          <div>
-            <h3 className="font-body text-[1rem] font-bold tracking-normal">{p.title}</h3>
-            <p className="mt-1 text-[0.9rem] leading-relaxed text-ink-600">{p.body}</p>
-          </div>
+          <h3 className={`mt-5 font-display text-[1.45rem] font-semibold leading-tight ${onDark ? "text-sand-50" : ""}`}>{p.title}</h3>
+          <p className={`mt-2 text-[0.93rem] leading-relaxed ${onDark ? "text-sand-200/80" : "text-ink-600"}`}>{p.body}</p>
         </li>
       ))}
     </ul>

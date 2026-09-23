@@ -3,7 +3,7 @@
  *
  * Every entry names its source so readers (and reviewers) can check it. Where a
  * dua is a report from a Companion rather than a hadith of the Prophet ﷺ, the
- * source says so — accuracy matters more here than anywhere else on the site.
+ * source says so - accuracy matters more here than anywhere else on the site.
  * Transliterations are a pronunciation aid only.
  */
 
@@ -26,17 +26,17 @@ export const duas: Dua[] = [
     meaning: "Here I am, O Allah, for Umrah.",
     source: "Based on Sahih Muslim 1232",
     note:
-      "The intention itself is in the heart. Many in Pakistan also say: Allāhumma innī urīdul-‘umrata fa yassirhā lī wa taqabbalhā minnī — “O Allah, I intend Umrah; make it easy for me and accept it from me.”",
+      "The intention itself is in the heart. Many in Pakistan also say: Allāhumma innī urīdul-‘umrata fa yassirhā lī wa taqabbalhā minnī - “O Allah, I intend Umrah; make it easy for me and accept it from me.”",
   },
   {
     id: "talbiyah",
-    when: "Talbiyah — from ihram until you begin tawaf",
+    when: "Talbiyah - from ihram until you begin tawaf",
     arabic:
       "لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ",
     transliteration:
       "Labbayk Allāhumma labbayk, labbayka lā sharīka laka labbayk, innal-ḥamda wan-ni‘mata laka wal-mulk, lā sharīka lak",
     meaning:
-      "Here I am, O Allah, here I am. Here I am — You have no partner — here I am. All praise, all blessings and all dominion are Yours. You have no partner.",
+      "Here I am, O Allah, here I am. Here I am - You have no partner - here I am. All praise, all blessings and all dominion are Yours. You have no partner.",
     source: "Sahih al-Bukhari 1549; Sahih Muslim 1184",
     note: "Men recite it aloud; women recite it quietly.",
   },
@@ -66,7 +66,7 @@ export const duas: Dua[] = [
     meaning:
       "Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.",
     source: "Qur'an 2:201; Sunan Abi Dawud 1892",
-    note: "For the rest of each circuit there is no fixed dua — pray for whatever you wish, in any language.",
+    note: "For the rest of each circuit there is no fixed dua - pray for whatever you wish, in any language.",
   },
   {
     id: "maqam",
@@ -142,8 +142,8 @@ export const duas: Dua[] = [
       "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ",
     transliteration: "Subḥānal-ladhī sakhkhara lanā hādhā wa mā kunnā lahū muqrinīn, wa innā ilā Rabbinā lamunqalibūn",
     meaning:
-      "Glory be to the One who has placed this at our service — we could never have done it ourselves — and to our Lord we will surely return.",
-    source: "Qur'an 43:13–14; Sahih Muslim 1342",
+      "Glory be to the One who has placed this at our service - we could never have done it ourselves - and to our Lord we will surely return.",
+    source: "Qur'an 43:13-14; Sahih Muslim 1342",
   },
 ];
 

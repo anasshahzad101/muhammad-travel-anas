@@ -6,7 +6,15 @@ import { site } from "@/lib/site";
 
 /**
  * Price-bearing pages carry `pricesCheckedISO` as lastmod, so a price refresh
- * gets recrawled quickly — answer engines otherwise keep quoting stale prices.
+ * gets recrawled quickly; answer engines otherwise keep quoting stale prices.
+ *
+ * /llms.txt and /llms-full.txt are deliberately left out. A sitemap lists the
+ * canonical pages we want in search results; the llms files are plain-text
+ * digests of those same pages for AI assistants, found by the /llms.txt
+ * convention and the link inside it. Listing them would invite search engines
+ * to index a wall of text that competes with the real pages, and answer engines
+ * should cite (and send visitors to) the HTML pages. Share-card images
+ * (/og/...) and /logo.png are not pages either.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const priced = new Date(season.pricesCheckedISO);

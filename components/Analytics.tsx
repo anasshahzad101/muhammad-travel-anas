@@ -7,7 +7,7 @@ import { trackConversion, trackingIds } from "@/lib/track";
 /**
  * Loads gtag only when GA4 or Google Ads IDs are configured, and turns every
  * WhatsApp or phone link on the site into a tracked conversion with a single
- * delegated listener — so buttons stay plain server-rendered <a> tags.
+ * delegated listener - so buttons stay plain server-rendered <a> tags.
  */
 export default function Analytics() {
   const primaryId = trackingIds.ga4 || trackingIds.ads;

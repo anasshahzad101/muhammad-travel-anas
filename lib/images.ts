@@ -10,7 +10,7 @@
  * (lib/image-loader.ts), which requests exactly the width the browser needs in
  * AVIF/WebP. Swap in our
  * own photography (office, team, real groups with consent) as it becomes
- * available — genuine photos out-convert stock in this market.
+ * available - genuine photos out-convert stock in this market.
  *
  * Rule: no identifiable faces in the foreground (none of these people consented
  * to advertise a travel agency), and never a photo nobody has actually looked at.
@@ -58,7 +58,7 @@ export const images = {
     credit: { photographer: "Rumman Amin", source: "Unsplash", id: "tvEDhFhBhXM", licence: "Unsplash Licence" },
   },
   // Checked visually 2026-09-23: this is the photo that actually shows the Clock
-  // Tower (Abraj Al Bait) over the Kaaba — used for the 5-star packages.
+  // Tower (Abraj Al Bait) over the Kaaba - used for the 5-star packages.
   clockTower: {
     src: u("photo-1592326871020-04f58c1a52f3"),
     alt: "The Makkah Clock Tower rising above Masjid al-Haram and the Kaaba in bright sunlight",
