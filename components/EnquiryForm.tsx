@@ -72,7 +72,7 @@ export default function EnquiryForm({
     ].filter(Boolean);
     const text = lines.join("\n");
 
-    trackConversion("lead", { page: window.location.pathname });
+    trackConversion("lead", { page: window.location.pathname }, { phone });
     if (ENDPOINT) {
       try {
         fetch(ENDPOINT, {

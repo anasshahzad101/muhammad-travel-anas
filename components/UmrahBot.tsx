@@ -20,6 +20,7 @@ import Link from "next/link";
 import { CalendarIcon, ChevronDownIcon, ClockIcon, DomeIcon, HotelIcon, PassportIcon, PinIcon, PlaneIcon, XIcon } from "./Icons";
 import { FINDER_DAYS } from "@/lib/finder";
 import { whatsappLink } from "@/lib/site";
+import { hasContacted, isAdVisit } from "@/lib/visit";
 
 type Key = "service" | "days" | "city" | "timeline";
 type Answers = Partial<Record<Key, string>>;
@@ -27,6 +28,12 @@ type IconType = ComponentType<{ className?: string }>;
 
 /** Long enough that the visitor has read something first. */
 const AUTO_OPEN_MS = 7000;
+/**
+ * Visitors from an ad clicked for a price, so they get longer to read it. This is
+ * after the lead popup's 45 seconds, so on a first visit the popup asks and this
+ * stays closed (the visitor still never gets both).
+ */
+const AD_AUTO_OPEN_MS = 50000;
 const SEEN_KEY = "mt-bot-seen";
 /** Set by the lead popup when it opens; the bot then stays closed this visit. */
 const LEAD_SHOWN_KEY = "mt-lead-shown";
@@ -90,7 +97,8 @@ export default function UmrahBot() {
 
   // Opens itself once per visit, so the widget is discovered rather than
   // waiting to be found. Skipped once the visitor has opened or dismissed it,
-  // when the lead popup already asked this visit, and for reduced motion.
+  // when the lead popup already asked this visit, when the visitor has already
+  // messaged or called, and for reduced motion.
   useEffect(() => {
     let seen = true;
     try {
@@ -103,17 +111,19 @@ export default function UmrahBot() {
 
     const t = setTimeout(() => {
       try {
+        // Opened or dismissed by hand while we waited: don't open it again.
+        if (sessionStorage.getItem(SEEN_KEY) === "1") return;
         if (sessionStorage.getItem(LEAD_SHOWN_KEY) === "1") return markSeen();
       } catch {
         /* fall through and open */
       }
-      if (document.querySelector("dialog[open]")) return markSeen();
+      if (document.querySelector("dialog[open]") || hasContacted()) return markSeen();
       setOpen((already) => {
         if (already) return already;
         markSeen();
         return true;
       });
-    }, AUTO_OPEN_MS);
+    }, isAdVisit() ? AD_AUTO_OPEN_MS : AUTO_OPEN_MS);
     return () => clearTimeout(t);
   }, [markSeen]);
 

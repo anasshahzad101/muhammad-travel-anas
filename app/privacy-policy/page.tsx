@@ -27,10 +27,30 @@ export default function Privacy() {
           which we need to apply for visas and book flights and hotels.
         </li>
         <li>
-          <strong>Website analytics:</strong> if enabled, Google Analytics and Google Ads record anonymous usage data (pages
-          viewed, device, approximate location) using cookies, to measure which pages and adverts are useful.
+          <strong>Website analytics:</strong> if enabled, Google Analytics and Google Ads record usage data (pages viewed,
+          device, approximate location) using cookies, to measure which pages and adverts are useful.
         </li>
       </ul>
+
+      <h2>Measuring our adverts</h2>
+      <p>
+        We advertise on Google. To learn which adverts bring real enquiries and bookings, we share phone numbers with
+        Google Ads:
+      </p>
+      <ul>
+        <li>
+          When you send one of our enquiry forms, the phone number you typed is passed to Google Ads. It is converted into
+          a one-way code (hashed) before it leaves your browser.
+        </li>
+        <li>
+          We may also share the WhatsApp or phone numbers of people who contact us, and whether they booked, with Google
+          Ads for the same purpose. Google matches them in hashed form.
+        </li>
+      </ul>
+      <p>
+        We share phone numbers only for this measurement, never your messages or documents. If you would rather we
+        didn&apos;t include your number, tell us on WhatsApp.
+      </p>
 
       <h2>How we use it</h2>
       <p>

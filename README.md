@@ -19,7 +19,8 @@ npm run build          # static build (54 routes)
 | `lib/market.ts` | Market reference figures (visa, airfares, land-only prices) used on the cost guide and tickets page. |
 | `lib/duas.ts` | Duas with Arabic, transliteration, meaning and source. Have an alim review them and name the reviewer. |
 | `lib/images.ts` | Stock photo registry (Unsplash Licence), served from Unsplash's CDN. Every photo has been checked by eye. |
-| `lib/track.ts` | GA4 + Google Ads conversions (WhatsApp click, call click, enquiry). They activate only when the env vars are set. |
+| `lib/track.ts` | GA4 + Google Ads conversions (WhatsApp click, call click, enquiry). The Ads ones activate only when the env vars are set, and they are *secondary*: bidding runs on qualified leads imported from the lead sheet (`plan/google-ads-plan.md` §3). The enquiry form and lead popup pass the typed phone number, in E.164, to the Google tag (enhanced conversions for leads). |
+| `lib/visit.ts` | Whether this visit came from an ad (gclid/gbraid/wbraid or utm_medium=cpc) and whether the visitor has already messaged or called. For ad visitors the lead popup waits 45 s and the "Let us help you" widget 50 s. Neither opens once the visitor is in touch. |
 | `lib/distance.ts` | Turns hotel distance strings ("450-700 m") into metres, walking minutes and per-tier bands, for the distance meters and the hotel-distance explorer. |
 | `lib/finder.ts` | Package matching for the hero finder and the cost calculator (closest real package, never an invented price). |
 | `lib/journey.ts`, `lib/geo-map.ts` | Flight facts per departure city, and the generated map geometry (Natural Earth, no borders drawn) for the journey map. |
