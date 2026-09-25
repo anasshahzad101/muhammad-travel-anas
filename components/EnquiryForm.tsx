@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { WhatsAppIcon } from "./Icons";
+import { saveDraft, sendLead } from "@/lib/leads/client";
 import { trackConversion } from "@/lib/track";
 import { withGreeting } from "@/lib/site";
 
@@ -12,7 +13,10 @@ import { withGreeting } from "@/lib/site";
  * gets the team every detail they need in the first message instead of five
  * rounds of "how many people? which month?". If NEXT_PUBLIC_ENQUIRY_ENDPOINT is
  * set (e.g. a Google Apps Script that appends to a Sheet), the lead is also
- * posted there, so nothing is lost if the customer never presses send.
+ * posted there.
+ *
+ * Every field is also saved to the leads dashboard as it is filled in
+ * (lib/leads/client.ts), so nothing is lost if the customer never presses send.
  */
 
 // The 1448H season. Update each year; past months are hidden automatically.
@@ -26,6 +30,19 @@ const SEASON_MONTHS = [
 ];
 
 const ENDPOINT = process.env.NEXT_PUBLIC_ENQUIRY_ENDPOINT || "";
+
+/**
+ * The form's values for the lead. Drafts carry the fields the visitor touched
+ * (plus the package the page filled in), not untouched defaults like "2 adults".
+ */
+function leadFields(form: HTMLFormElement, only?: Set<string>): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [k, v] of new FormData(form)) {
+    if (only && !only.has(k) && k !== "package") continue;
+    out[k] = String(v);
+  }
+  return out;
+}
 
 export default function EnquiryForm({
   whatsapp,
@@ -41,12 +58,20 @@ export default function EnquiryForm({
   const uid = useId();
   const [months, setMonths] = useState(SEASON_MONTHS);
   const [error, setError] = useState("");
+  const touched = useRef(new Set<string>());
 
   useEffect(() => {
     const now = new Date();
     const current = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
     setMonths(SEASON_MONTHS.filter((m) => m.split("|")[0] >= current));
   }, []);
+
+  function onEdit(e: React.FormEvent<HTMLFormElement>) {
+    const name = (e.target as HTMLInputElement).name;
+    if (!name) return;
+    touched.current.add(name);
+    saveDraft("enquiry", leadFields(e.currentTarget, touched.current));
+  }
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -73,6 +98,7 @@ export default function EnquiryForm({
     const text = lines.join("\n");
 
     trackConversion("lead", { page: window.location.pathname }, { phone });
+    sendLead("enquiry", leadFields(e.currentTarget));
     if (ENDPOINT) {
       try {
         fetch(ENDPOINT, {
@@ -94,7 +120,7 @@ export default function EnquiryForm({
   const label = "block text-[0.7rem] font-extrabold uppercase tracking-[0.14em] text-ink-500";
 
   return (
-    <form onSubmit={onSubmit} className="card reveal relative overflow-hidden p-6 sm:p-7" noValidate aria-labelledby={`${uid}-h`}>
+    <form onSubmit={onSubmit} onChange={onEdit} className="card reveal relative overflow-hidden p-6 sm:p-7" noValidate aria-labelledby={`${uid}-h`}>
       <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold-300 via-gold-500 to-haram-600" />
       <p className="inline-flex items-center gap-2 rounded-full bg-haram-50 px-3 py-1 text-[0.72rem] font-bold text-haram-800">
         <span className="h-1.5 w-1.5 rounded-full bg-wa-500 animate-pulse-dot" />

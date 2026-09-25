@@ -1,11 +1,11 @@
 # Muhammad Travels - website
 
-Umrah agency site: Next.js 16 (App Router, fully static), React 19, Tailwind 4, TypeScript. No database: every package, price and page is generated from data files in `lib/`.
+Umrah agency site: Next.js 16 (App Router), React 19, Tailwind 4, TypeScript. Every public page is static and generated from data files in `lib/`. The only server-side part is lead tracking and its dashboard at `/admin/` (see below).
 
 ```bash
 npm install
 npm run dev            # http://localhost:3120
-npm run build          # static build (54 routes)
+npm run build          # production build (webpack, as on Hostinger)
 ```
 
 ## Where things live
@@ -26,6 +26,30 @@ npm run build          # static build (54 routes)
 | `lib/journey.ts`, `lib/geo-map.ts` | Flight facts per departure city, and the generated map geometry (Natural Earth, no borders drawn) for the journey map. |
 | `lib/rites.ts` | Copy for the "Umrah in four steps" experience; the walk-along hints are the duas from `lib/duas.ts`. |
 | `lib/og.ts`, `app/og/` | Branded 1200x630 share cards (WhatsApp previews) for every page, built at build time from the same data. |
+
+## Lead tracking and the dashboard
+
+Every visitor who picks an answer in the "Let us help you" chat, or types into the price popup or a quote form, becomes a lead, **saved as they type, before they press send**. The dashboard at `/admin/` lists them, with the ones who left a number but never sent (the people to call back) one click away, plus WhatsApp / call buttons, a follow-up stage, notes, what they entered, where they stopped, the pages they viewed, and a CSV export (with the Google Ads click ID for offline conversion imports).
+
+| File | What it does |
+|---|---|
+| `lib/leads/client.ts` | Browser side: debounced saves as people type, `sendBeacon` when they leave, the send itself, and events (closed the popup, tapped WhatsApp). |
+| `app/api/lead/route.ts` | The public endpoint the forms post to (same-site only, size- and rate-limited). |
+| `lib/leads/merge.ts` | All the rules: cleaning input, folding each save into the lead, ignoring saves that arrive out of order. |
+| `lib/leads/store.ts` | Neon Postgres when `DATABASE_URL` is set (table `mt_leads`, created on first use); otherwise `.data/leads.json`. |
+| `app/admin/`, `components/admin/` | The dashboard and its sign-in. Public pages live in `app/(site)/`, so the admin area has no site header, popup or chatbot. |
+| `lib/leads/staff.ts` | The CRM rules: leads added by hand ("Add lead", for WhatsApp messages, calls, walk-ins), bookings (package from `lib/package-data.ts` so the price fills itself in, room, pilgrims, agreed total), payments, follow-up dates, and the history entry every change leaves. The first payment moves a lead to Booked by itself. |
+
+The CRM strip on the dashboard shows follow-ups due (today or overdue), bookings and payments received in the chosen period, and the balance still to collect. Hand-added leads have ids starting `m-`, which the public `/api/lead/` endpoint refuses to touch.
+
+Environment variables on the host (Hostinger: the Node.js app's environment variables):
+
+- `ADMIN_PASSWORD` (required for the dashboard): the sign-in password. Changing it signs everyone out.
+- `DATABASE_URL` (strongly recommended): a Neon Postgres connection string. Without it leads go to a file on the server, which a redeploy can wipe, and the dashboard shows a warning.
+- `ADMIN_SECRET` (optional): extra key for signing the session cookie.
+- `LEADS_FILE` (optional): where the file store writes when there is no database.
+
+Locally, put `ADMIN_PASSWORD=...` in `.env.local` (gitignored) and open http://localhost:3120/admin/.
 
 ## Design system
 

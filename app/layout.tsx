@@ -1,15 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Amiri, Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import JsonLd from "@/components/JsonLd";
-import Analytics, { GoogleTag } from "@/components/Analytics";
-import LeadPopup from "@/components/LeadPopup";
-import MobileActionBar from "@/components/MobileActionBar";
-import Spotlight from "@/components/Spotlight";
-import UmrahBot from "@/components/UmrahBot";
-import { organizationSchema, websiteSchema } from "@/lib/schema";
+import { GoogleTag } from "@/components/Analytics";
 import { imageUrl } from "@/lib/images";
 import { site } from "@/lib/site";
 
@@ -74,23 +66,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <GoogleTag />
       </head>
-      <body className="pb-[4.6rem] sm:pb-0">
-        <JsonLd data={[organizationSchema(), websiteSchema()]} />
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-night-900 focus:px-4 focus:py-2 focus:text-sand-50"
-        >
-          Skip to content
-        </a>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
-        <MobileActionBar />
-        <Spotlight />
-        <LeadPopup />
-        <UmrahBot />
-        <Analytics />
-      </body>
+      {/* Page chrome (header, footer, popup, chatbot) lives in app/(site)/layout.tsx, so /admin/ stays bare. */}
+      <body>{children}</body>
     </html>
   );
 }

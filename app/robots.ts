@@ -29,7 +29,8 @@ const AI_CRAWLERS = [
 ];
 
 export default function robots(): MetadataRoute.Robots {
-  const access = { allow: "/" };
+  // The leads dashboard and the form endpoints are not pages.
+  const access = { allow: "/", disallow: ["/admin/", "/api/"] };
   return {
     rules: [{ userAgent: "*", ...access }, ...AI_CRAWLERS.map((userAgent) => ({ userAgent, ...access }))],
     sitemap: `${site.url}/sitemap.xml`,

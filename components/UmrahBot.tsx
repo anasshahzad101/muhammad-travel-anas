@@ -4,12 +4,14 @@
  * Guided enquiry widget, the same one as on visawala.pk, set up for Umrah.
  *
  * Four quick questions (what they need, how many days, which city they fly
- * from, and when), then a hand-off to WhatsApp with the answers written out,
- * so the first reply can be a real answer instead of "which package?".
+ * from, and when), then their name and number, then a hand-off to WhatsApp
+ * with the answers written out, so the first reply can be a real answer
+ * instead of "which package?".
  *
  * Deliberately not a conversational bot: it never quotes prices or answers
- * visa questions itself, it only routes and qualifies. Everything runs in the
- * browser; nothing is sent until the visitor taps through to WhatsApp.
+ * visa questions itself, it only routes and qualifies. Every answer is saved
+ * to the leads dashboard as it is given (lib/leads/client.ts), so a visitor
+ * who stops halfway can still be followed up.
  *
  * It opens itself once per visit after a few seconds, except when the lead
  * popup has already been shown in this visit, so a visitor never gets both.
@@ -19,11 +21,14 @@ import { useCallback, useEffect, useRef, useState, type ComponentType } from "re
 import Link from "next/link";
 import { CalendarIcon, ChevronDownIcon, ClockIcon, DomeIcon, HotelIcon, PassportIcon, PinIcon, PlaneIcon, XIcon } from "./Icons";
 import { FINDER_DAYS } from "@/lib/finder";
+import { leadEvent, saveDraft, sendLead } from "@/lib/leads/client";
+import { toE164 } from "@/lib/phone";
 import { whatsappLink } from "@/lib/site";
 import { hasContacted, isAdVisit } from "@/lib/visit";
 
 type Key = "service" | "days" | "city" | "timeline";
 type Answers = Partial<Record<Key, string>>;
+type Details = { name: string; phone: string };
 type IconType = ComponentType<{ className?: string }>;
 
 /** Long enough that the visitor has read something first. */
@@ -66,6 +71,10 @@ const STEPS: { key: Key; q: string; options: { label: string; icon: IconType }[]
   },
 ];
 
+/** After the questions: name and number. Then the summary. */
+const DETAILS_STEP = STEPS.length;
+const SEGMENTS = STEPS.length + 1;
+
 const SUMMARY: [Key, string][] = [
   ["service", "Service"],
   ["days", "Duration"],
@@ -73,13 +82,33 @@ const SUMMARY: [Key, string][] = [
   ["timeline", "When"],
 ];
 
+/** Where the visitor is, in words, for "stopped at" on the leads dashboard. */
+function stepLabel(step: number): string {
+  if (step < STEPS.length) return STEPS[step].q;
+  if (step === DETAILS_STEP) return "Name and number";
+  return "Last screen (did not tap WhatsApp)";
+}
+
+function leadFields(answers: Answers, details: Details): Record<string, string> {
+  return { ...answers, name: details.name.trim(), phone: details.phone.trim() };
+}
+
+const input =
+  "mt-1 block w-full rounded-xl border border-sand-300 bg-white px-3.5 py-2.5 text-[16px] text-ink-900 outline-none transition placeholder:text-ink-400 focus:border-gold-500 focus:ring-2 focus:ring-gold-400/25";
+
 export default function UmrahBot() {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
+  const [details, setDetails] = useState<Details>({ name: "", phone: "" });
+  const [detailsError, setDetailsError] = useState("");
+  const [sent, setSent] = useState(false);
   const firstOptionRef = useRef<HTMLButtonElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
 
-  const done = step >= STEPS.length;
+  const onDetails = step === DETAILS_STEP;
+  const done = step > DETAILS_STEP;
+  const started = Object.keys(answers).length > 0 || !!details.name.trim() || !!details.phone.trim();
 
   /** Session flag so the panel invites once and never nags again. */
   const markSeen = useCallback(() => {
@@ -127,22 +156,69 @@ export default function UmrahBot() {
     return () => clearTimeout(t);
   }, [markSeen]);
 
-  // Escape closes; focus moves into the panel when it opens and on each step.
+  /** Closed by the visitor (X or Esc): noted on their lead, with where they stopped. */
+  function dismiss() {
+    if (started && !sent) {
+      leadEvent("closed", done ? "Closed the chat on the last screen without tapping WhatsApp" : `Closed the chat at: ${stepLabel(step)}`, {
+        source: "chatbot",
+      });
+    }
+    close();
+  }
+  const dismissRef = useRef(dismiss);
+  useEffect(() => {
+    dismissRef.current = dismiss;
+  });
+
+  // Escape closes.
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && dismissRef.current();
     document.addEventListener("keydown", onKey);
-    firstOptionRef.current?.focus({ preventScroll: true });
     return () => document.removeEventListener("keydown", onKey);
-  }, [open, step, close]);
+  }, [open]);
+
+  // Focus moves into the panel when it opens and on each step. On touch screens the name
+  // field is left alone: focusing it would throw the keyboard up over the panel uninvited.
+  useEffect(() => {
+    if (!open) return;
+    if (firstOptionRef.current) firstOptionRef.current.focus({ preventScroll: true });
+    else if (step === DETAILS_STEP && window.matchMedia?.("(pointer: fine)").matches) nameRef.current?.focus({ preventScroll: true });
+  }, [open, step]);
 
   function choose(key: Key, value: string) {
-    setAnswers((a) => ({ ...a, [key]: value }));
-    setStep((s) => s + 1);
+    const next = { ...answers, [key]: value };
+    setAnswers(next);
+    setStep(step + 1);
+    saveDraft("chatbot", leadFields(next, details), { step: stepLabel(step + 1) });
+  }
+
+  function editDetails(patch: Partial<Details>) {
+    const next = { ...details, ...patch };
+    setDetails(next);
+    if (detailsError) setDetailsError("");
+    saveDraft("chatbot", leadFields(answers, next), { step: stepLabel(DETAILS_STEP) });
+  }
+
+  function submitDetails(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (details.name.trim().length < 2) return setDetailsError("Please enter your name.");
+    if (!toE164(details.phone)) return setDetailsError("Please enter a number we can reach on WhatsApp, like 03xx xxxxxxx.");
+    setStep(DETAILS_STEP + 1);
+    saveDraft("chatbot", leadFields(answers, details), { step: stepLabel(DETAILS_STEP + 1) });
+  }
+
+  function skipDetails() {
+    setDetailsError("");
+    setStep(DETAILS_STEP + 1);
+    saveDraft("chatbot", leadFields(answers, details), { step: stepLabel(DETAILS_STEP + 1) });
+    leadEvent("skipped", "Skipped leaving a name and number", { source: "chatbot" });
   }
 
   function restart() {
+    if (started) leadEvent("restart", "Started the chat over", { source: "chatbot" });
     setAnswers({});
+    setSent(false);
     setStep(0);
   }
 
@@ -157,6 +233,8 @@ export default function UmrahBot() {
     answers.days && `Duration: ${answers.days}`,
     answers.city && `Flying from: ${answers.city}`,
     answers.timeline && `When: ${answers.timeline}`,
+    details.name.trim() && `Name: ${details.name.trim()}`,
+    details.phone.trim() && `My number: ${details.phone.trim()}`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -208,11 +286,11 @@ export default function UmrahBot() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="font-display text-[1.35rem] leading-tight">Let us help you</p>
-                <p className="mt-1 text-xs leading-snug text-sand-100/60">Four quick questions and we&apos;ll take it from there</p>
+                <p className="mt-1 text-xs leading-snug text-sand-100/60">A few quick questions and we&apos;ll take it from there</p>
               </div>
               <button
                 type="button"
-                onClick={close}
+                onClick={dismiss}
                 aria-label="Close"
                 className="-mr-2 -mt-2 grid h-10 w-10 place-items-center rounded-full text-sand-100/60 transition hover:bg-white/10 hover:text-white"
               >
@@ -221,14 +299,69 @@ export default function UmrahBot() {
             </div>
             {/* Segmented, so it reads as progress rather than a divider. */}
             <div className="mt-4 flex gap-1.5" aria-hidden="true">
-              {STEPS.map((s, i) => (
-                <span key={s.key} className={`h-1 flex-1 rounded-full transition-colors duration-500 ${i < step ? "bg-gold-300" : "bg-white/15"}`} />
+              {Array.from({ length: SEGMENTS }, (_, i) => (
+                <span key={i} className={`h-1 flex-1 rounded-full transition-colors duration-500 ${i < step ? "bg-gold-300" : "bg-white/15"}`} />
               ))}
             </div>
           </div>
 
           <div className="max-h-[min(26rem,58vh)] overflow-y-auto px-6 py-5">
-            {!done ? (
+            {onDetails ? (
+              <form onSubmit={submitDetails} noValidate>
+                <p className="font-display text-[1.2rem] leading-snug text-ink-900">Where should we send your options?</p>
+                <p className="mb-4 mt-1 text-xs leading-snug text-ink-500">We only use it to reply about your Umrah.</p>
+                <label className="block">
+                  <span className="text-[11px] font-bold uppercase tracking-wide text-ink-500">Your name</span>
+                  <input
+                    ref={nameRef}
+                    name="name"
+                    autoComplete="name"
+                    value={details.name}
+                    onChange={(e) => editDetails({ name: e.target.value })}
+                    placeholder="e.g. Ahmed Raza"
+                    className={input}
+                  />
+                </label>
+                <label className="mt-3 block">
+                  <span className="text-[11px] font-bold uppercase tracking-wide text-ink-500">WhatsApp number</span>
+                  <input
+                    name="phone"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    value={details.phone}
+                    onChange={(e) => editDetails({ phone: e.target.value })}
+                    placeholder="03xx xxxxxxx"
+                    className={`${input} figure`}
+                  />
+                </label>
+                {detailsError && (
+                  <p role="alert" className="mt-3 rounded-lg bg-[#fbeaea] px-3 py-2 text-xs font-semibold text-[#8a1f1f]">
+                    {detailsError}
+                  </p>
+                )}
+                <button
+                  type="submit"
+                  className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-night-950 py-3 text-sm font-bold text-sand-50 shadow-[0_18px_36px_-18px_rgb(0_0_0/0.8)] transition-all hover:bg-night-800"
+                >
+                  Continue
+                  <ChevronDownIcon className="h-4 w-4 -rotate-90 text-gold-300" />
+                </button>
+                <div className="mt-2 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setStep((s) => s - 1)}
+                    className="inline-flex min-h-9 items-center gap-1 text-xs font-semibold text-ink-400 transition hover:text-ink-800"
+                  >
+                    <ChevronDownIcon className="h-3.5 w-3.5 rotate-90" />
+                    Back
+                  </button>
+                  <button type="button" onClick={skipDetails} className="min-h-9 text-xs font-semibold text-ink-400 transition hover:text-ink-800">
+                    Skip for now
+                  </button>
+                </div>
+              </form>
+            ) : !done ? (
               <>
                 <p className="mb-4 font-display text-[1.2rem] leading-snug text-ink-900">{current.q}</p>
                 <div className="grid grid-cols-2 gap-2">
@@ -263,18 +396,29 @@ export default function UmrahBot() {
               <>
                 <p className="mb-3 font-display text-[1.15rem] text-ink-900">Here&apos;s what we have</p>
                 <dl className="mb-4 divide-y divide-sand-200 overflow-hidden rounded-2xl border border-sand-200 bg-sand-100/60 text-xs">
-                  {SUMMARY.map(([k, label]) => (
-                    <div key={k} className="flex items-baseline justify-between gap-3 px-3 py-2">
-                      <dt className="text-[11px] uppercase tracking-wide text-ink-400">{label}</dt>
-                      <dd className="text-right font-semibold text-ink-800">{answers[k]}</dd>
-                    </div>
-                  ))}
+                  {[
+                    ...SUMMARY.map(([k, label]) => [label, answers[k]] as const),
+                    ["Name", details.name.trim()] as const,
+                    ["Phone", details.phone.trim()] as const,
+                  ]
+                    .filter(([, value]) => value)
+                    .map(([label, value]) => (
+                      <div key={label} className="flex items-baseline justify-between gap-3 px-3 py-2">
+                        <dt className="text-[11px] uppercase tracking-wide text-ink-400">{label}</dt>
+                        <dd className={`text-right font-semibold text-ink-800 ${label === "Phone" ? "figure" : ""}`}>{value}</dd>
+                      </div>
+                    ))}
                 </dl>
 
                 <a
                   href={whatsappLink(message)}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
+                  data-lead="chatbot"
+                  onClick={() => {
+                    setSent(true);
+                    sendLead("chatbot", leadFields(answers, details));
+                  }}
                   className="flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-night-950 py-3 text-sm font-bold text-sand-50 shadow-[0_18px_36px_-18px_rgb(0_0_0/0.8)] transition-all hover:bg-night-800"
                 >
                   Continue on WhatsApp
@@ -283,7 +427,10 @@ export default function UmrahBot() {
 
                 <Link
                   href={browseHref}
-                  onClick={close}
+                  onClick={() => {
+                    if (!sent) leadEvent("browse", `Went to see matching packages (${browseHref})`, { source: "chatbot" });
+                    close();
+                  }}
                   className="mt-2 flex min-h-11 items-center justify-center rounded-full border border-sand-300 text-center text-xs font-bold text-ink-700 transition hover:border-gold-400 hover:text-haram-700"
                 >
                   Or see matching packages
