@@ -10,7 +10,7 @@ export const metadata = pageMetadata({
 
 export default function Privacy() {
   return (
-    <LegalPage title="Privacy Policy" path="/privacy-policy/" updated="23 September 2026">
+    <LegalPage title="Privacy Policy" path="/privacy-policy/" updated="25 September 2026">
       <p>
         {site.name} respects your privacy. This policy explains what information we collect when you use this website or
         book with us, and how we use it.
@@ -19,8 +19,13 @@ export default function Privacy() {
       <h2>What we collect</h2>
       <ul>
         <li>
-          <strong>Enquiries:</strong> the name, phone number and trip details you type into our enquiry form or send us on
-          WhatsApp or by phone.
+          <strong>Enquiries:</strong> the name, phone number and trip details you type into our enquiry forms or the
+          &ldquo;Let us help you&rdquo; chat, or send us on WhatsApp or by phone. What you type into our forms and chat is
+          saved as you type, even if you don&apos;t press send (see below).
+        </li>
+        <li>
+          <strong>How you found us:</strong> with an enquiry, we keep the pages you viewed on this visit, the page you
+          arrived on, the website or advert that sent you, and your type of device and browser.
         </li>
         <li>
           <strong>Booking documents:</strong> passport, CNIC, photographs and vaccination certificates for each pilgrim,
@@ -60,10 +65,18 @@ export default function Privacy() {
       </p>
       <p>We do not sell your information, and we don&apos;t send marketing messages unless you ask us to.</p>
 
+      <h2>Forms you don&apos;t finish</h2>
+      <p>
+        When you type into one of our enquiry forms or pick answers in the &ldquo;Let us help you&rdquo; chat, what you
+        enter is saved on our system straight away, before you press send. If you leave a phone number and don&apos;t
+        finish, our team may call or message you once to ask whether you need help. If you would rather we didn&apos;t,
+        tell us and we will delete it.
+      </p>
+
       <h2>WhatsApp</h2>
       <p>
-        Our enquiry form opens WhatsApp with your details filled in; the message is sent only when you press send in
-        WhatsApp. Messages are handled under WhatsApp&apos;s own terms and privacy policy.
+        Our enquiry forms open WhatsApp with your details filled in; the WhatsApp message is sent only when you press send
+        in WhatsApp. Messages are handled under WhatsApp&apos;s own terms and privacy policy.
       </p>
 
       <h2>How long we keep it</h2>

@@ -7,3 +7,6 @@ out
 next-env.d.ts
 npm-debug.log*
 .DS_Store
+
+# Leads saved without a database (local work; see lib/leads/store.ts)
+.data

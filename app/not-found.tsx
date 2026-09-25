@@ -1,7 +1,18 @@
 import Link from "next/link";
+import SiteChrome from "@/components/SiteChrome";
 import StarPattern, { StarSeal } from "@/components/StarPattern";
 
+// Renders inside the root layout only (outside the (site) group), for unknown
+// URLs and for notFound() on any page, so it brings the site chrome itself.
 export default function NotFound() {
+  return (
+    <SiteChrome>
+      <NotFoundContent />
+    </SiteChrome>
+  );
+}
+
+function NotFoundContent() {
   return (
     <section className="section-night grain on-dark relative -mt-[var(--header-h)] flex min-h-[80vh] items-center overflow-hidden pt-[var(--header-h)]">
       <StarPattern id="nf-lattice" className="text-gold-300 opacity-[0.04]" />

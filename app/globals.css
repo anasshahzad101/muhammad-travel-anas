@@ -1130,6 +1130,18 @@
     animation: rise 700ms var(--ease-out-expo) both;
     animation-delay: calc(var(--d, 0) * 45ms + 60ms);
   }
+
+  /* Leads dashboard: the lead panel slides in from the right. */
+  .panel-in {
+    animation: panel-in 420ms var(--ease-out-expo) both;
+  }
+
+  @keyframes panel-in {
+    from {
+      transform: translateX(28px);
+      opacity: 0;
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { WhatsAppIcon, XIcon } from "./Icons";
 import { FINDER_DAYS } from "@/lib/finder";
+import { leadEvent, saveDraft, sendLead } from "@/lib/leads/client";
 import { site, whatsappLink } from "@/lib/site";
 import { trackConversion } from "@/lib/track";
 import { hasContacted, isAdVisit } from "@/lib/visit";
@@ -20,6 +21,10 @@ import { hasContacted, isAdVisit } from "@/lib/visit";
  * Once closed or sent it stays away for a few days (localStorage). On phones
  * it is a bottom sheet, elsewhere a centred card; it uses a native <dialog>,
  * so focus, Esc and the backdrop behave as they should.
+ *
+ * What the visitor types is saved to the leads dashboard as they type
+ * (lib/leads/client.ts), so someone who enters a number and closes the popup
+ * without sending can still be called back.
  */
 
 const KEY = "mt-lead-popup";
@@ -51,6 +56,21 @@ function botSeen() {
   }
 }
 
+/** "2026-11-12" as "12 November 2026". */
+function longDate(iso: string): string {
+  return iso ? new Date(`${iso}T12:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
+}
+
+/** The form's values for the lead. Drafts carry only what the visitor touched, not untouched defaults. */
+function leadFields(form: HTMLFormElement, only?: Set<string>): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [k, v] of new FormData(form)) {
+    if (only && !only.has(k)) continue;
+    out[k] = k === "date" ? longDate(String(v)) : String(v);
+  }
+  return out;
+}
+
 function remember() {
   try {
     localStorage.setItem(KEY, String(Date.now()));
@@ -62,6 +82,9 @@ function remember() {
 export default function LeadPopup() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDialogElement>(null);
+  const touched = useRef(new Set<string>());
+  const sent = useRef(false);
+  const noted = useRef(false);
 
   useEffect(() => {
     if (seenRecently()) return;
@@ -87,18 +110,32 @@ export default function LeadPopup() {
     d.querySelector<HTMLElement>("[data-lead-card]")?.focus();
   }, [open]);
 
+  /** Closed without sending after typing something: worth a note on their lead. */
+  function noteClose() {
+    if (sent.current || noted.current || touched.current.size === 0) return;
+    noted.current = true;
+    leadEvent("closed", "Closed the popup without sending", { source: "popup" });
+  }
+
   function close() {
+    noteClose();
     remember();
     ref.current?.close();
     setOpen(false);
+  }
+
+  function edit(e: React.FormEvent<HTMLFormElement>) {
+    const name = (e.target as HTMLInputElement).name;
+    if (!name) return;
+    touched.current.add(name);
+    saveDraft("popup", leadFields(e.currentTarget, touched.current));
   }
 
   function send(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
     const get = (k: string) => String(f.get(k) ?? "").trim();
-    const date = get("date");
-    const when = date ? new Date(`${date}T12:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "Not sure yet";
+    const when = longDate(get("date")) || "Not sure yet";
     const message = [
       "Assalam o Alaikum, I would like an Umrah quote.",
       `Name: ${get("name")}`,
@@ -109,6 +146,8 @@ export default function LeadPopup() {
       `(Sent from ${window.location.pathname})`,
     ].join("\n");
     trackConversion("lead", { page: window.location.pathname, form: "popup" }, { phone: get("phone") });
+    sent.current = true;
+    sendLead("popup", { ...leadFields(e.currentTarget), date: when });
     window.open(whatsappLink(message), "_blank", "noopener");
     close();
   }
@@ -121,6 +160,7 @@ export default function LeadPopup() {
       ref={ref}
       aria-labelledby="lead-title"
       onClose={() => {
+        noteClose();
         remember();
         setOpen(false);
       }}
@@ -145,7 +185,7 @@ export default function LeadPopup() {
           </h2>
           <p className="mt-2 text-[0.92rem] leading-relaxed text-ink-600">Tell us a little and we will send you the options.</p>
 
-          <form onSubmit={send} className="mt-5 grid grid-cols-2 gap-x-3 gap-y-3.5">
+          <form onSubmit={send} onChange={edit} className="mt-5 grid grid-cols-2 gap-x-3 gap-y-3.5">
             <label className="col-span-2 sm:col-span-1">
               <span className={label}>Your name</span>
               <input name="name" required autoComplete="name" placeholder="e.g. Ahmed Raza" className={field} />
