@@ -25,9 +25,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority,
   });
 
+  // Pages that also exist in Urdu carry their hreflang pairs; /ur/ pages mirror them.
+  const urdu = (en: string, ur: string) => ({
+    languages: { "en-PK": `${site.url}${en}`, ur: `${site.url}${ur}`, "x-default": `${site.url}${en}` },
+  });
+  const urLaunch = new Date("2026-10-16");
+
   return [
-    u("/", priced, 1),
-    u("/umrah-packages/", priced, 0.95),
+    { ...u("/", priced, 1), alternates: urdu("/", "/ur/") },
+    { ...u("/umrah-packages/", priced, 0.95), alternates: urdu("/umrah-packages/", "/ur/umrah-packages/") },
+    { ...u("/ur/", urLaunch, 0.7), alternates: urdu("/", "/ur/") },
+    { ...u("/ur/umrah-packages/", urLaunch, 0.7), alternates: urdu("/umrah-packages/", "/ur/umrah-packages/") },
     ...categories.map((c) => u(`/umrah-packages/${c.slug}/`, priced, c.group === "season" || c.group === "city" ? 0.9 : 0.85)),
     ...packages.map((p) => u(`/umrah-packages/${p.slug}/`, priced, 0.8)),
     u("/umrah-visa/", priced, 0.9),
@@ -37,6 +45,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     u("/guides/umrah-duas/", launch, 0.7),
     u("/guides/umrah-cost-from-pakistan/", priced, 0.8),
     u("/guides/umrah-packing-list/", launch, 0.6),
+    u("/guides/umrah-vaccination-requirements/", new Date("2026-10-16"), 0.7),
+    u("/guides/nusuk-app-guide/", new Date("2026-10-16"), 0.7),
     u("/about/", launch, 0.5),
     u("/contact/", launch, 0.6),
     u("/faq/", launch, 0.5),

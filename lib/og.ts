@@ -113,6 +113,13 @@ const STATIC_CARDS: ShareCard[] = [
     image: "kaabaWide",
   }),
   card({ path: "/guides/umrah-packing-list/", title: "Umrah Packing List: What to Take from Pakistan", subtitle: "Umrah guide", image: "nabawiUmbrellas" }),
+  card({
+    path: "/guides/umrah-vaccination-requirements/",
+    title: "Umrah Vaccination Requirements from Pakistan",
+    subtitle: "Umrah guide",
+    image: "minaretPalm",
+  }),
+  card({ path: "/guides/nusuk-app-guide/", title: "Nusuk App Guide: Permits and Rawdah Booking", subtitle: "Umrah guide", image: "nabawiPortrait" }),
   card({ path: "/about/", title: `About ${site.name}`, subtitle: `Umrah travel agency in ${site.contact.address.city}`, image: "nabawiUmbrellas" }),
   card({ path: "/contact/", title: `Contact ${site.name}`, subtitle: `Umrah office in ${site.contact.address.city}`, image: "nabawiDome" }),
   card({ path: "/faq/", title: "Umrah FAQs", subtitle: "Prices, visa, documents, payment and cancellation", image: "kaabaWide" }),
