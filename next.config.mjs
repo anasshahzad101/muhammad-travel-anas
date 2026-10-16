@@ -13,6 +13,10 @@ const nextConfig = {
   // G:\Claude has its own package-lock.json; pin the root to this app.
   turbopack: { root },
   reactStrictMode: true,
+  // One branded 404 for URLs that match no route, across the three root layouts
+  // (app/global-not-found.tsx). Group-level not-found pages still handle
+  // notFound() inside the English site and the Urdu section.
+  experimental: { globalNotFound: true },
   // Everything must render in the HTML source: AI crawlers (GPTBot, ClaudeBot,
   // PerplexityBot) don't execute JavaScript. Packages, prices and FAQs are all
   // server-rendered; only the enquiry form and analytics run in the browser.
