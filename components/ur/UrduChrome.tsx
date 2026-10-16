@@ -27,6 +27,9 @@ export default function UrduChrome({ children }: { children: React.ReactNode }) 
             <Link href="/ur/umrah-packages/" className="hidden min-h-11 items-center text-[1.05rem] font-semibold text-ink-800 hover:text-haram-800 sm:flex">
               عمرہ پیکجز اور قیمتیں
             </Link>
+            <Link href="/ur/guides/" className="hidden min-h-11 items-center text-[1.05rem] font-semibold text-ink-800 hover:text-haram-800 sm:flex">
+              رہنمائی
+            </Link>
             <a
               href={whatsappLink("السلام علیکم، مجھے عمرہ پیکج کے بارے میں معلومات چاہئیں۔")}
               rel="nofollow"
@@ -68,6 +71,11 @@ export default function UrduChrome({ children }: { children: React.ReactNode }) 
               <li>
                 <Link href="/ur/umrah-packages/" className="hover:text-gold-200">
                   عمرہ پیکجز اور قیمتیں
+                </Link>
+              </li>
+              <li>
+                <Link href="/ur/guides/" className="hover:text-gold-200">
+                  عمرہ گائیڈز
                 </Link>
               </li>
               <li>
