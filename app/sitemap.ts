@@ -30,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     languages: { "en-PK": `${site.url}${en}`, ur: `${site.url}${ur}`, "x-default": `${site.url}${en}` },
   });
   const urLaunch = new Date("2026-10-16");
+  const guideSlugs = ["how-to-perform-umrah", "umrah-duas", "umrah-cost-from-pakistan", "umrah-packing-list", "umrah-vaccination-requirements", "nusuk-app-guide"];
 
   return [
     { ...u("/", priced, 1), alternates: urdu("/", "/ur/") },
@@ -42,13 +43,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...packages.map((p) => ({ ...u(`/ur/umrah-packages/${p.slug}/`, urLaunch, 0.7), alternates: urdu(`/umrah-packages/${p.slug}/`, `/ur/umrah-packages/${p.slug}/`) })),
     u("/umrah-visa/", priced, 0.9),
     u("/umrah-tickets/", priced, 0.7),
-    u("/guides/", launch, 0.6),
-    u("/guides/how-to-perform-umrah/", launch, 0.7),
-    u("/guides/umrah-duas/", launch, 0.7),
-    u("/guides/umrah-cost-from-pakistan/", priced, 0.8),
-    u("/guides/umrah-packing-list/", launch, 0.6),
-    u("/guides/umrah-vaccination-requirements/", new Date("2026-10-16"), 0.7),
-    u("/guides/nusuk-app-guide/", new Date("2026-10-16"), 0.7),
+    // Guides exist in both languages; both entries carry the hreflang pair.
+    { ...u("/guides/", launch, 0.6), alternates: urdu("/guides/", "/ur/guides/") },
+    { ...u("/ur/guides/", urLaunch, 0.55), alternates: urdu("/guides/", "/ur/guides/") },
+    ...guideSlugs.flatMap((g) => [
+      { ...u(`/guides/${g}/`, launch, 0.7), alternates: urdu(`/guides/${g}/`, `/ur/guides/${g}/`) },
+      { ...u(`/ur/guides/${g}/`, urLaunch, 0.6), alternates: urdu(`/guides/${g}/`, `/ur/guides/${g}/`) },
+    ]),
     u("/about/", launch, 0.5),
     u("/contact/", launch, 0.6),
     u("/faq/", launch, 0.5),
