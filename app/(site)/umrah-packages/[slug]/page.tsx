@@ -12,6 +12,9 @@ import { fillTokens } from "@/lib/tokens";
  * One segment serves two page types: category landing pages
  * (/umrah-packages/15-days/) and single packages (/umrah-packages/15-days-3-star/).
  * Slugs are unique across both lists; a duplicate throws at build time.
+ *
+ * Every package (not category) has an Urdu twin at /ur/umrah-packages/[slug]/,
+ * so package metadata carries the hreflang pair.
  */
 
 export const dynamicParams = false;
@@ -45,6 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: `${p.days} days: ${p.nights.makkah} nights Makkah (${p.hotels.makkah.distance}) + ${p.nights.madinah} nights Madinah. Visa, return flights, hotels and transport from ${formatPKR(low.amount)} per person (${ROOM_BASIS[low.basis].label.toLowerCase()}). Book on WhatsApp.`,
     path: `/umrah-packages/${slug}/`,
     image: p.image,
+    languages: { "en-PK": `/umrah-packages/${slug}/`, ur: `/ur/umrah-packages/${slug}/`, "x-default": `/umrah-packages/${slug}/` },
   });
 }
 
