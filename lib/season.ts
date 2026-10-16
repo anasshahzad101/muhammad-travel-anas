@@ -18,8 +18,8 @@ export const season = {
    * repeating stale ones, so update this whenever package-data.ts prices are
    * re-checked (aim for monthly).
    */
-  pricesChecked: "September 2026",
-  pricesCheckedISO: "2026-09-23",
+  pricesChecked: "October 2026",
+  pricesCheckedISO: "2026-10-16",
   ramadan: {
     startISO: "2027-02-08",
     endISO: "2027-03-09",
