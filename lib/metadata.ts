@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getPackage } from "./packages";
 import { site } from "./site";
 import type { ImageKey } from "./images";
 import {
@@ -26,6 +27,29 @@ import {
  * on it changes. Titles and descriptions go out with plain hyphens (the owner
  * reads em and en dashes as an AI tell).
  */
+
+/**
+ * Urdu twins of English pages. An explicit `languages` argument wins; otherwise
+ * the twin is derived: "/" -> /ur/, "/guides/" -> /ur/guides/, "/guides/<slug>/"
+ * -> /ur/guides/<slug>/ and a package page -> /ur/umrah-packages/<slug>/.
+ * Category pages under /umrah-packages/ have no Urdu twin, so they stay
+ * English-only. Adding a new Urdu page = adding its mapping here.
+ */
+const UR_TOP: Record<string, string> = { "/": "/ur/", "/guides/": "/ur/guides/", "/umrah-packages/": "/ur/umrah-packages/" };
+
+function urTwin(path: string): string | undefined {
+  if (UR_TOP[path]) return UR_TOP[path];
+  if (path.startsWith("/guides/")) {
+    const slug = path.slice("/guides/".length).replace(/\/$/, "");
+    return slug ? `/ur/guides/${slug}/` : undefined;
+  }
+  if (path.startsWith("/umrah-packages/")) {
+    const slug = path.slice("/umrah-packages/".length).replace(/\/$/, "");
+    return slug && getPackage(slug) ? `/ur/umrah-packages/${slug}/` : undefined;
+  }
+  return undefined;
+}
+
 export function pageMetadata({
   title,
   description,
@@ -43,7 +67,7 @@ export function pageMetadata({
   /** Set when the title already contains the brand, to avoid "Page | Brand | Brand". */
   absoluteTitle?: boolean;
   noindex?: boolean;
-  /** hreflang alternates, for pages that exist in Urdu as well (e.g. { "en-PK": path, ur: "/ur/...", "x-default": path }). */
+  /** hreflang alternates. Usually omitted: the Urdu twin is derived automatically (see urTwin). */
   languages?: Record<string, string>;
 }): Metadata {
   const url = `${site.url}${path}`;
@@ -62,10 +86,13 @@ export function pageMetadata({
     type: SHARE_CARD_TYPE,
   };
 
+  const twin = languages ? undefined : urTwin(path);
+  const langs = languages ?? (twin ? { "en-PK": path, ur: twin, "x-default": path } : undefined);
+
   return {
     title: absoluteTitle ? { absolute: pageTitle } : pageTitle,
     description: pageDescription,
-    alternates: { canonical: path, ...(languages ? { languages } : {}) },
+    alternates: { canonical: path, ...(langs ? { languages: langs } : {}) },
     robots: noindex ? { index: false, follow: true } : undefined,
     openGraph: {
       type: "website",
