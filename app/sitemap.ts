@@ -37,7 +37,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { ...u("/ur/", urLaunch, 0.7), alternates: urdu("/", "/ur/") },
     { ...u("/ur/umrah-packages/", urLaunch, 0.7), alternates: urdu("/umrah-packages/", "/ur/umrah-packages/") },
     ...categories.map((c) => u(`/umrah-packages/${c.slug}/`, priced, c.group === "season" || c.group === "city" ? 0.9 : 0.85)),
-    ...packages.map((p) => u(`/umrah-packages/${p.slug}/`, priced, 0.8)),
+    // Every package has an Urdu twin; both entries carry the hreflang pair.
+    ...packages.map((p) => ({ ...u(`/umrah-packages/${p.slug}/`, priced, 0.8), alternates: urdu(`/umrah-packages/${p.slug}/`, `/ur/umrah-packages/${p.slug}/`) })),
+    ...packages.map((p) => ({ ...u(`/ur/umrah-packages/${p.slug}/`, urLaunch, 0.7), alternates: urdu(`/umrah-packages/${p.slug}/`, `/ur/umrah-packages/${p.slug}/`) })),
     u("/umrah-visa/", priced, 0.9),
     u("/umrah-tickets/", priced, 0.7),
     u("/guides/", launch, 0.6),
