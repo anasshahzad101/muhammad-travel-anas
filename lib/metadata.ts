@@ -33,6 +33,7 @@ export function pageMetadata({
   image = "kaabaCourtyard",
   absoluteTitle,
   noindex,
+  languages,
 }: {
   title: string;
   description: string;
@@ -42,6 +43,8 @@ export function pageMetadata({
   /** Set when the title already contains the brand, to avoid "Page | Brand | Brand". */
   absoluteTitle?: boolean;
   noindex?: boolean;
+  /** hreflang alternates, for pages that exist in Urdu as well (e.g. { "en-PK": path, ur: "/ur/...", "x-default": path }). */
+  languages?: Record<string, string>;
 }): Metadata {
   const url = `${site.url}${path}`;
   const pageTitle = plainDashes(title);
@@ -62,7 +65,7 @@ export function pageMetadata({
   return {
     title: absoluteTitle ? { absolute: pageTitle } : pageTitle,
     description: pageDescription,
-    alternates: { canonical: path },
+    alternates: { canonical: path, ...(languages ? { languages } : {}) },
     robots: noindex ? { index: false, follow: true } : undefined,
     openGraph: {
       type: "website",
