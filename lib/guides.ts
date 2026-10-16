@@ -1,6 +1,10 @@
-import type { ImageKey } from "@/lib/images";
+import type { ImageKey } from "./images";
 
-/** The four guides, as the hub and the "more guides" band present them. */
+/**
+ * The guides, as the hub, the "more guides" band, the llms files and the
+ * sitemap present them. One list, one source of truth: adding a guide here
+ * plus its page file is the whole job (the sitemap and llms files read this).
+ */
 export type GuideEntry = { href: string; title: string; body: string; image: ImageKey; tag: string };
 
 export const guideList: GuideEntry[] = [
@@ -31,5 +35,19 @@ export const guideList: GuideEntry[] = [
     body: "Documents, ihram, clothes, medicines and money - what to take from Pakistan, and what not to pack.",
     image: "nabawiUmbrellas",
     tag: "Checklist",
+  },
+  {
+    href: "/guides/umrah-vaccination-requirements/",
+    title: "Umrah vaccination requirements",
+    body: "The meningitis ACYW vaccine, the polio dose and the NADRA certificate - what Pakistanis need, and when.",
+    image: "minaretPalm",
+    tag: "Documents",
+  },
+  {
+    href: "/guides/nusuk-app-guide/",
+    title: "Nusuk app guide",
+    body: "Setting up Nusuk on your phone, booking a Rawdah slot in Madinah, and fixing the common problems.",
+    image: "nabawiPortrait",
+    tag: "Apps & permits",
   },
 ];

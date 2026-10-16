@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon } from "../Icons";
-import { guideList } from "./guideList";
+import { guideList } from "@/lib/guides";
 import { images } from "@/lib/images";
 
-/** The other three guides, as photo cards, closing every guide. */
+/** The other guides, as photo cards, closing every guide. */
 export default function MoreGuides({ current }: { current: string }) {
   const others = guideList.filter((g) => g.href !== current);
   return (

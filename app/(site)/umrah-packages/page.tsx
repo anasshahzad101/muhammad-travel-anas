@@ -26,6 +26,8 @@ export const metadata = pageMetadata({
   description,
   path: "/umrah-packages/",
   image: "kaabaWide",
+  // The Urdu twin of this page (hreflang).
+  languages: { "en-PK": "/umrah-packages/", ur: "/ur/umrah-packages/", "x-default": "/umrah-packages/" },
 });
 
 const groups: { title: string; test: (p: UmrahPackage) => boolean }[] = [

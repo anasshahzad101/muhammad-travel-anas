@@ -1,4 +1,5 @@
 import { categories } from "@/lib/categories";
+import { guideList } from "@/lib/guides";
 import { plainDashes } from "@/lib/og";
 import { ROOM_BASIS, fromPrice, packages, type RoomBasis } from "@/lib/packages";
 import { season } from "@/lib/season";
@@ -43,11 +44,9 @@ export function GET() {
     "## Guides and information",
     `- [Umrah visa price for Pakistanis](${u("/umrah-visa/")})`,
     `- [Umrah tickets from Pakistan](${u("/umrah-tickets/")})`,
-    `- [Umrah cost from Pakistan](${u("/guides/umrah-cost-from-pakistan/")})`,
-    `- [How to perform Umrah](${u("/guides/how-to-perform-umrah/")})`,
-    `- [Umrah duas](${u("/guides/umrah-duas/")})`,
-    `- [Umrah packing list](${u("/guides/umrah-packing-list/")})`,
+    ...guideList.map((g) => `- [${g.title}](${u(g.href)}): ${g.body}`),
     `- [FAQs](${u("/faq/")}) · [Refund policy](${u("/refund-policy/")}) · [Contact](${u("/contact/")})`,
+    `- Urdu section: ${u("/ur/")}`,
     "",
   ];
   return new Response(plainDashes(lines.join("\n")), { headers: { "Content-Type": "text/plain; charset=utf-8" } });

@@ -5,6 +5,7 @@ import { ROOM_BASIS, STANDARD_EXCLUDES, TIERS, fromPrice, packages, type Hotel, 
 import { season } from "@/lib/season";
 import { formatPKR, fullAddress, site } from "@/lib/site";
 import { fillTokens } from "@/lib/tokens";
+import { guideList } from "@/lib/guides";
 
 /**
  * /llms-full.txt - the complete brief an AI assistant needs to answer a
@@ -174,10 +175,8 @@ export function GET() {
   out.push(
     "",
     "## Guides",
-    `- How to perform Umrah: ${u("/guides/how-to-perform-umrah/")}`,
-    `- Umrah duas: ${u("/guides/umrah-duas/")}`,
-    `- Umrah cost from Pakistan: ${u("/guides/umrah-cost-from-pakistan/")}`,
-    `- Umrah packing list: ${u("/guides/umrah-packing-list/")}`,
+    ...guideList.map((g) => `- ${g.title}: ${u(g.href)} - ${g.body}`),
+    `- Urdu section: ${u("/ur/")}`,
     "",
   );
 

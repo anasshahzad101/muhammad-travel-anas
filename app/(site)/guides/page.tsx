@@ -8,7 +8,7 @@ import StarPattern from "@/components/StarPattern";
 import { ArrowRightIcon } from "@/components/Icons";
 import { ArtPlate } from "@/components/guides/Article";
 import { HalqArt, MiqatArt, SaiArt, TawafArt } from "@/components/guides/GuideArt";
-import { guideList } from "@/components/guides/guideList";
+import { guideList } from "@/lib/guides";
 import { images } from "@/lib/images";
 import { pageMetadata } from "@/lib/metadata";
 import { ritesCopy } from "@/lib/rites";
