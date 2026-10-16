@@ -43,6 +43,19 @@ export default function Header() {
               <PhoneIcon className="h-3.5 w-3.5 text-gold-300" />
               {site.contact.phoneDisplay}
             </a>
+            <span aria-hidden className="text-gold-500/50">
+              ·
+            </span>
+            {/* Visible language switch: hreflang does the SEO mapping, this does the human one. */}
+            <Link
+              href="/ur/"
+              hrefLang="ur"
+              lang="ur"
+              className="text-[0.9rem] font-semibold text-sand-50 transition hover:text-gold-300"
+              style={{ fontFamily: "var(--font-arabic)" }}
+            >
+              اردو
+            </Link>
           </div>
         </div>
       </div>
@@ -122,6 +135,17 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            {/* Language switch on phones/tablets: the utility bar above is hidden below md, and the desktop nav below lg. */}
+            <Link
+              href="/ur/"
+              hrefLang="ur"
+              lang="ur"
+              aria-label="اردو ویب سائٹ"
+              className="inline-flex min-h-[2.65rem] items-center rounded-full border border-white/15 px-3.5 text-[0.95rem] font-semibold text-sand-100 transition hover:border-gold-400/60 hover:text-white md:hidden"
+              style={{ fontFamily: "var(--font-arabic)" }}
+            >
+              اردو
+            </Link>
             {/* Icon only between 1024 and 1280px, where the full menu leaves no room for the label */}
             <a href={wa} className="btn btn-wa hidden !min-h-[2.65rem] !px-4 text-[0.88rem] sm:inline-flex lg:max-xl:!px-3" rel="nofollow">
               <WhatsAppIcon className="h-[1.1rem] w-[1.1rem]" />
