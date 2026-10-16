@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import { WhatsAppIcon, ArrowRightIcon } from "@/components/Icons";
+import { BASIS_UR, TIER_UR } from "@/components/ur/copy";
 import { WHATSAPP_HOURS_UR, urDate, urMonthYear } from "@/components/ur/format";
-import { packages, fromPrice, ROOM_BASIS, TIERS, type UmrahPackage } from "@/lib/packages";
+import { packages, fromPrice, type UmrahPackage } from "@/lib/packages";
 import { organizationSchema } from "@/lib/schema";
 import { season } from "@/lib/season";
 import { whatsappLink } from "@/lib/site";
 
 /**
  * The Urdu homepage (/ur/). Prices, hotel distances and dates come from the
- * same lib/ data as the English site, so they can never drift. The scaffold is
- * deliberately small - this page and /ur/umrah-packages/ - but everything a
- * first-time Urdu visitor needs to decide and to contact us is here.
+ * same lib/ data as the English site, so they can never drift. Featured
+ * packages link to their Urdu detail pages at /ur/umrah-packages/[slug]/.
  */
 
 const title = `پاکستان سے عمرہ پیکجز ${season.label} | محمد ٹریولز`;
@@ -38,17 +38,14 @@ function pkr(amount: number) {
   );
 }
 
-const TIER_UR: Record<string, string> = { economy: "اکانومی", "3-star": "3 سٹار", "4-star": "4 سٹار", "5-star": "5 سٹار" };
-const BASIS_UR: Record<string, string> = { sharing: "شیئرنگ", quad: "کوڈ", triple: "ٹرپل", double: "ڈبل" };
-
 function PackageRow({ p }: { p: UmrahPackage }) {
   const low = fromPrice(p);
   return (
     <li className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-4 sm:px-6">
       <div>
-        <p className="text-[1.2rem] font-bold text-ink-950">
-          {p.days} دن - {TIER_UR[p.tier] ?? TIERS[p.tier].label}
-        </p>
+        <Link href={`/ur/umrah-packages/${p.slug}/`} className="text-[1.2rem] font-bold text-ink-950 underline-offset-4 hover:text-haram-800 hover:underline">
+          {p.days} دن - {TIER_UR[p.tier]}
+        </Link>
         <p className="mt-0.5 text-[0.95rem] text-ink-600">
           مکہ {p.nights.makkah} راتیں، مدینہ {p.nights.madinah} راتیں · حرم سے فاصلہ:{" "}
           <span dir="ltr" className="figure" style={{ fontFamily: "var(--font-body)" }}>
