@@ -143,7 +143,7 @@ export default function UrduHome() {
         </div>
       </section>
 
-      {/* ─── Seasons + guides note ─── */}
+      {/* ─── Seasons + guides ─── */}
       <section className="container-x py-20">
         <div className="grid gap-6 md:grid-cols-2">
           <div className="card p-8">
@@ -158,11 +158,11 @@ export default function UrduHome() {
             <p className="eyebrow">رہنمائی</p>
             <p className="mt-3 text-[1.6rem] font-bold text-ink-950">عمرہ کیسے ادا کریں؟</p>
             <p className="mt-3 text-[1.05rem] leading-[1.9] text-ink-700">
-              عمرہ کے طریقے، دعائیں، قیمتوں کی تفصیل اور پیکنگ لسٹ - تفصیلی رہنمائی ابھی{" "}
-              <Link href="/guides/" hrefLang="en-PK" className="font-bold text-haram-800 underline decoration-gold-400 underline-offset-4" style={{ fontFamily: "var(--font-body)" }}>
-                انگریزی میں دستیاب ہے
+              عمرہ کے طریقے، دعائیں، قیمتوں کی تفصیل اور پیکنگ لسٹ - ہماری مکمل اردو گائیڈز{" "}
+              <Link href="/ur/guides/" className="font-bold text-haram-800 underline decoration-gold-400 underline-offset-4">
+                یہاں پڑھیں
               </Link>
-              ، اردو ترجمہ جلد آرہا ہے۔
+              ۔
             </p>
           </div>
         </div>
