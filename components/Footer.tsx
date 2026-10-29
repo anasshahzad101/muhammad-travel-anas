@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Logo from "./Logo";
+import TrustpilotReviewCollector from "./TrustpilotReviewCollector";
+import SocialLinks from "./SocialLinks";
 import { ArrowRightIcon, ClockIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "./Icons";
 import StarPattern from "./StarPattern";
 import { guideNav, legalNav, mainNav, packageNav } from "@/lib/nav";
@@ -66,6 +68,13 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
+            <div className="mt-8 max-w-sm">
+              <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-gold-300">Travelled with us?</p>
+              <div className="mt-4">
+                <TrustpilotReviewCollector />
+              </div>
+              <SocialLinks className="mt-5" />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">

@@ -25,6 +25,10 @@ const BASES = Object.keys(ROOM_BASIS) as RoomBasis[];
 export function GET() {
   const u = (p: string) => `${site.url}${p}`;
   const phone = site.contact.phoneDisplay;
+  const socialLinks = [
+    site.social.facebook && `[Facebook](${site.social.facebook})`,
+    site.social.instagram && `[Instagram](${site.social.instagram})`,
+  ].filter(Boolean);
   const departures = site.departures.map((city) => {
     const code = market.airfare.find((a) => a.city === city)?.code;
     return code ? `${city} (${code})` : city;
@@ -53,6 +57,7 @@ export function GET() {
     `- ${site.contact.whatsappHours}.`,
     ...(phone ? [`- Phone and WhatsApp: ${phone}`] : []),
     `- Email: ${site.contact.email}`,
+    ...(socialLinks.length ? [`- Official social profiles: ${socialLinks.join(" · ")}`] : []),
     `- Serves pilgrims anywhere in Pakistan. Flights depart from ${list(departures)}.`,
     `- About: ${u("/about/")} · Contact: ${u("/contact/")}`,
     "",

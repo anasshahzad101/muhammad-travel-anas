@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Mark } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/Icons";
+import SocialLinks from "@/components/SocialLinks";
 import { site, whatsappLink } from "@/lib/site";
 import { WHATSAPP_HOURS_UR } from "./format";
 
@@ -64,6 +65,7 @@ export default function UrduChrome({ children }: { children: React.ReactNode }) 
               <li>{WHATSAPP_HOURS_UR}</li>
               <li>{site.contact.address.city}، پاکستان</li>
             </ul>
+            <SocialLinks className="mt-5" />
           </div>
           <div>
             <p className="eyebrow">صفحات</p>

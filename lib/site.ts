@@ -52,8 +52,8 @@ export const site = {
   departures: ["Lahore", "Karachi", "Islamabad"],
 
   social: {
-    facebook: null as string | null,
-    instagram: null as string | null,
+    facebook: "https://www.facebook.com/profile.php?id=61594483603304" as string | null,
+    instagram: "https://www.instagram.com/muhammad_travels/" as string | null,
     youtube: null as string | null,
     tiktok: null as string | null,
   },
