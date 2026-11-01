@@ -1,0 +1,36 @@
+name: IndexNow
+
+# After each deploy, tell Bing (and so ChatGPT search and DuckDuckGo) which
+# pages changed, so they are recrawled within hours. Google ignores IndexNow
+# and reads the sitemap's lastmod instead. Hostinger builds main on every
+# push, so the job waits for that build before reading the live sitemap; the
+# script then submits every URL whose lastmod is within the last 3 days.
+#
+# Run it by hand from the Actions tab ("Run workflow") to resubmit; tick
+# "all" once after a redesign to submit every page.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      all:
+        description: "Submit every URL in the sitemap, not only recent changes"
+        type: boolean
+        default: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Wait for the Hostinger deploy to finish
+        if: github.event_name == 'push'
+        run: sleep 300
+      - name: Submit changed URLs
+        run: node scripts/indexnow.mjs ${{ inputs.all && '--all' || '' }}
