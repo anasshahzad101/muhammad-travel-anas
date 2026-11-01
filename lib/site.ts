@@ -58,6 +58,22 @@ export const site = {
     tiktok: null as string | null,
   },
 
+  /**
+   * The business's profiles on directories. Each URL goes out as sameAs in the
+   * TravelAgency schema, the ListingBadge links to it, and lib/reviews.ts names
+   * it as the source of the reviews copied from it. Keys are the ReviewSource
+   * type, so a review can only name a listing that exists here.
+   */
+  listings: {
+    apkaVisa: {
+      name: "ApkaVisa",
+      /** How the badge's tooltip and the reviews FAQ describe the directory. */
+      description: "a Pakistani directory of visa consultants and travel agencies",
+      url: "https://apkavisa.pk/agency/muhammad-travels",
+      homepage: "https://apkavisa.pk/",
+    },
+  },
+
   /** Analytics / Google Ads IDs come from env vars; see lib/track.ts. */
 } as const;
 

@@ -1,5 +1,7 @@
 /** Navigation groups, shared by the header mega-menu, the mobile menu and the footer. */
 
+import { hasReviews } from "./reviews";
+
 export type NavLink = { href: string; label: string };
 
 export const packageNav: { heading: string; links: NavLink[] }[] = [
@@ -63,6 +65,8 @@ export const guideNav: NavLink[] = [
 ];
 
 export const legalNav: NavLink[] = [
+  // /reviews/ is a 404 until lib/reviews.ts has reviews, so it is only linked once it has.
+  ...(hasReviews() ? [{ href: "/reviews/", label: "Reviews" }] : []),
   { href: "/faq/", label: "FAQs" },
   { href: "/refund-policy/", label: "Refund & cancellation" },
   { href: "/terms-and-conditions/", label: "Terms & conditions" },

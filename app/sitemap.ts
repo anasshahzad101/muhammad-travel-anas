@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { categories } from "@/lib/categories";
 import { packages } from "@/lib/packages";
+import { reviewStats } from "@/lib/reviews";
 import { season } from "@/lib/season";
 import { site } from "@/lib/site";
 
@@ -31,6 +32,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
   const urLaunch = new Date("2026-10-16");
   const guideSlugs = ["how-to-perform-umrah", "umrah-duas", "umrah-cost-from-pakistan", "umrah-packing-list", "umrah-vaccination-requirements", "nusuk-app-guide"];
+  // /reviews/ exists only once lib/reviews.ts has reviews; its lastmod is the newest review.
+  const reviews = reviewStats();
 
   return [
     { ...u("/", priced, 1), alternates: urdu("/", "/ur/") },
@@ -51,6 +54,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       { ...u(`/ur/guides/${g}/`, urLaunch, 0.6), alternates: urdu(`/guides/${g}/`, `/ur/guides/${g}/`) },
     ]),
     u("/about/", launch, 0.5),
+    ...(reviews ? [u("/reviews/", new Date(reviews.latestISO), 0.6)] : []),
     u("/contact/", launch, 0.6),
     u("/faq/", launch, 0.5),
     u("/refund-policy/", launch, 0.3),

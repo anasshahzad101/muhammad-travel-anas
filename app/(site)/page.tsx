@@ -12,6 +12,7 @@ import JsonLd from "@/components/JsonLd";
 import PackageCard from "@/components/PackageCard";
 import PriceTable from "@/components/PriceTable";
 import PriceTicker from "@/components/PriceTicker";
+import ReviewsSection from "@/components/Reviews";
 import RitesExperience from "@/components/RitesExperience";
 import SectionHeading from "@/components/SectionHeading";
 import StarPattern, { Ornament } from "@/components/StarPattern";
@@ -325,6 +326,9 @@ export default function HomePage() {
           <TrustPoints />
         </div>
       </section>
+
+      {/* ─── Reviews (nothing until lib/reviews.ts has reviews) ───────────── */}
+      <ReviewsSection limit={3} className="container-x pb-24" />
 
       {/* ─── The rites ────────────────────────────────────────────────────── */}
       <section className="section-night grain on-dark relative overflow-hidden">

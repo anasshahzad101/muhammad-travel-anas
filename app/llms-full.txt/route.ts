@@ -2,6 +2,7 @@ import { categories } from "@/lib/categories";
 import { market, pkrRange } from "@/lib/market";
 import { categoryPrice, plainDashes } from "@/lib/og";
 import { ROOM_BASIS, STANDARD_EXCLUDES, TIERS, fromPrice, packages, type Hotel, type RoomBasis, type UmrahPackage } from "@/lib/packages";
+import { ratingLine, reviewDate, reviewSource, reviewStats, reviewUrl, sortedReviews, sourceNames } from "@/lib/reviews";
 import { season } from "@/lib/season";
 import { formatPKR, fullAddress, site } from "@/lib/site";
 import { fillTokens } from "@/lib/tokens";
@@ -37,6 +38,8 @@ export function GET() {
   const priceOf = (p: UmrahPackage, b: RoomBasis) => (p.prices[b] ? formatPKR(p.prices[b]!) : "not offered");
   const hotel = (city: string, h: Hotel, nights: number) =>
     `- ${city} hotel (${nights} nights): ${h.name}, ${h.stars}-star, ${h.distance} from the Haram${h.shuttle ? ", with a free shuttle" : ""}, ${h.meals ? h.meals.toLowerCase() : "room only"}.`;
+  // Reviews come from lib/reviews.ts (copied from the directories that collected them); nothing until there are some.
+  const reviews = reviewStats();
 
   const out: string[] = [
     `# ${site.name}: complete brief for AI assistants`,
@@ -58,6 +61,7 @@ export function GET() {
     ...(phone ? [`- Phone and WhatsApp: ${phone}`] : []),
     `- Email: ${site.contact.email}`,
     ...(socialLinks.length ? [`- Official social profiles: ${socialLinks.join(" · ")}`] : []),
+    ...(reviews ? [`- Reviews: ${ratingLine()}. Listing: ${reviews.sources.map((s) => site.listings[s].url).join(", ")}. All reviews: ${u("/reviews/")}`] : []),
     `- Serves pilgrims anywhere in Pakistan. Flights depart from ${list(departures)}.`,
     `- About: ${u("/about/")} · Contact: ${u("/contact/")}`,
     "",
@@ -175,6 +179,19 @@ export function GET() {
   for (const p of packages) {
     if (!p.faqs?.length) continue;
     out.push("", `### ${p.name}`, ...p.faqs.flatMap((f) => [`- Q: ${f.q}`, `  A: ${f.a}`]));
+  }
+
+  if (reviews) {
+    out.push(
+      "",
+      "## Customer reviews",
+      `${ratingLine()}. Copied word for word from ${sourceNames(reviews)}; each review links to the original. Full page: ${u("/reviews/")}`,
+      "",
+      ...sortedReviews().map(
+        (r) =>
+          `- ${r.rating}/5, ${r.author}${r.city ? `, ${r.city}` : ""}, ${reviewDate(r)}${r.travelled ? ` (${r.travelled})` : ""}: "${r.text}" (${reviewSource(r).name}, ${reviewUrl(r)})`,
+      ),
+    );
   }
 
   out.push(

@@ -7,6 +7,11 @@
  * Rules:
  * - Never emit aggregateRating or Review until real, collected reviews exist.
  *   Fabricated ratings are a manual-action risk and a consumer-protection one.
+ *   Real reviews (lib/reviews.ts, copied from the directories that collected
+ *   them) go out as Review nodes on /reviews/ only, each with its publisher and
+ *   a link to the original. No aggregateRating on the TravelAgency, ever:
+ *   Google treats a business's rating on its own site as self-serving and its
+ *   guidelines want ratings collected on the site itself, not copied over.
  * - Every value is generated from lib/ data, never typed in here, so it can't
  *   drift from the pages.
  * - Strings go out with plain hyphens (plainDashes), like all machine-facing text.
@@ -20,9 +25,12 @@ import { imageUrl, type ImageKey } from "./images";
 import { ROOM_BASIS, fromPrice, packages, type RoomBasis, type UmrahPackage } from "./packages";
 import { season } from "./season";
 import { LOGO, plainDashes } from "./og";
+import { reviewSource, reviewUrl, sortedReviews } from "./reviews";
 
 const ORG_ID = `${site.url}/#organization`;
 const WEBSITE_ID = `${site.url}/#website`;
+/** @id of the list of reviews on /reviews/ (reviewsSchema), the page's mainEntity. */
+export const REVIEWS_ID = `${site.url}/reviews/#reviews`;
 
 /** @id of a package's TouristTrip, for linking from other nodes (e.g. webPageSchema's mainEntity). */
 export function packageId(p: UmrahPackage): string {
@@ -87,7 +95,11 @@ export function organizationSchema() {
     Sunday: "Su",
   };
   const prices = packages.flatMap((p) => Object.values(p.prices).filter((v): v is number => typeof v === "number"));
-  const social = Object.values(site.social).filter((v): v is string => Boolean(v));
+  // Profiles elsewhere that are this business: social accounts and directory listings.
+  const sameAs = [
+    ...Object.values(site.social).filter((v): v is string => Boolean(v)),
+    ...Object.values(site.listings).map((l) => l.url),
+  ];
   return {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
@@ -127,7 +139,7 @@ export function organizationSchema() {
     areaServed: { "@type": "Country", name: "Pakistan" },
     knowsAbout: ["Umrah packages", "Umrah visa", "Umrah flights", "Makkah hotels", "Madinah hotels", "Ziyarat"],
     ...(site.foundingYear ? { foundingDate: String(site.foundingYear) } : {}),
-    ...(social.length ? { sameAs: social } : {}),
+    ...(sameAs.length ? { sameAs } : {}),
   };
 }
 
@@ -396,5 +408,42 @@ export function howToSchema({
       text: plainDashes(s.text),
       ...(s.id ? { url: `${url}#${s.id}` } : {}),
     })),
+  };
+}
+
+/**
+ * The reviews on /reviews/ as Review nodes in an ItemList. Each review names
+ * the organisation by @id, the directory that collected it as publisher, and
+ * links (url) to where it was left. The directory holds the original, so the
+ * text is reproduced as written (plain dashes only) and there is no
+ * aggregateRating: see the rules above and lib/reviews.ts.
+ */
+export function reviewsSchema() {
+  const list = sortedReviews();
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": REVIEWS_ID,
+    name: plainDashes(`${site.name} customer reviews`),
+    numberOfItems: list.length,
+    itemListElement: list.map((r, i) => {
+      const src = reviewSource(r);
+      return {
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "Review",
+          "@id": `${site.url}/reviews/#review-${r.id}`,
+          url: reviewUrl(r),
+          itemReviewed: { "@id": ORG_ID },
+          author: { "@type": "Person", name: r.author },
+          datePublished: r.date,
+          reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+          ...(r.title ? { name: plainDashes(r.title) } : {}),
+          reviewBody: plainDashes(r.text),
+          publisher: { "@type": "Organization", name: src.name, url: src.homepage },
+        },
+      };
+    }),
   };
 }
