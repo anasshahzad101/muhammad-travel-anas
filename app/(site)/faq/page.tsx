@@ -126,6 +126,7 @@ export default function FaqPage() {
           </p>
         }
         compact
+        badge={false}
       />
       <div className="container-x grid gap-12 py-20 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-16">
         <nav aria-label="FAQ topics" className="hidden lg:block">

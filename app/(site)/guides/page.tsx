@@ -43,6 +43,7 @@ export default function GuidesHub() {
         lead={<p>Everything we explain to pilgrims before they fly, written down: the rites, the duas, the real costs and the packing list.</p>}
         compact
         backdrop="nabawiWide"
+        badge={false}
       >
         <ul className="flex flex-wrap gap-2">
           {guideList.map((g) => (

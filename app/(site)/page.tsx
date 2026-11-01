@@ -9,6 +9,7 @@ import Faq from "@/components/Faq";
 import HeroFinder from "@/components/HeroFinder";
 import JourneyMap from "@/components/JourneyMap";
 import JsonLd from "@/components/JsonLd";
+import ListingBadge from "@/components/ListingBadge";
 import PackageCard from "@/components/PackageCard";
 import PriceTable from "@/components/PriceTable";
 import PriceTicker from "@/components/PriceTicker";
@@ -144,6 +145,9 @@ export default function HomePage() {
                 <WhatsAppIcon className="h-5 w-5 text-wa-400" />
                 Ask on WhatsApp
               </a>
+            </div>
+            <div className="rise mt-6" style={{ "--d": 5 } as React.CSSProperties}>
+              <ListingBadge onDark />
             </div>
           </div>
 

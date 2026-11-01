@@ -89,6 +89,7 @@ export default function ReviewsPage() {
           </p>
         }
         image="nabawiLattice"
+        badge={false}
       >
         <RatingSummary onDark />
       </PageHero>
