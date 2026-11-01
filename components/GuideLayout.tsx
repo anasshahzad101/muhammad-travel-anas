@@ -76,6 +76,7 @@ export default function GuideLayout({
         title={title}
         lead={<p>{lead}</p>}
         aside={<GuideHeroArt image={image} card={heroCard} />}
+        badge={false}
       >
         <p className="inline-flex items-center gap-2.5 rounded-full border border-white/12 bg-white/[0.04] px-4 py-2 text-sm text-sand-200/75">
           <CalendarIcon className="h-4 w-4 text-gold-300" />

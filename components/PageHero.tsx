@@ -1,12 +1,19 @@
 import Image from "next/image";
 import Breadcrumbs, { type Crumb } from "./Breadcrumbs";
+import ListingBadge from "./ListingBadge";
 import StarPattern from "./StarPattern";
 import { images, type ImageKey } from "@/lib/images";
 
 /**
  * The night hero shared by every inner page: breadcrumbs, eyebrow, the H1, a
- * lead, optional actions, and on the right either a photo in a mihrab arch or
- * a custom panel (a price card, a notice). It slides up under the header.
+ * lead, optional actions, the ApkaVisa badge, and on the right either a photo
+ * in a mihrab arch or a custom panel (a price card, a notice). It slides up
+ * under the header.
+ *
+ * The badge (ListingBadge, with the rating once lib/reviews.ts has reviews) is
+ * on by default: it sits under the actions on every page where a pilgrim is
+ * deciding whether to get in touch. Pass badge={false} on reading pages
+ * (guides, FAQ, policies) and on /reviews/, which shows the full summary.
  */
 export default function PageHero({
   crumbs,
@@ -19,6 +26,7 @@ export default function PageHero({
   children,
   compact = false,
   backdrop,
+  badge = true,
 }: {
   crumbs: Crumb[];
   eyebrow?: React.ReactNode;
@@ -31,6 +39,8 @@ export default function PageHero({
   compact?: boolean;
   /** A photo washed into the night background behind the whole hero. */
   backdrop?: ImageKey;
+  /** The ApkaVisa badge under the actions. Off on reading pages and /reviews/. */
+  badge?: boolean;
 }) {
   const img = image ? images[image] : null;
   const bg = backdrop ? images[backdrop] : null;
@@ -82,6 +92,11 @@ export default function PageHero({
             {children && (
               <div className="rise mt-8" style={{ "--d": 4 } as React.CSSProperties}>
                 {children}
+              </div>
+            )}
+            {badge && (
+              <div className={`rise ${children ? "mt-6" : "mt-8"}`} style={{ "--d": children ? 5 : 4 } as React.CSSProperties}>
+                <ListingBadge onDark />
               </div>
             )}
           </div>
