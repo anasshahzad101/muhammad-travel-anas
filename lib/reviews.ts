@@ -89,8 +89,6 @@ export const reviews: Review[] = [
     source: "apkaVisa",
   },
   {
-    // TODO: confirm the first name. The listing shows "...ad Jawad Bhutta"; the
-    // start was hidden in the screenshot it was copied from.
     id: "apkavisa-2026-10-30-jawad-bhutta",
     author: "Muhammad Jawad Bhutta",
     city: "Lahore",
