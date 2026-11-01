@@ -54,16 +54,80 @@ export type Review = {
 };
 
 export const reviews: Review[] = [
-  // Reviews from https://apkavisa.pk/agency/muhammad-travels go here, e.g.
-  // {
-  //   id: "apkavisa-2026-03-ahmed",
-  //   author: "Ahmed R.",
-  //   city: "Lahore",
-  //   rating: 5,
-  //   date: "2026-03-14",
-  //   text: "...",
-  //   source: "apkaVisa",
-  // },
+  // https://apkavisa.pk/agency/muhammad-travels, copied 1 November 2026 in the
+  // listing's own order (newest first; same-day reviews keep the listing's order).
+  // All seven carry ApkaVisa's "Email confirmed" mark. Text is as written; the
+  // only change is the site-wide dash rule (an em dash in one title became " - ").
+  {
+    id: "apkavisa-2026-10-31-asad",
+    author: "Asad",
+    city: "Lahore",
+    rating: 5,
+    date: "2026-10-31",
+    title: "Excellent travel experience with Muhammad travels",
+    text: "A team of professionals, I must say they are excellent with their service.",
+    source: "apkaVisa",
+  },
+  {
+    id: "apkavisa-2026-10-31-iftikhar-hassan",
+    author: "Iftikhar Hassan",
+    city: "Lahore",
+    rating: 5,
+    date: "2026-10-31",
+    title: "Connection cancelled at Jeddah - they had us on another flight before we landed",
+    text: "Our whole trip was exceptional but our return flight from Jeddah to Islamabad was cancelled while we were still in Madinah. Before we'd even reached the airport, Mr. saad from Muhammad Travels managed to rebook all 11 of us on a flight the same night, arranged a late checkout and a meal at the hotel, and sent the new tickets to the group. The only cost to us was a little patience. This is the difference between a cheap umra service and a premium one.",
+    source: "apkaVisa",
+  },
+  {
+    id: "apkavisa-2026-10-30-uzair-ahmad",
+    author: "Uzair Ahmad",
+    city: "Lahore - Bahria Town",
+    rating: 5,
+    date: "2026-10-30",
+    title: "Best Experience with Muhammad Travels.",
+    text: "I booked a package from Muhammad Travels. Everything was really smooth, contact numbers are 24/7 active overall great experience with Muhammad Travels.",
+    source: "apkaVisa",
+  },
+  {
+    id: "apkavisa-2026-10-30-jawad-bhutta",
+    author: "Muhammad Jawad Bhutta",
+    city: "Lahore",
+    rating: 5,
+    date: "2026-10-30",
+    title: "Perfect.",
+    text: "Booked Umrah package from them. Excellent experience and everything was delivered as committed.",
+    source: "apkaVisa",
+  },
+  {
+    id: "apkavisa-2026-10-30-muhammad-hasnan",
+    author: "Muhammad hasnan",
+    city: "Lahore",
+    rating: 5,
+    date: "2026-10-30",
+    title: "Excellent",
+    text: "Had a fantastic experience with Muhammad Travels! From booking to the overall arrangements, everything was handled smoothly and professionally. The staff was helpful, responsive, and cooperative throughout. Definitely a reliable choice for travel services. Highly recommended!",
+    source: "apkaVisa",
+  },
+  {
+    id: "apkavisa-2026-10-30-rana-aitzaaz-saeed",
+    author: "Rana Aitzaaz Saeed",
+    city: "Lahore",
+    rating: 5,
+    date: "2026-10-30",
+    title: "Excellent Travel Experience with Muhammad Travels",
+    text: "I booked a 5-star travel package from Muhammad Travels, and my overall experience was excellent. The team was professional and very cooperative. Highly recommended.",
+    source: "apkaVisa",
+  },
+  {
+    id: "apkavisa-2026-10-30-ahmad",
+    author: "Ahmad",
+    city: "Lahore",
+    rating: 5,
+    date: "2026-10-30",
+    title: "Recommended",
+    text: "They are very transparent and Fast. Recommended.",
+    source: "apkaVisa",
+  },
 ];
 
 export function hasReviews(): boolean {
@@ -79,7 +143,7 @@ export type ReviewStats = {
   count: number;
   /** Mean rating to one decimal, e.g. 4.9. */
   average: number;
-  /** The mean as shown: "4.9", or "5" when every review is five stars. */
+  /** The mean to one decimal, as the directory shows it: "4.9", "5.0". */
   averageText: string;
   /** How many reviews gave each number of stars, 5 down to 1. */
   breakdown: { stars: 5 | 4 | 3 | 2 | 1; count: number }[];
@@ -103,7 +167,7 @@ export function reviewStats(source?: ReviewSource): ReviewStats | null {
   return {
     count: list.length,
     average,
-    averageText: Number.isInteger(average) ? String(average) : average.toFixed(1),
+    averageText: average.toFixed(1),
     breakdown: stars.map((s) => ({ stars: s, count: list.filter((r) => r.rating === s).length })),
     latestISO: [...list].sort((a, b) => (a.date < b.date ? 1 : -1))[0].date,
     sources: [...new Set(list.map((r) => r.source))],
