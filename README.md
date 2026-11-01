@@ -12,7 +12,8 @@ npm run build          # production build (webpack, as on Hostinger)
 
 | File | What it controls |
 |---|---|
-| `lib/site.ts` | Business identity: name, phone/WhatsApp (0304 1458319, every enquiry goes there), office, hours. |
+| `lib/site.ts` | Business identity: name, phone/WhatsApp (0304 1458319, every enquiry goes there), office, hours, and `listings` (the ApkaVisa directory profile, linked by the badge and named as `sameAs`). |
+| `lib/reviews.ts` | Customer reviews, copied word for word from the ApkaVisa listing with rating, name, date and source. The `/reviews/` page, the strips on the homepage and `/about/`, the ApkaVisa badge's rating, the Review schema, the `llms.txt` lines, the footer link and the sitemap entry all read this list, and all of it stays hidden while the list is empty. |
 | `lib/package-data.ts` | The 15 packages: prices (PKR per person by room), hotels, nights, inclusions. Prices appear everywhere: cards, tables, calculator, JSON-LD, `llms.txt`, and (via `build_ads.py`) the Google Ads copy. |
 | `lib/categories.ts` | The 17 landing pages under `/umrah-packages/[slug]/`: 3 cities, 5 durations, 4 hotel tiers, family/couples/group, December and Ramadan. Each has its own copy, FAQs and target keywords. |
 | `lib/season.ts` | "Prices checked" date, Ramadan 2027 and the Saudi 1448H deadlines (last visa 9 Mar, last entry 23 Mar, final departure 7 Apr 2027). |
@@ -69,11 +70,12 @@ Interactive islands (client components, each server-rendered with real content f
 - `/umrah-visa/`: informational only. It is not an ad landing page, because of Google's visa-ad policy.
 - `/umrah-tickets/`
 - `/guides/`: how to perform umrah, duas, cost from Pakistan, packing list.
+- `/reviews/`: every review from `lib/reviews.ts`, as written, with a link to the original (a 404 until there are reviews).
 - `/about/`, `/contact/`, `/faq/`, `/refund-policy/`, `/terms-and-conditions/`, `/privacy-policy/`.
 - `sitemap.xml`, `robots.txt`, `llms.txt`.
 
 ## Rules baked into the code
 
-- No fake reviews and no `aggregateRating` in the schema until real reviews exist.
+- No fake reviews. Reviews are copied word for word from where customers left them (`lib/reviews.ts`), every one of them, with a link to the original; every rating shown is computed from that list. Review schema goes out on `/reviews/` only, with the directory as publisher; never an `aggregateRating` on the TravelAgency (Google treats a business's own-site rating as self-serving and wants ratings collected on the site itself).
 - Umrah only (`sellsHajj: false`).
 - Hotel names are "or similar", with walking distances stated in metres. The voucher confirms the exact hotel.

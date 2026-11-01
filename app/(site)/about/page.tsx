@@ -3,6 +3,7 @@ import Link from "next/link";
 import CtaBand from "@/components/CtaBand";
 import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
+import ReviewsSection from "@/components/Reviews";
 import StarPattern, { Ornament, StarSeal } from "@/components/StarPattern";
 import TrustPoints from "@/components/TrustPoints";
 import AboutHeroArt from "@/components/about/AboutHeroArt";
@@ -145,6 +146,9 @@ export default function AboutPage() {
           ))}
         </ol>
       </section>
+
+      {/* ─── Reviews (nothing until lib/reviews.ts has reviews) ───────────── */}
+      <ReviewsSection limit={3} title="What pilgrims say about us" accent="pilgrims" className="container-x pb-24 lg:pb-28" />
 
       {/* ─── Umrah only ───────────────────────────────────────────────────── */}
       <section className="section-night grain on-dark relative overflow-hidden">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ListingBadge from "./ListingBadge";
 import Logo from "./Logo";
 import TrustpilotReviewCollector from "./TrustpilotReviewCollector";
 import SocialLinks from "./SocialLinks";
@@ -73,6 +74,7 @@ export default function Footer() {
               <div className="mt-4">
                 <TrustpilotReviewCollector />
               </div>
+              <ListingBadge onDark className="mt-4" />
               <SocialLinks className="mt-5" />
             </div>
           </div>

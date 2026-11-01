@@ -20,6 +20,7 @@
 import { categories } from "./categories";
 import type { ImageKey } from "./images";
 import { ROOM_BASIS, cheapest, fromPrice, packages, type RoomBasis, type UmrahPackage } from "./packages";
+import { hasReviews, ratingLine } from "./reviews";
 import { season } from "./season";
 import { formatPKR, site } from "./site";
 import { fillTokens } from "./tokens";
@@ -123,6 +124,8 @@ const STATIC_CARDS: ShareCard[] = [
   card({ path: "/about/", title: `About ${site.name}`, subtitle: `Umrah travel agency in ${site.contact.address.city}`, image: "nabawiUmbrellas" }),
   card({ path: "/contact/", title: `Contact ${site.name}`, subtitle: `Umrah office in ${site.contact.address.city}`, image: "nabawiDome" }),
   card({ path: "/faq/", title: "Umrah FAQs", subtitle: "Prices, visa, documents, payment and cancellation", image: "kaabaWide" }),
+  // Only once there are reviews: the page is a 404 until then (lib/reviews.ts).
+  ...(hasReviews() ? [card({ path: "/reviews/", title: `${site.name} Reviews`, subtitle: ratingLine() ?? "What pilgrims say", image: "nabawiLattice" })] : []),
   card({ path: "/refund-policy/", title: "Refund & Cancellation Policy", subtitle: "What can be refunded, and when", image: "kaabaCourtyard" }),
   card({ path: "/terms-and-conditions/", title: "Terms & Conditions", subtitle: "Booking terms for packages, visas and tickets", image: "kaabaCourtyard" }),
   card({ path: "/privacy-policy/", title: "Privacy Policy", subtitle: "Your personal information and passport details", image: "kaabaCourtyard" }),
