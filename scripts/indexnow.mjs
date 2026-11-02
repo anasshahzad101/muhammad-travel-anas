@@ -49,24 +49,26 @@ const key = keyFile.slice(0, -".txt".length);
 // each push), so a failed read is retried for a few minutes before giving up.
 const attempts = Number(option("--attempts", "8"));
 const pause = (ms) => new Promise((r) => setTimeout(r, ms));
-let xml = null;
-for (let i = 1; i <= attempts; i++) {
-  try {
-    const res = await fetch(`${SITE}/sitemap.xml`, { headers: { "user-agent": "muhammadtravels-indexnow/1" }, signal: AbortSignal.timeout(20000) });
-    if (res.ok) {
-      xml = await res.text();
-      break;
+async function fetchText(url, accept = (res) => res.ok) {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const res = await fetch(url, { headers: { "user-agent": "muhammadtravels-indexnow/1" }, signal: AbortSignal.timeout(20000) });
+      const text = await res.text();
+      if (accept(res, text)) return text;
+      console.warn(`Attempt ${i}/${attempts}: ${url} answered HTTP ${res.status}${res.ok ? " with unexpected content" : ""}`);
+    } catch (err) {
+      console.warn(`Attempt ${i}/${attempts}: could not read ${url}: ${err?.cause?.code ?? err?.code ?? err?.message ?? err}`);
     }
-    console.warn(`Attempt ${i}/${attempts}: ${SITE}/sitemap.xml answered HTTP ${res.status}`);
-  } catch (err) {
-    console.warn(`Attempt ${i}/${attempts}: could not read ${SITE}/sitemap.xml: ${err?.cause?.code ?? err?.code ?? err?.message ?? err}`);
+    if (i < attempts) await pause(30000);
   }
-  if (i < attempts) await pause(30000);
-}
-if (xml === null) {
-  console.error(`Giving up after ${attempts} attempts.`);
+  console.error(`Giving up on ${url} after ${attempts} attempts.`);
   process.exit(1);
 }
+
+// The key file is served by the deployed site, so reading it back doubles as a
+// "the deploy is live" check (IndexNow rejects a submission without it anyway).
+await fetchText(`${SITE}/${key}.txt`, (res, text) => res.ok && text.trim() === key);
+const xml = await fetchText(`${SITE}/sitemap.xml`);
 const entries = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)]
   .map((m) => ({ loc: m[1].match(/<loc>(.*?)<\/loc>/)?.[1], lastmod: m[1].match(/<lastmod>(.*?)<\/lastmod>/)?.[1] }))
   .filter((e) => e.loc);
@@ -74,6 +76,16 @@ if (entries.length === 0) {
   console.error("The sitemap has no <url> entries; nothing submitted.");
   process.exit(1);
 }
+// A one-line picture of the sitemap's dates, so a run's log shows whether lastmod is moving.
+const byDate = new Map();
+for (const e of entries) {
+  const d = (e.lastmod ?? "none").slice(0, 10);
+  byDate.set(d, (byDate.get(d) ?? 0) + 1);
+}
+const home = entries.find((e) => new URL(e.loc).pathname === "/");
+console.log(
+  `Sitemap: ${entries.length} URLs; lastmod ${[...byDate].sort((a, b) => b[0].localeCompare(a[0])).map(([d, n]) => `${d} x${n}`).join(", ")}; homepage ${home?.lastmod ?? "?"}`,
+);
 
 const since = Date.now() - days * 24 * 60 * 60 * 1000;
 const urls = flag("--all")
