@@ -1,13 +1,17 @@
-name: IndexNow
+name: Sitemap dates and IndexNow
 
-# After each deploy, tell Bing (and so ChatGPT search and DuckDuckGo) which
-# pages changed, so they are recrawled within hours. Google ignores IndexNow
-# and reads the sitemap's lastmod instead. Hostinger builds main on every
-# push, so the job waits for that build before reading the live sitemap; the
-# script then submits every URL whose lastmod is within the last 3 days.
+# After each push to main:
+# 1. Refresh lib/lastmod-dates.json from git and commit it if it changed.
+#    Hostinger's build has no git history, so the sitemap's lastmod comes
+#    from this file; Hostinger rebuilds when the commit lands.
+# 2. Wait until the live sitemap carries those dates, then tell the IndexNow
+#    engines (Bing, and through Bing's index ChatGPT search and DuckDuckGo)
+#    which pages changed, so they recrawl within hours. Google ignores
+#    IndexNow and reads lastmod instead.
 #
-# Run it by hand from the Actions tab ("Run workflow") to resubmit; tick
-# "all" once after a redesign to submit every page.
+# A push made by this workflow with the built-in token does not start it
+# again (GitHub's rule), so there is no loop. Run it by hand from the Actions
+# tab to resubmit; tick "all" once after a redesign to submit every page.
 
 on:
   push:
@@ -18,19 +22,53 @@ on:
         description: "Submit every URL in the sitemap, not only recent changes"
         type: boolean
         default: false
+      site:
+        description: "Dry run against another host, e.g. a Hostinger preview URL: reads its sitemap, submits nothing"
+        type: string
+        default: ""
 
 jobs:
-  submit:
+  dates:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      newest: ${{ steps.newest.outputs.newest }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Refresh lib/lastmod-dates.json from git
+        run: node scripts/lastmod.mjs
+      - name: Commit the dates if they changed
+        run: |
+          if git diff --quiet -- lib/lastmod-dates.json; then
+            echo "No page dates changed."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add lib/lastmod-dates.json
+            git commit -m "Sitemap: refresh page dates after ${GITHUB_SHA::7}"
+            git push
+          fi
+      - id: newest
+        name: Note the newest date, for the wait below
+        run: echo "newest=$(node -e 'const d=require("./lib/lastmod-dates.json");console.log(Object.values(d).sort().at(-1))')" >> "$GITHUB_OUTPUT"
+
+  indexnow:
+    needs: dates
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - name: Wait for the Hostinger deploy to finish
-        if: github.event_name == 'push'
-        run: sleep 300
-      - name: Submit changed URLs
-        run: node scripts/indexnow.mjs ${{ inputs.all && '--all' || '' }}
+      - name: Wait for the live sitemap to carry the new dates, then submit
+        env:
+          INDEXNOW_SITE: ${{ inputs.site }}
+        run: node scripts/indexnow.mjs --until "${{ needs.dates.outputs.newest }}" ${{ inputs.all && '--all' || '' }} ${{ inputs.site && '--dry-run' || '' }}

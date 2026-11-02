@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev -p 3120",
     "build": "next build --webpack",
-    "start": "next start"
+    "start": "next start",
+    "lastmod": "node scripts/lastmod.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "1.1.0",
