@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { categories } from "@/lib/categories";
-import { lastChanged } from "@/lib/lastmod";
+import { lastChanged, type PageGroup } from "@/lib/lastmod";
 import { packages } from "@/lib/packages";
 import { reviewStats } from "@/lib/reviews";
 import { season } from "@/lib/season";
@@ -8,12 +8,12 @@ import { site } from "@/lib/site";
 
 /**
  * lastmod is when each page's content last changed: the commit date of the
- * last change to the files that make it (lib/lastmod.ts). So a price refresh
- * moves every priced page, a new review moves /reviews/, the homepage and
- * /about/, a rewritten guide moves that guide, and nothing else moves. Google
- * uses lastmod to decide what to recrawl, and only while it proves accurate.
- * The fixed dates passed as fallbacks are used where the build has no git
- * history, and as a floor otherwise.
+ * last change to the files that make it (lib/page-files.mjs, read through
+ * lib/lastmod.ts). So a price refresh moves every priced page, a new review
+ * moves /reviews/, the homepage and /about/, a rewritten guide moves that
+ * guide, and nothing else moves. Google uses lastmod to decide what to
+ * recrawl, and only while it proves accurate. The fixed dates passed as
+ * fallbacks are the last resort and a floor.
  *
  * /llms.txt and /llms-full.txt are deliberately left out. A sitemap lists the
  * canonical pages we want in search results; the llms files are plain-text
@@ -31,22 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const launch = new Date("2026-09-23");
   const urLaunch = new Date("2026-10-16");
   const reviews = reviewStats();
+  // `as const` so that `guide:${g}` is checked against the groups in lib/page-files.mjs.
+  const guideSlugs = ["how-to-perform-umrah", "umrah-duas", "umrah-cost-from-pakistan", "umrah-packing-list", "umrah-vaccination-requirements", "nusuk-app-guide"] as const;
 
-  // What each page is made of: its page file and the data it reads. Shared
-  // chrome (header, footer, the badge) is left out on purpose: a footer tweak
-  // is not a content change worth a recrawl.
-  const en = (path: string) => `app/(site)${path}page.tsx`;
-  const ur = (path: string) => `app/(ur)${path}page.tsx`;
-  const prices = ["lib/package-data.ts", "lib/season.ts"];
-  const guideSlugs = ["how-to-perform-umrah", "umrah-duas", "umrah-cost-from-pakistan", "umrah-packing-list", "umrah-vaccination-requirements", "nusuk-app-guide"];
-  const guideData: Record<string, string[]> = {
-    "umrah-duas": ["lib/duas.ts"],
-    "umrah-cost-from-pakistan": ["lib/market.ts", ...prices],
-  };
-
-  const u = (path: string, files: string[], fallback: Date, priority: number): MetadataRoute.Sitemap[number] => ({
+  const u = (path: string, group: PageGroup, fallback: Date, priority: number): MetadataRoute.Sitemap[number] => ({
     url: `${site.url}${path}`,
-    lastModified: lastChanged(files, fallback),
+    lastModified: lastChanged(group, fallback),
     priority,
   });
 
@@ -56,38 +46,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   return [
-    { ...u("/", [en("/"), "lib/reviews.ts", ...prices], priced, 1), alternates: urdu("/", "/ur/") },
-    { ...u("/umrah-packages/", [en("/umrah-packages/"), ...prices], priced, 0.95), alternates: urdu("/umrah-packages/", "/ur/umrah-packages/") },
-    { ...u("/ur/", [ur("/ur/"), ...prices], urLaunch, 0.7), alternates: urdu("/", "/ur/") },
-    { ...u("/ur/umrah-packages/", [ur("/ur/umrah-packages/"), ...prices], urLaunch, 0.7), alternates: urdu("/umrah-packages/", "/ur/umrah-packages/") },
-    ...categories.map((c) =>
-      u(`/umrah-packages/${c.slug}/`, ["lib/categories.ts", "components/views/CategoryView.tsx", ...prices], priced, c.group === "season" || c.group === "city" ? 0.9 : 0.85),
-    ),
+    { ...u("/", "home", priced, 1), alternates: urdu("/", "/ur/") },
+    { ...u("/umrah-packages/", "hub", priced, 0.95), alternates: urdu("/umrah-packages/", "/ur/umrah-packages/") },
+    { ...u("/ur/", "ur-home", urLaunch, 0.7), alternates: urdu("/", "/ur/") },
+    { ...u("/ur/umrah-packages/", "ur-hub", urLaunch, 0.7), alternates: urdu("/umrah-packages/", "/ur/umrah-packages/") },
+    ...categories.map((c) => u(`/umrah-packages/${c.slug}/`, "category", priced, c.group === "season" || c.group === "city" ? 0.9 : 0.85)),
     // Every package has an Urdu twin; both entries carry the hreflang pair.
     ...packages.map((p) => ({
-      ...u(`/umrah-packages/${p.slug}/`, ["components/views/PackageView.tsx", ...prices], priced, 0.8),
+      ...u(`/umrah-packages/${p.slug}/`, "package", priced, 0.8),
       alternates: urdu(`/umrah-packages/${p.slug}/`, `/ur/umrah-packages/${p.slug}/`),
     })),
     ...packages.map((p) => ({
-      ...u(`/ur/umrah-packages/${p.slug}/`, [ur("/ur/umrah-packages/[slug]/"), "components/ur/copy.ts", ...prices], urLaunch, 0.7),
+      ...u(`/ur/umrah-packages/${p.slug}/`, "ur-package", urLaunch, 0.7),
       alternates: urdu(`/umrah-packages/${p.slug}/`, `/ur/umrah-packages/${p.slug}/`),
     })),
-    u("/umrah-visa/", [en("/umrah-visa/"), "lib/market.ts", "lib/season.ts"], priced, 0.9),
-    u("/umrah-tickets/", [en("/umrah-tickets/"), "lib/market.ts"], priced, 0.7),
+    u("/umrah-visa/", "visa", priced, 0.9),
+    u("/umrah-tickets/", "tickets", priced, 0.7),
     // Guides exist in both languages; both entries carry the hreflang pair.
-    { ...u("/guides/", [en("/guides/"), "lib/guides.ts"], launch, 0.6), alternates: urdu("/guides/", "/ur/guides/") },
-    { ...u("/ur/guides/", [ur("/ur/guides/"), "lib/guides.ts"], urLaunch, 0.55), alternates: urdu("/guides/", "/ur/guides/") },
+    { ...u("/guides/", "guides", launch, 0.6), alternates: urdu("/guides/", "/ur/guides/") },
+    { ...u("/ur/guides/", "ur-guides", urLaunch, 0.55), alternates: urdu("/guides/", "/ur/guides/") },
     ...guideSlugs.flatMap((g) => [
-      { ...u(`/guides/${g}/`, [en(`/guides/${g}/`), ...(guideData[g] ?? [])], launch, 0.7), alternates: urdu(`/guides/${g}/`, `/ur/guides/${g}/`) },
-      { ...u(`/ur/guides/${g}/`, [ur(`/ur/guides/${g}/`), ...(guideData[g] ?? [])], urLaunch, 0.6), alternates: urdu(`/guides/${g}/`, `/ur/guides/${g}/`) },
+      { ...u(`/guides/${g}/`, `guide:${g}`, launch, 0.7), alternates: urdu(`/guides/${g}/`, `/ur/guides/${g}/`) },
+      { ...u(`/ur/guides/${g}/`, `ur-guide:${g}`, urLaunch, 0.6), alternates: urdu(`/guides/${g}/`, `/ur/guides/${g}/`) },
     ]),
-    u("/about/", [en("/about/"), "lib/reviews.ts", "lib/site.ts"], launch, 0.5),
+    u("/about/", "about", launch, 0.5),
     // /reviews/ exists only once lib/reviews.ts has reviews.
-    ...(reviews ? [u("/reviews/", [en("/reviews/"), "lib/reviews.ts"], new Date(reviews.latestISO), 0.6)] : []),
-    u("/contact/", [en("/contact/"), "lib/site.ts"], launch, 0.6),
-    u("/faq/", [en("/faq/")], launch, 0.5),
-    u("/refund-policy/", [en("/refund-policy/")], launch, 0.3),
-    u("/terms-and-conditions/", [en("/terms-and-conditions/")], launch, 0.2),
-    u("/privacy-policy/", [en("/privacy-policy/")], launch, 0.2),
+    ...(reviews ? [u("/reviews/", "reviews", new Date(reviews.latestISO), 0.6)] : []),
+    u("/contact/", "contact", launch, 0.6),
+    u("/faq/", "faq", launch, 0.5),
+    u("/refund-policy/", "refund-policy", launch, 0.3),
+    u("/terms-and-conditions/", "terms-and-conditions", launch, 0.2),
+    u("/privacy-policy/", "privacy-policy", launch, 0.2),
   ];
 }
