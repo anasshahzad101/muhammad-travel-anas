@@ -29,8 +29,9 @@ import { fileURLToPath } from "node:url";
 // connection to the IPv6 address fails outright (ENETUNREACH). Resolve IPv4 first.
 setDefaultResultOrder("ipv4first");
 
-// INDEXNOW_SITE overrides the site for a dry run against a local build.
-const SITE = process.env.INDEXNOW_SITE ?? "https://muhammadtravels.com";
+// INDEXNOW_SITE overrides the site for a dry run against a local build or a
+// Hostinger preview (an empty value means the default).
+const SITE = (process.env.INDEXNOW_SITE || "https://muhammadtravels.com").replace(/\/$/, "");
 const ENDPOINT = "https://api.indexnow.org/indexnow";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");

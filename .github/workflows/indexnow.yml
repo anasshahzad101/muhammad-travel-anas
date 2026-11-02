@@ -22,6 +22,10 @@ on:
         description: "Submit every URL in the sitemap, not only recent changes"
         type: boolean
         default: false
+      site:
+        description: "Dry run against another host, e.g. a Hostinger preview URL: reads its sitemap, submits nothing"
+        type: string
+        default: ""
 
 jobs:
   dates:
@@ -65,4 +69,6 @@ jobs:
         with:
           node-version: 22
       - name: Wait for the live sitemap to carry the new dates, then submit
-        run: node scripts/indexnow.mjs --until "${{ needs.dates.outputs.newest }}" ${{ inputs.all && '--all' || '' }}
+        env:
+          INDEXNOW_SITE: ${{ inputs.site }}
+        run: node scripts/indexnow.mjs --until "${{ needs.dates.outputs.newest }}" ${{ inputs.all && '--all' || '' }} ${{ inputs.site && '--dry-run' || '' }}
