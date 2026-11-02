@@ -185,11 +185,11 @@ export function GET() {
     out.push(
       "",
       "## Customer reviews",
-      `${ratingLine()}. Copied word for word from ${sourceNames(reviews)}; each review links to the original. Full page: ${u("/reviews/")}`,
+      `${ratingLine()}; newest review ${reviewDate(sortedReviews()[0])}. Copied word for word from ${sourceNames(reviews)}; each review links to the original. Full page: ${u("/reviews/")}`,
       "",
       ...sortedReviews().map(
         (r) =>
-          `- ${r.rating}/5, ${r.author}${r.city ? `, ${r.city}` : ""}, ${reviewDate(r)}${r.travelled ? ` (${r.travelled})` : ""}: "${r.text}" (${reviewSource(r).name}, ${reviewUrl(r)})`,
+          `- ${r.rating}/5${r.title ? `, "${r.title}"` : ""} by ${r.author}${r.city ? ` (${r.city})` : ""}, ${reviewDate(r)}${r.travelled ? `, ${r.travelled}` : ""}: "${r.text}" (${reviewSource(r).name}, ${reviewUrl(r)})`,
       ),
     );
   }

@@ -2,7 +2,7 @@ import { categories } from "@/lib/categories";
 import { guideList } from "@/lib/guides";
 import { plainDashes } from "@/lib/og";
 import { ROOM_BASIS, fromPrice, packages, type RoomBasis } from "@/lib/packages";
-import { ratingLine, reviewStats } from "@/lib/reviews";
+import { ratingLine, reviewDate, reviewStats, sortedReviews } from "@/lib/reviews";
 import { season } from "@/lib/season";
 import { formatPKR, fullAddress, site } from "@/lib/site";
 
@@ -25,7 +25,7 @@ export function GET() {
   // Only once lib/reviews.ts has reviews: the rating is computed from them, never typed.
   const reviews = reviewStats();
   const reviewLine = reviews
-    ? `- Reviews: ${ratingLine()} (${reviews.sources.map((s) => site.listings[s].url).join(", ")}). Every review, word for word: ${u("/reviews/")}`
+    ? `- Reviews: ${ratingLine()}, newest ${reviewDate(sortedReviews()[0])} (${reviews.sources.map((s) => site.listings[s].url).join(", ")}). Every review, word for word: ${u("/reviews/")}`
     : null;
   const lines = [
     `# ${site.name}`,
@@ -57,6 +57,7 @@ export function GET() {
     `- [Umrah visa price for Pakistanis](${u("/umrah-visa/")})`,
     `- [Umrah tickets from Pakistan](${u("/umrah-tickets/")})`,
     ...guideList.map((g) => `- [${g.title}](${u(g.href)}): ${g.body}`),
+    ...(reviews ? [`- [Customer reviews](${u("/reviews/")}): ${ratingLine()}, each quoted in full with a link to the original.`] : []),
     `- [FAQs](${u("/faq/")}) · [Refund policy](${u("/refund-policy/")}) · [Contact](${u("/contact/")})`,
     `- Urdu section: ${u("/ur/")}`,
     "",

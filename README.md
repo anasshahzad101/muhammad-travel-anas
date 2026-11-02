@@ -74,6 +74,11 @@ Interactive islands (client components, each server-rendered with real content f
 - `/about/`, `/contact/`, `/faq/`, `/refund-policy/`, `/terms-and-conditions/`, `/privacy-policy/`.
 - `sitemap.xml`, `robots.txt`, `llms.txt`.
 
+## Search engines: sitemap dates and IndexNow
+
+- **`lastmod` is real.** `app/sitemap.ts` names the files that make each page (its page file and the data it reads), and `lib/lastmod.ts` takes the commit date of the last change to them at build time. A price refresh moves every priced page, a new review moves `/reviews/`, the homepage and `/about/`, and a footer tweak moves nothing. Google recrawls on `lastmod` only while it proves accurate, which is why it is never the build time. If the build has no git history (no `git`, or a shallow clone) the fixed fallback dates in `app/sitemap.ts` are used and the build log says so.
+- **IndexNow for Bing** (and so ChatGPT search and DuckDuckGo; Google ignores it). The key file in `public/` is served at `/<key>.txt`; `scripts/indexnow.mjs` reads the live sitemap and submits every URL changed in the last 3 days; `.github/workflows/indexnow.yml` runs it 5 minutes after each push to `main`, once Hostinger has deployed. Run it from the Actions tab to resubmit, with "all" ticked after a redesign. Submissions show in Bing Webmaster Tools once the site is verified there.
+
 ## Rules baked into the code
 
 - No fake reviews. Reviews are copied word for word from where customers left them (`lib/reviews.ts`), every one of them, with a link to the original; every rating shown is computed from that list. Review schema goes out on `/reviews/` only, with the directory as publisher; never an `aggregateRating` on the TravelAgency (Google treats a business's own-site rating as self-serving and wants ratings collected on the site itself).
