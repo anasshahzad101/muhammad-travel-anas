@@ -9,15 +9,21 @@
  *   node scripts/indexnow.mjs --days 7    ...within the last 7 days
  *   node scripts/indexnow.mjs --all       every URL in the sitemap (first submission, or after a redesign)
  *   node scripts/indexnow.mjs --dry-run   print the list, submit nothing
+ *   node scripts/indexnow.mjs --attempts 2  how many times to try reading the sitemap (30 s apart; default 8)
  *
  * It reads the live sitemap, so it submits exactly what the site publishes,
  * and the key from public/<key>.txt, which the site serves at /<key>.txt as
  * IndexNow requires (the key is public by design; it is not a secret).
  * .github/workflows/indexnow.yml runs it after each push to main.
  */
+import { setDefaultResultOrder } from "node:dns";
 import { readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+// GitHub's runners have no IPv6 route, and the site has an AAAA record: a
+// connection to the IPv6 address fails outright (ENETUNREACH). Resolve IPv4 first.
+setDefaultResultOrder("ipv4first");
 
 // INDEXNOW_SITE overrides the site for a dry run against a local build.
 const SITE = process.env.INDEXNOW_SITE ?? "https://muhammadtravels.com";
@@ -39,12 +45,28 @@ if (!keyFile) {
 }
 const key = keyFile.slice(0, -".txt".length);
 
-const sitemap = await fetch(`${SITE}/sitemap.xml`, { headers: { "user-agent": "muhammadtravels-indexnow/1" } });
-if (!sitemap.ok) {
-  console.error(`Could not read ${SITE}/sitemap.xml: HTTP ${sitemap.status}`);
+// The site may be mid-deploy when this runs (Hostinger restarts the app after
+// each push), so a failed read is retried for a few minutes before giving up.
+const attempts = Number(option("--attempts", "8"));
+const pause = (ms) => new Promise((r) => setTimeout(r, ms));
+let xml = null;
+for (let i = 1; i <= attempts; i++) {
+  try {
+    const res = await fetch(`${SITE}/sitemap.xml`, { headers: { "user-agent": "muhammadtravels-indexnow/1" }, signal: AbortSignal.timeout(20000) });
+    if (res.ok) {
+      xml = await res.text();
+      break;
+    }
+    console.warn(`Attempt ${i}/${attempts}: ${SITE}/sitemap.xml answered HTTP ${res.status}`);
+  } catch (err) {
+    console.warn(`Attempt ${i}/${attempts}: could not read ${SITE}/sitemap.xml: ${err?.cause?.code ?? err?.code ?? err?.message ?? err}`);
+  }
+  if (i < attempts) await pause(30000);
+}
+if (xml === null) {
+  console.error(`Giving up after ${attempts} attempts.`);
   process.exit(1);
 }
-const xml = await sitemap.text();
 const entries = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)]
   .map((m) => ({ loc: m[1].match(/<loc>(.*?)<\/loc>/)?.[1], lastmod: m[1].match(/<lastmod>(.*?)<\/lastmod>/)?.[1] }))
   .filter((e) => e.loc);
