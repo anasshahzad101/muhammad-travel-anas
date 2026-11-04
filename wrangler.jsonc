@@ -1,0 +1,33 @@
+// Cloudflare Workers config, built with the OpenNext adapter.
+//
+// Workers Builds settings this file relies on (Settings > Build in the dashboard):
+//   Build command:  npx opennextjs-cloudflare build
+//   Deploy command: npx wrangler deploy
+// `npm run build` alone is plain `next build`, which does not produce .open-next/.
+//
+// ADMIN_PASSWORD and DATABASE_URL belong on the Worker as Secrets, not plain text
+// variables: Wrangler prints plain text variables in the build log.
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
+	// Must match the Worker's name in the Cloudflare dashboard, and the service
+	// below must match this. A mismatch fails the deploy with error 10143.
+	"name": "muhammad-travel-anas",
+	"compatibility_date": "2026-11-03",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "muhammad-travel-anas"
+		}
+	],
+	// Without this, a deploy deletes any variable set in the dashboard but not here.
+	"keep_vars": true,
+	"observability": {
+		"enabled": true
+	}
+}

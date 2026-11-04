@@ -10,3 +10,8 @@ npm-debug.log*
 
 # Leads saved without a database (local work; see lib/leads/store.ts)
 .data
+
+# cloudflare: adapter and wrangler output, local secrets
+.open-next
+.wrangler
+.dev.vars*
